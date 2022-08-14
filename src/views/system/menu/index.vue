@@ -36,7 +36,7 @@
             >新增</el-button>
          </el-col>
          <el-col :span="1.5">
-            <el-button 
+            <el-button
                type="info"
                plain
                icon="Sort"
@@ -54,7 +54,7 @@
          :default-expand-all="isExpandAll"
          :tree-props="{ children: 'children', hasChildren: 'hasChildren' }"
       >
-         <el-table-column prop="menuName" label="菜单名称" :show-overflow-tooltip="true" width="160"></el-table-column>
+         <el-table-column prop="menuName" label="菜单名称" :show-overflow-tooltip="true" width="260"></el-table-column>
          <el-table-column prop="icon" label="图标" align="center" width="100">
             <template #default="scope">
                <svg-icon :icon-class="scope.row.icon" />
