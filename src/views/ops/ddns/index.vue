@@ -81,6 +81,7 @@
           <dict-tag :options="parse_record_type" :value="scope.row.parseRecordType"/>
         </template>
       </el-table-column>
+      <el-table-column label="记录值" align="center" prop="recordTheValue"/>
       <el-table-column label="Access ID" align="center" prop="accessId"/>
       <el-table-column label="备注" align="center" prop="remark"/>
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
