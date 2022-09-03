@@ -2,20 +2,12 @@
   <div>
     <template v-for="(item, index) in options">
       <template v-if="values.includes(item.value)">
-        <span
-          v-if="item.elTagType == 'default' || item.elTagType == ''"
-          :key="item.value"
-          :index="index"
-          :class="item.elTagClass"
-        >{{ item.label }}</span>
-        <el-tag
-          v-else
-          :disable-transitions="true"
-          :key="item.value + ''"
-          :index="index"
-          :type="item.elTagType === 'primary' ? '' : item.elTagType"
-          :class="item.elTagClass"
-        >{{ item.label }}</el-tag>
+        <span v-if="item.elTagType == 'default' || item.elTagType == ''" :key="item.value" :index="index" :class="item.elTagClass">
+          {{ item.label }}
+        </span>
+        <el-tag v-else :disable-transitions="true" :key="item.value + ''" :index="index" :type="item.elTagType === 'primary' ? '' : item.elTagType" :class="item.elTagClass">
+          {{ item.label }}
+        </el-tag>
       </template>
     </template>
   </div>
@@ -30,7 +22,7 @@ const props = defineProps({
   },
   // 当前的值
   value: [Number, String, Array],
-})
+});
 
 const values = computed(() => {
   if (props.value !== null && typeof props.value !== 'undefined') {
@@ -38,8 +30,7 @@ const values = computed(() => {
   } else {
     return [];
   }
-})
-
+});
 </script>
 
 <style scoped>
