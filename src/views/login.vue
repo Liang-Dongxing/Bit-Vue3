@@ -156,7 +156,7 @@ getCookie();
   justify-content: center;
   align-items: center;
   height: 100%;
-  background-image: url("../assets/images/login-background.jpg");
+  background-image: url("https://www.todaybing.com/api/today/cn");
   background-size: cover;
 }
 .title {
