@@ -175,9 +175,9 @@ function handleQuery() {
 /** 重置按钮操作 */
 function resetQuery() {
   dateRange.value = [];
-  proxy.resetForm('queryRef');
-  proxy.$refs['operlogRef'].sort(defaultSort.value.prop, defaultSort.value.order);
-  handleQuery();
+  proxy.resetForm("queryRef");
+  queryParams.value.pageNum = 1;
+  proxy.$refs["operlogRef"].sort(defaultSort.value.prop, defaultSort.value.order);
 }
 /** 多选框选中数据 */
 function handleSelectionChange(selection) {
