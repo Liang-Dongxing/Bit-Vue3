@@ -11,8 +11,8 @@ RUN ln -snf /usr/share/zoneinfo/$TIME_ZONE /etc/localtime && echo $TIME_ZONE > /
 EXPOSE 80
 
 # 指定路径
-WORKDIR /home/ruoyi
+WORKDIR /home/bit
 # 复制 conf 文件到路径
-COPY ruoyi-nginx.conf /etc/nginx/conf.d/default.conf
+COPY bit-nginx.conf /etc/nginx/conf.d/default.conf
 # 复制dist文件到路径
-COPY ./dist /home/ruoyi/projects/ruoyi-ui
+COPY ./dist /home/bit/projects/bit-ui

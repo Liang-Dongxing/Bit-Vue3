@@ -9,7 +9,7 @@
 
 <script setup>
 import Fuse from 'fuse.js';
-import { getNormalPath } from '@/utils/ruoyi';
+import { getNormalPath } from '@/utils/bit';
 import { isHttp } from '@/utils/validate';
 import usePermissionStore from '@/store/modules/permission';
 
@@ -154,12 +154,14 @@ watch(searchPool, (list) => {
     display: inline-block;
     vertical-align: middle;
 
+    :deep(.is-focus .el-input__inner) {
+      box-shadow: none !important;
+    }
     :deep(.el-input__inner) {
       border-radius: 0;
       border: 0;
       padding-left: 0;
       padding-right: 0;
-      box-shadow: none !important;
       border-bottom: 1px solid #d9d9d9;
       vertical-align: middle;
     }

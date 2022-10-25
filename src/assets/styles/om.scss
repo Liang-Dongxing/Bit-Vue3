@@ -1,0 +1,63 @@
+
+#app {
+  .watermark{
+    height: 100%;
+  }
+  .el-main {
+    .om-app-container {
+      margin: 20px;
+      background-color: var(--el-bg-color);
+
+      .om-table-header {
+        padding: 14px 16px;
+      }
+
+      .el-table {
+        .om-table-operation {
+          .el-button {
+            padding: 4px 5px;
+            height: auto;
+          }
+
+          .el-button + .el-button {
+            margin-left: 4px;
+          }
+        }
+      }
+    }
+
+    .el-breadcrumb + .om-app-container {
+      margin-top: 10px;
+    }
+  }
+}
+
+.router-link {
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  vertical-align: middle;
+  position: relative;
+  text-decoration: none;
+  outline: none;
+  cursor: pointer;
+  padding: 0;
+  font-size: var(--el-link-font-size);
+  font-weight: var(--el-link-font-weight);
+  color: var(--el-link-text-color);
+}
+
+.router-link:hover {
+  color: var(--el-link-hover-text-color);
+}
+
+.router-link.is-underline:hover:after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 0;
+  bottom: 0;
+  border-bottom: 1px solid var(--el-link-hover-text-color);
+}

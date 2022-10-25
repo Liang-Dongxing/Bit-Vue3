@@ -85,10 +85,8 @@ function handleCurrentChange(val) {
 
 <style scoped>
 .pagination-container {
-  background: #fff;
-  padding: 32px 16px;
-}
-.pagination-container.hidden {
-  display: none;
+  padding: 13px 15px;
+  display: flex;
+  flex-direction: row-reverse;
 }
 </style>

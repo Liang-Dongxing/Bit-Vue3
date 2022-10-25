@@ -1,8 +1,8 @@
 import axios from 'axios';
-import { ElNotification, ElMessageBox, ElMessage, ElLoading } from 'element-plus';
+import { ElLoading, ElMessage, ElMessageBox, ElNotification } from 'element-plus';
 import { getToken } from '@/utils/auth';
 import errorCode from '@/utils/errorCode';
-import { tansParams, blobValidate } from '@/utils/ruoyi';
+import { blobValidate, tansParams } from '@/utils/bit';
 import cache from '@/plugins/cache';
 import { saveAs } from 'file-saver';
 import useUserStore from '@/store/modules/user';
@@ -30,14 +30,8 @@ service.interceptors.request.use(
     if (getToken() && !isToken) {
       config.headers['Authorization'] = 'Bearer ' + getToken(); // 让每个请求携带自定义token 请根据实际情况自行修改
     }
-    // get请求映射params参数
-    if (config.method === 'get' && config.params) {
-      let url = config.url + '?' + tansParams(config.params);
-      url = url.slice(0, -1);
-      config.params = {};
-      config.url = url;
-    }
-    if (!isRepeatSubmit && (config.method === 'post' || config.method === 'put')) {
+
+    if (!isRepeatSubmit && (config.method === 'post' || config.method === 'put' || config.method === 'delete')) {
       const requestObj = {
         url: config.url,
         data: typeof config.data === 'object' ? JSON.stringify(config.data) : config.data,
@@ -136,29 +130,36 @@ service.interceptors.response.use(
 
 // 通用下载方法
 export function download(url, params, filename, config) {
-  downloadLoadingInstance = ElLoading.service({ text: "正在下载数据，请稍候", background: "rgba(0, 0, 0, 0.7)", })
-  return service.post(url, params, {
-    transformRequest: [(params) => { return tansParams(params) }],
-    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-    responseType: 'blob',
-    ...config
-  }).then(async (data) => {
-    const isLogin = await blobValidate(data);
-    if (isLogin) {
-      const blob = new Blob([data])
-      saveAs(blob, filename)
-    } else {
-      const resText = await data.text();
-      const rspObj = JSON.parse(resText);
-      const errMsg = errorCode[rspObj.code] || rspObj.msg || errorCode['default']
-      ElMessage.error(errMsg);
-    }
-    downloadLoadingInstance.close();
-  }).catch((r) => {
-    console.error(r)
-    ElMessage.error('下载文件出现错误，请联系管理员！')
-    downloadLoadingInstance.close();
-  })
+  downloadLoadingInstance = ElLoading.service({ text: '正在下载数据，请稍候', background: 'rgba(0, 0, 0, 0.7)' });
+  return service
+    .post(url, params, {
+      transformRequest: [
+        (params) => {
+          return tansParams(params);
+        },
+      ],
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      responseType: 'blob',
+      ...config,
+    })
+    .then(async (data) => {
+      const isLogin = await blobValidate(data);
+      if (isLogin) {
+        const blob = new Blob([data]);
+        saveAs(blob, filename);
+      } else {
+        const resText = await data.text();
+        const rspObj = JSON.parse(resText);
+        const errMsg = errorCode[rspObj.code] || rspObj.msg || errorCode['default'];
+        ElMessage.error(errMsg);
+      }
+      downloadLoadingInstance.close();
+    })
+    .catch((r) => {
+      console.error(r);
+      ElMessage.error('下载文件出现错误，请联系管理员！');
+      downloadLoadingInstance.close();
+    });
 }
 
 export default service;

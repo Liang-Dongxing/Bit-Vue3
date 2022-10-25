@@ -1,6 +1,6 @@
 <template>
-  <div class="app-container">
-    <el-form :model="queryParams" ref="queryRef" v-show="showSearch" :inline="true">
+  <div class="om-app-container">
+    <el-form :model="queryParams" ref="queryRef" v-show="showSearch" :inline="true" class="om-table-header" label-width="70px">
       <el-form-item label="用户名称" prop="userName">
         <el-input v-model="queryParams.userName" placeholder="请输入用户名称" clearable style="width: 240px" @keyup.enter="handleQuery" />
       </el-form-item>
@@ -13,15 +13,11 @@
       </el-form-item>
     </el-form>
 
-    <el-row :gutter="10" class="mb8">
-      <el-col :span="1.5">
-        <el-button type="primary" plain icon="Plus" @click="openSelectUser" v-hasPermi="['system:role:add']">添加用户</el-button>
-      </el-col>
-      <el-col :span="1.5">
-        <el-button type="danger" plain icon="CircleClose" :disabled="multiple" @click="cancelAuthUserAll" v-hasPermi="['system:role:remove']">批量取消授权</el-button>
-      </el-col>
-      <el-col :span="1.5">
-        <el-button type="warning" plain icon="Close" @click="handleClose">关闭</el-button>
+    <el-row :gutter="10" justify="space-between" class="om-table-header">
+      <el-col :span="21" :xs="24" :sm="18" :md="18" :lg="18" :xl="21">
+        <el-button type="primary" icon="Plus" @click="openSelectUser" v-hasPermi="['system:role:add']">添加用户</el-button>
+        <el-button type="danger" icon="CircleClose" :disabled="multiple" @click="cancelAuthUserAll" v-hasPermi="['system:role:remove']">批量取消授权</el-button>
+        <el-button type="warning" icon="Close" @click="handleClose">关闭</el-button>
       </el-col>
       <right-toolbar v-model:showSearch="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
@@ -42,9 +38,9 @@
           <span>{{ parseTime(scope.row.createTime) }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
+      <el-table-column label="操作" align="center" class-name="om-table-operation" width="150">
         <template #default="scope">
-          <el-button type="text" icon="CircleClose" @click="cancelAuthUser(scope.row)" v-hasPermi="['system:role:remove']">取消授权</el-button>
+          <el-button type="danger" icon="CircleClose" @click="cancelAuthUser(scope.row)" v-hasPermi="['system:role:remove']">取消授权</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -55,7 +51,6 @@
 </template>
 
 <script setup name="AuthUser">
-import selectUser from './selectUser';
 import { allocatedUserList, authUserCancel, authUserCancelAll } from '@/api/system/role';
 
 const route = useRoute();
@@ -64,7 +59,7 @@ const { sys_normal_disable } = proxy.useDict('sys_normal_disable');
 
 const userList = ref([]);
 const loading = ref(true);
-const showSearch = ref(true);
+const showSearch = ref(false);
 const multiple = ref(true);
 const total = ref(0);
 const userIds = ref([]);

@@ -1,5 +1,5 @@
 <template>
-  <div class="app-container">
+  <div class="om-app-container">
     <el-row>
       <el-col :span="12" class="card-box">
         <el-card>
@@ -8,45 +8,31 @@
             <table cellspacing="0" style="width: 100%">
               <thead>
                 <tr>
-                  <th class="el-table__cell is-leaf">
-                    <div class="cell">属性</div>
-                  </th>
-                  <th class="el-table__cell is-leaf">
-                    <div class="cell">值</div>
-                  </th>
+                  <th class="el-table__cell is-leaf"><div class="cell">属性</div></th>
+                  <th class="el-table__cell is-leaf"><div class="cell">值</div></th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
+                  <td class="el-table__cell is-leaf"><div class="cell">核心数</div></td>
                   <td class="el-table__cell is-leaf">
-                    <div class="cell">核心数</div>
-                  </td>
-                  <td class="el-table__cell is-leaf">
-                    <div class="cell" v-if="server.cpu">
-                      {{ server.cpu.cpuNum }}
-                    </div>
+                    <div class="cell" v-if="server.cpu">{{ server.cpu.cpuNum }}</div>
                   </td>
                 </tr>
                 <tr>
-                  <td class="el-table__cell is-leaf">
-                    <div class="cell">用户使用率</div>
-                  </td>
+                  <td class="el-table__cell is-leaf"><div class="cell">用户使用率</div></td>
                   <td class="el-table__cell is-leaf">
                     <div class="cell" v-if="server.cpu">{{ server.cpu.used }}%</div>
                   </td>
                 </tr>
                 <tr>
-                  <td class="el-table__cell is-leaf">
-                    <div class="cell">系统使用率</div>
-                  </td>
+                  <td class="el-table__cell is-leaf"><div class="cell">系统使用率</div></td>
                   <td class="el-table__cell is-leaf">
                     <div class="cell" v-if="server.cpu">{{ server.cpu.sys }}%</div>
                   </td>
                 </tr>
                 <tr>
-                  <td class="el-table__cell is-leaf">
-                    <div class="cell">当前空闲率</div>
-                  </td>
+                  <td class="el-table__cell is-leaf"><div class="cell">当前空闲率</div></td>
                   <td class="el-table__cell is-leaf">
                     <div class="cell" v-if="server.cpu">{{ server.cpu.free }}%</div>
                   </td>
@@ -64,22 +50,14 @@
             <table cellspacing="0" style="width: 100%">
               <thead>
                 <tr>
-                  <th class="el-table__cell is-leaf">
-                    <div class="cell">属性</div>
-                  </th>
-                  <th class="el-table__cell is-leaf">
-                    <div class="cell">内存</div>
-                  </th>
-                  <th class="el-table__cell is-leaf">
-                    <div class="cell">JVM</div>
-                  </th>
+                  <th class="el-table__cell is-leaf"><div class="cell">属性</div></th>
+                  <th class="el-table__cell is-leaf"><div class="cell">内存</div></th>
+                  <th class="el-table__cell is-leaf"><div class="cell">JVM</div></th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  <td class="el-table__cell is-leaf">
-                    <div class="cell">总内存</div>
-                  </td>
+                  <td class="el-table__cell is-leaf"><div class="cell">总内存</div></td>
                   <td class="el-table__cell is-leaf">
                     <div class="cell" v-if="server.mem">{{ server.mem.total }}G</div>
                   </td>
@@ -88,9 +66,7 @@
                   </td>
                 </tr>
                 <tr>
-                  <td class="el-table__cell is-leaf">
-                    <div class="cell">已用内存</div>
-                  </td>
+                  <td class="el-table__cell is-leaf"><div class="cell">已用内存</div></td>
                   <td class="el-table__cell is-leaf">
                     <div class="cell" v-if="server.mem">{{ server.mem.used }}G</div>
                   </td>
@@ -99,9 +75,7 @@
                   </td>
                 </tr>
                 <tr>
-                  <td class="el-table__cell is-leaf">
-                    <div class="cell">剩余内存</div>
-                  </td>
+                  <td class="el-table__cell is-leaf"><div class="cell">剩余内存</div></td>
                   <td class="el-table__cell is-leaf">
                     <div class="cell" v-if="server.mem">{{ server.mem.free }}G</div>
                   </td>
@@ -110,9 +84,7 @@
                   </td>
                 </tr>
                 <tr>
-                  <td class="el-table__cell is-leaf">
-                    <div class="cell">使用率</div>
-                  </td>
+                  <td class="el-table__cell is-leaf"><div class="cell">使用率</div></td>
                   <td class="el-table__cell is-leaf">
                     <div class="cell" v-if="server.mem" :class="{ 'text-danger': server.mem.usage > 80 }">{{ server.mem.usage }}%</div>
                   </td>
@@ -133,39 +105,23 @@
             <table cellspacing="0" style="width: 100%">
               <tbody>
                 <tr>
+                  <td class="el-table__cell is-leaf"><div class="cell">服务器名称</div></td>
                   <td class="el-table__cell is-leaf">
-                    <div class="cell">服务器名称</div>
+                    <div class="cell" v-if="server.sys">{{ server.sys.computerName }}</div>
                   </td>
+                  <td class="el-table__cell is-leaf"><div class="cell">操作系统</div></td>
                   <td class="el-table__cell is-leaf">
-                    <div class="cell" v-if="server.sys">
-                      {{ server.sys.computerName }}
-                    </div>
-                  </td>
-                  <td class="el-table__cell is-leaf">
-                    <div class="cell">操作系统</div>
-                  </td>
-                  <td class="el-table__cell is-leaf">
-                    <div class="cell" v-if="server.sys">
-                      {{ server.sys.osName }}
-                    </div>
+                    <div class="cell" v-if="server.sys">{{ server.sys.osName }}</div>
                   </td>
                 </tr>
                 <tr>
+                  <td class="el-table__cell is-leaf"><div class="cell">服务器IP</div></td>
                   <td class="el-table__cell is-leaf">
-                    <div class="cell">服务器IP</div>
+                    <div class="cell" v-if="server.sys">{{ server.sys.computerIp }}</div>
                   </td>
+                  <td class="el-table__cell is-leaf"><div class="cell">系统架构</div></td>
                   <td class="el-table__cell is-leaf">
-                    <div class="cell" v-if="server.sys">
-                      {{ server.sys.computerIp }}
-                    </div>
-                  </td>
-                  <td class="el-table__cell is-leaf">
-                    <div class="cell">系统架构</div>
-                  </td>
-                  <td class="el-table__cell is-leaf">
-                    <div class="cell" v-if="server.sys">
-                      {{ server.sys.osArch }}
-                    </div>
+                    <div class="cell" v-if="server.sys">{{ server.sys.osArch }}</div>
                   </td>
                 </tr>
               </tbody>
@@ -181,69 +137,41 @@
             <table cellspacing="0" style="width: 100%; table-layout: fixed">
               <tbody>
                 <tr>
+                  <td class="el-table__cell is-leaf"><div class="cell">Java名称</div></td>
                   <td class="el-table__cell is-leaf">
-                    <div class="cell">Java名称</div>
+                    <div class="cell" v-if="server.jvm">{{ server.jvm.name }}</div>
                   </td>
+                  <td class="el-table__cell is-leaf"><div class="cell">Java版本</div></td>
                   <td class="el-table__cell is-leaf">
-                    <div class="cell" v-if="server.jvm">
-                      {{ server.jvm.name }}
-                    </div>
-                  </td>
-                  <td class="el-table__cell is-leaf">
-                    <div class="cell">Java版本</div>
-                  </td>
-                  <td class="el-table__cell is-leaf">
-                    <div class="cell" v-if="server.jvm">
-                      {{ server.jvm.version }}
-                    </div>
+                    <div class="cell" v-if="server.jvm">{{ server.jvm.version }}</div>
                   </td>
                 </tr>
                 <tr>
+                  <td class="el-table__cell is-leaf"><div class="cell">启动时间</div></td>
                   <td class="el-table__cell is-leaf">
-                    <div class="cell">启动时间</div>
+                    <div class="cell" v-if="server.jvm">{{ server.jvm.startTime }}</div>
                   </td>
+                  <td class="el-table__cell is-leaf"><div class="cell">运行时长</div></td>
                   <td class="el-table__cell is-leaf">
-                    <div class="cell" v-if="server.jvm">
-                      {{ server.jvm.startTime }}
-                    </div>
-                  </td>
-                  <td class="el-table__cell is-leaf">
-                    <div class="cell">运行时长</div>
-                  </td>
-                  <td class="el-table__cell is-leaf">
-                    <div class="cell" v-if="server.jvm">
-                      {{ server.jvm.runTime }}
-                    </div>
+                    <div class="cell" v-if="server.jvm">{{ server.jvm.runTime }}</div>
                   </td>
                 </tr>
                 <tr>
-                  <td colspan="1" class="el-table__cell is-leaf">
-                    <div class="cell">安装路径</div>
-                  </td>
+                  <td colspan="1" class="el-table__cell is-leaf"><div class="cell">安装路径</div></td>
                   <td colspan="3" class="el-table__cell is-leaf">
-                    <div class="cell" v-if="server.jvm">
-                      {{ server.jvm.home }}
-                    </div>
+                    <div class="cell" v-if="server.jvm">{{ server.jvm.home }}</div>
                   </td>
                 </tr>
                 <tr>
-                  <td colspan="1" class="el-table__cell is-leaf">
-                    <div class="cell">项目路径</div>
-                  </td>
+                  <td colspan="1" class="el-table__cell is-leaf"><div class="cell">项目路径</div></td>
                   <td colspan="3" class="el-table__cell is-leaf">
-                    <div class="cell" v-if="server.sys">
-                      {{ server.sys.userDir }}
-                    </div>
+                    <div class="cell" v-if="server.sys">{{ server.sys.userDir }}</div>
                   </td>
                 </tr>
                 <tr>
-                  <td colspan="1" class="el-table__cell is-leaf">
-                    <div class="cell">运行参数</div>
-                  </td>
+                  <td colspan="1" class="el-table__cell is-leaf"><div class="cell">运行参数</div></td>
                   <td colspan="3" class="el-table__cell is-leaf">
-                    <div class="cell" v-if="server.jvm">
-                      {{ server.jvm.inputArgs }}
-                    </div>
+                    <div class="cell" v-if="server.jvm">{{ server.jvm.inputArgs }}</div>
                   </td>
                 </tr>
               </tbody>
@@ -259,27 +187,13 @@
             <table cellspacing="0" style="width: 100%">
               <thead>
                 <tr>
-                  <th class="el-table__cell el-table__cell is-leaf">
-                    <div class="cell">盘符路径</div>
-                  </th>
-                  <th class="el-table__cell is-leaf">
-                    <div class="cell">文件系统</div>
-                  </th>
-                  <th class="el-table__cell is-leaf">
-                    <div class="cell">盘符类型</div>
-                  </th>
-                  <th class="el-table__cell is-leaf">
-                    <div class="cell">总大小</div>
-                  </th>
-                  <th class="el-table__cell is-leaf">
-                    <div class="cell">可用大小</div>
-                  </th>
-                  <th class="el-table__cell is-leaf">
-                    <div class="cell">已用大小</div>
-                  </th>
-                  <th class="el-table__cell is-leaf">
-                    <div class="cell">已用百分比</div>
-                  </th>
+                  <th class="el-table__cell el-table__cell is-leaf"><div class="cell">盘符路径</div></th>
+                  <th class="el-table__cell is-leaf"><div class="cell">文件系统</div></th>
+                  <th class="el-table__cell is-leaf"><div class="cell">盘符类型</div></th>
+                  <th class="el-table__cell is-leaf"><div class="cell">总大小</div></th>
+                  <th class="el-table__cell is-leaf"><div class="cell">可用大小</div></th>
+                  <th class="el-table__cell is-leaf"><div class="cell">已用大小</div></th>
+                  <th class="el-table__cell is-leaf"><div class="cell">已用百分比</div></th>
                 </tr>
               </thead>
               <tbody v-if="server.sysFiles">

@@ -1,6 +1,10 @@
 <template>
   <div class="user-info-head" @click="editCropper()">
-    <img :src="options.img" title="点击上传头像" class="img-circle img-lg" />
+    <el-avatar :size="110" :src="options.img" alt="点击上传头像" @error="errorHandler">
+      <icon-park v-if="userStore.sex === '0'" size="24" type="avatar" theme="filled" />
+      <icon-park v-if="userStore.sex === '1'" size="24" type="women" theme="filled" />
+      <icon-park v-if="userStore.sex === '2'" size="24" type="people" theme="filled" />
+    </el-avatar>
   </div>
   <el-dialog :title="title" v-model="open" width="800px" append-to-body @opened="modalOpened" @close="closeDialog">
     <el-row>
@@ -123,30 +127,29 @@ function closeDialog() {
   options.img = userStore.avatar;
   options.visible = false;
 }
+
+const errorHandler = () => true;
 </script>
 
 <style lang="scss" scoped>
-.user-info-head {
-  position: relative;
-  display: inline-block;
-  height: 120px;
-}
+@import 'vue-cropper/dist/index.css';
 
-.user-info-head:hover:after {
-  content: '+';
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  color: #eee;
-  background: rgba(0, 0, 0, 0.5);
-  font-size: 24px;
-  font-style: normal;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+.user-info-head {
   cursor: pointer;
-  line-height: 110px;
-  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+
+  .el-avatar {
+    border: 2px dashed var(--el-border-color);
+    background-color: var(--el-bg-color);
+  }
+  .el-avatar:hover {
+    border-color: var(--el-color-primary);
+  }
+}
+.avatar-upload-preview {
+  width: 200px;
+  height: 200px;
+  overflow: hidden;
 }
 </style>

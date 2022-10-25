@@ -15,7 +15,7 @@ module.exports = {
   proseWrap: 'preserve', //不知道怎么翻译
   htmlWhitespaceSensitivity: 'ignore', //对HTML全局空白不敏感
   vueIndentScriptAndStyle: false, //不对vue中的script及style标签缩进
-  endOfLine: 'lf', //结束行形式
+  endOfLine: 'crlf', //结束行形式
   embeddedLanguageFormatting: 'auto', //对引用代码进行格式化
   singleAttributePerLine: false, //在 HTML、Vue 和 JSX 中每行强制执行单个属性。
 };

@@ -1,6 +1,6 @@
-import { createWebHistory, createRouter } from 'vue-router';
+import { createRouter, createWebHistory } from 'vue-router';
 /* Layout */
-import Layout from '@/layout';
+import Layout from '@/layout/classic';
 
 /**
  * Note: 路由配置项
@@ -61,6 +61,7 @@ export const constantRoutes = [
     path: '',
     component: Layout,
     redirect: '/index',
+    hidden: false,
     children: [
       {
         path: '/index',

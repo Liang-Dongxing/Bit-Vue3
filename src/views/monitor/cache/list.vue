@@ -1,21 +1,21 @@
 <template>
-  <div class="app-container">
+  <div class="om-app-container">
     <el-row :gutter="10">
       <el-col :span="8">
         <el-card style="height: calc(100vh - 125px)">
           <template #header>
             <span>缓存列表</span>
-            <el-button style="float: right; padding: 3px 0" type="text" icon="Refresh" @click="refreshCacheNames()"></el-button>
+            <el-button style="float: right; padding: 3px 0" icon="Refresh" @click="refreshCacheNames()"></el-button>
           </template>
           <el-table v-loading="loading" :data="cacheNames" :height="tableHeight" highlight-current-row @row-click="getCacheKeys" style="width: 100%">
-            <el-table-column label="序号" width="60" type="index"></el-table-column>
+            <el-table-column label="序号" width="120" type="index"></el-table-column>
 
             <el-table-column label="缓存名称" align="center" prop="cacheName" :show-overflow-tooltip="true" :formatter="nameFormatter"></el-table-column>
 
             <el-table-column label="备注" align="center" prop="remark" :show-overflow-tooltip="true" />
-            <el-table-column label="操作" width="60" align="center" class-name="small-padding fixed-width">
+            <el-table-column label="操作" width="150" align="center" class-name="om-table-operation">
               <template #default="scope">
-                <el-button type="text" icon="Delete" @click="handleClearCacheName(scope.row)"></el-button>
+                <el-button type="danger" icon="Delete" @click="handleClearCacheName(scope.row)"></el-button>
               </template>
             </el-table-column>
           </el-table>
@@ -26,14 +26,14 @@
         <el-card style="height: calc(100vh - 125px)">
           <template #header>
             <span>键名列表</span>
-            <el-button style="float: right; padding: 3px 0" type="text" icon="Refresh" @click="refreshCacheKeys()"></el-button>
+            <el-button style="float: right; padding: 3px 0" icon="Refresh" @click="refreshCacheKeys()"></el-button>
           </template>
           <el-table v-loading="subLoading" :data="cacheKeys" :height="tableHeight" highlight-current-row @row-click="handleCacheValue" style="width: 100%">
-            <el-table-column label="序号" width="60" type="index"></el-table-column>
+            <el-table-column label="序号" width="120" type="index"></el-table-column>
             <el-table-column label="缓存键名" align="center" :show-overflow-tooltip="true" :formatter="keyFormatter"></el-table-column>
-            <el-table-column label="操作" width="60" align="center" class-name="small-padding fixed-width">
+            <el-table-column label="操作" width="150" align="center" class-name="om-table-operation">
               <template #default="scope">
-                <el-button type="text" icon="Delete" @click="handleClearCacheKey(scope.row)"></el-button>
+                <el-button type="danger" icon="Delete" @click="handleClearCacheKey(scope.row)"></el-button>
               </template>
             </el-table-column>
           </el-table>
@@ -44,7 +44,7 @@
         <el-card :bordered="false" style="height: calc(100vh - 125px)">
           <template #header>
             <span>缓存内容</span>
-            <el-button style="float: right; padding: 3px 0" type="text" icon="Refresh" @click="handleClearCacheAll()">清理全部</el-button>
+            <el-button style="float: right; padding: 3px 0" icon="Refresh" @click="handleClearCacheAll()">清理全部</el-button>
           </template>
           <el-form :model="cacheForm">
             <el-row :gutter="32">
@@ -72,7 +72,7 @@
 </template>
 
 <script setup name="CacheList">
-import { listCacheName, listCacheKey, getCacheValue, clearCacheName, clearCacheKey, clearCacheAll } from '@/api/monitor/cache';
+import { clearCacheAll, clearCacheKey, clearCacheName, getCacheValue, listCacheKey, listCacheName } from '@/api/monitor/cache';
 
 const { proxy } = getCurrentInstance();
 
