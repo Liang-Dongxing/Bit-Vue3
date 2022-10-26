@@ -4,7 +4,7 @@
       <el-sub-menu :index="resolvePath(menu.path)" :key="menu.path">
         <template #title>
           <el-icon>
-            <icon-park v-if="menu.meta" :type="menu.meta.icon" theme="filled" />
+            <icon-park v-if="menu.meta && menu.meta.icon !== '#'" :type="menu.meta.icon" theme="filled" />
           </el-icon>
           <span>{{ menu.meta.title }}</span>
         </template>
@@ -14,7 +14,7 @@
     <template v-else-if="menu.children && menu.children.length === 1">
       <el-menu-item :index="resolvePath(menu.children[0].path)" :key="menu.children[0].path">
         <el-icon>
-          <icon-park v-if="menu.children[0].meta" :type="menu.children[0].meta.icon" theme="filled" />
+          <icon-park v-if="menu.children[0].meta && menu.children[0].meta.icon !== '#'" :type="menu.children[0].meta.icon" theme="filled" />
         </el-icon>
         <template #title>
           {{ menu.children[0].meta.title }}
@@ -24,7 +24,7 @@
     <template v-else>
       <el-menu-item :index="resolvePath(menu.path)" :key="menu.path">
         <el-icon>
-          <icon-park v-if="menu.meta" :type="menu.meta.icon" theme="filled" />
+          <icon-park v-if="menu.meta && menu.meta.icon !== '#'" :type="menu.meta.icon" theme="filled" />
         </el-icon>
         <template #title>
           {{ menu.meta.title }}
