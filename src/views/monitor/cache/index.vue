@@ -1,6 +1,6 @@
 <template>
   <div class="om-app-container">
-    <el-row>
+    <el-row :gutter="30">
       <el-col :span="24" class="card-box">
         <el-card>
           <template #header><span>基本信息</span></template>
@@ -66,7 +66,8 @@
           </div>
         </el-card>
       </el-col>
-
+    </el-row>
+    <el-row :gutter="30">
       <el-col :span="12" class="card-box">
         <el-card>
           <template #header><span>命令统计</span></template>
