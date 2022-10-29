@@ -7,7 +7,7 @@
           <el-input v-model="deptName" placeholder="请输入部门名称" clearable prefix-icon="Search" style="margin-bottom: 20px" />
         </div>
         <div class="head-container">
-          <el-tree :data="deptOptions" :props="{ label: 'label', children: 'children' }" :expand-on-click-node="false" :filter-node-method="filterNode" ref="deptTreeRef" highlight-current default-expand-all @node-click="handleNodeClick" />
+          <el-tree :data="deptOptions" :props="{ label: 'label', children: 'children' }" :expand-on-click-node="false" :filter-node-method="filterNode" ref="deptTreeRef" node-key="id" highlight-current default-expand-all @node-click="handleNodeClick" />
         </div>
       </el-col>
       <!--用户数据-->
@@ -323,7 +323,9 @@ function handleQuery() {
 /** 重置按钮操作 */
 function resetQuery() {
   dateRange.value = [];
-  proxy.resetForm('queryRef');
+  proxy.resetForm("queryRef");
+  queryParams.value.deptId = undefined;
+  proxy.$refs.tree.setCurrentKey(null);
   handleQuery();
 }
 
