@@ -323,7 +323,7 @@ function handleQuery() {
 /** 重置按钮操作 */
 function resetQuery() {
   dateRange.value = [];
-  proxy.resetForm("queryRef");
+  proxy.resetForm('queryRef');
   queryParams.value.deptId = undefined;
   proxy.$refs.tree.setCurrentKey(null);
   handleQuery();

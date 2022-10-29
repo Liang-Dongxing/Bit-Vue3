@@ -73,6 +73,4 @@
   }
 }
 </style>
-<script setup>
-
-</script>
+<script setup></script>

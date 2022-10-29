@@ -1,6 +1,6 @@
 <template>
   <div class="om-app-container">
-    <el-row :gutter="30">
+    <el-row :gutter="40">
       <el-col :span="24" class="card-box">
         <el-card>
           <template #header><span>基本信息</span></template>
