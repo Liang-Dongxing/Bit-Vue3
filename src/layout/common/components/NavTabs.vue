@@ -136,7 +136,14 @@ function filterAffixTags(routes, basePath = '') {
 
   :deep(.el-tabs__header) {
     border-bottom: unset;
-    height: 100%;
+    .el-tabs__nav-next,
+    .el-tabs__nav-prev {
+      line-height: var(--el-tabs-header-height);
+    }
+    .el-tabs__nav-next:hover,
+    .el-tabs__nav-prev:hover {
+      background-color: var(--el-bg-color-page);
+    }
   }
 
   :deep(.el-tabs__nav) {
