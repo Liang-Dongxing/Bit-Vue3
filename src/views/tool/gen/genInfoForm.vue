@@ -16,7 +16,7 @@
         <el-form-item prop="packageName">
           <template #label>
             生成包路径
-            <el-tooltip content="生成在哪个java包下，例如 com.ruoyi.system" placement="top">
+            <el-tooltip content="生成在哪个java包下，例如 com.bit.system" placement="top">
               <el-icon><question-filled /></el-icon>
             </el-tooltip>
           </template>
@@ -68,15 +68,7 @@
               <el-icon><question-filled /></el-icon>
             </el-tooltip>
           </template>
-          <tree-select
-            v-model:value="info.parentMenuId"
-            :options="menuOptions"
-            :obj-map="{
-              value: 'menuId',
-              label: 'menuName',
-              children: 'children',
-            }"
-            placeholder="请选择系统菜单" />
+          <tree-select v-model:value="info.parentMenuId" :options="menuOptions" :obj-map="{ value: 'menuId', label: 'menuName', children: 'children' }" placeholder="请选择系统菜单" />
         </el-form-item>
       </el-col>
 

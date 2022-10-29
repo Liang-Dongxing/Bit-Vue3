@@ -1,6 +1,6 @@
 <template>
-  <div class="app-container">
-    <el-row>
+  <div class="om-app-container">
+    <el-row :gutter="30">
       <el-col :span="12" class="card-box">
         <el-card>
           <template #header><span>CPU</span></template>
@@ -22,9 +22,7 @@
                     <div class="cell">核心数</div>
                   </td>
                   <td class="el-table__cell is-leaf">
-                    <div class="cell" v-if="server.cpu">
-                      {{ server.cpu.cpuNum }}
-                    </div>
+                    <div class="cell" v-if="server.cpu">{{ server.cpu.cpuNum }}</div>
                   </td>
                 </tr>
                 <tr>
@@ -125,7 +123,9 @@
           </div>
         </el-card>
       </el-col>
+    </el-row>
 
+    <el-row :gutter="20">
       <el-col :span="24" class="card-box">
         <el-card>
           <template #header><span>服务器信息</span></template>
@@ -137,17 +137,13 @@
                     <div class="cell">服务器名称</div>
                   </td>
                   <td class="el-table__cell is-leaf">
-                    <div class="cell" v-if="server.sys">
-                      {{ server.sys.computerName }}
-                    </div>
+                    <div class="cell" v-if="server.sys">{{ server.sys.computerName }}</div>
                   </td>
                   <td class="el-table__cell is-leaf">
                     <div class="cell">操作系统</div>
                   </td>
                   <td class="el-table__cell is-leaf">
-                    <div class="cell" v-if="server.sys">
-                      {{ server.sys.osName }}
-                    </div>
+                    <div class="cell" v-if="server.sys">{{ server.sys.osName }}</div>
                   </td>
                 </tr>
                 <tr>
@@ -155,17 +151,13 @@
                     <div class="cell">服务器IP</div>
                   </td>
                   <td class="el-table__cell is-leaf">
-                    <div class="cell" v-if="server.sys">
-                      {{ server.sys.computerIp }}
-                    </div>
+                    <div class="cell" v-if="server.sys">{{ server.sys.computerIp }}</div>
                   </td>
                   <td class="el-table__cell is-leaf">
                     <div class="cell">系统架构</div>
                   </td>
                   <td class="el-table__cell is-leaf">
-                    <div class="cell" v-if="server.sys">
-                      {{ server.sys.osArch }}
-                    </div>
+                    <div class="cell" v-if="server.sys">{{ server.sys.osArch }}</div>
                   </td>
                 </tr>
               </tbody>
@@ -173,7 +165,9 @@
           </div>
         </el-card>
       </el-col>
+    </el-row>
 
+    <el-row :gutter="20">
       <el-col :span="24" class="card-box">
         <el-card>
           <template #header><span>Java虚拟机信息</span></template>
@@ -185,17 +179,13 @@
                     <div class="cell">Java名称</div>
                   </td>
                   <td class="el-table__cell is-leaf">
-                    <div class="cell" v-if="server.jvm">
-                      {{ server.jvm.name }}
-                    </div>
+                    <div class="cell" v-if="server.jvm">{{ server.jvm.name }}</div>
                   </td>
                   <td class="el-table__cell is-leaf">
                     <div class="cell">Java版本</div>
                   </td>
                   <td class="el-table__cell is-leaf">
-                    <div class="cell" v-if="server.jvm">
-                      {{ server.jvm.version }}
-                    </div>
+                    <div class="cell" v-if="server.jvm">{{ server.jvm.version }}</div>
                   </td>
                 </tr>
                 <tr>
@@ -203,17 +193,13 @@
                     <div class="cell">启动时间</div>
                   </td>
                   <td class="el-table__cell is-leaf">
-                    <div class="cell" v-if="server.jvm">
-                      {{ server.jvm.startTime }}
-                    </div>
+                    <div class="cell" v-if="server.jvm">{{ server.jvm.startTime }}</div>
                   </td>
                   <td class="el-table__cell is-leaf">
                     <div class="cell">运行时长</div>
                   </td>
                   <td class="el-table__cell is-leaf">
-                    <div class="cell" v-if="server.jvm">
-                      {{ server.jvm.runTime }}
-                    </div>
+                    <div class="cell" v-if="server.jvm">{{ server.jvm.runTime }}</div>
                   </td>
                 </tr>
                 <tr>
@@ -221,9 +207,7 @@
                     <div class="cell">安装路径</div>
                   </td>
                   <td colspan="3" class="el-table__cell is-leaf">
-                    <div class="cell" v-if="server.jvm">
-                      {{ server.jvm.home }}
-                    </div>
+                    <div class="cell" v-if="server.jvm">{{ server.jvm.home }}</div>
                   </td>
                 </tr>
                 <tr>
@@ -231,9 +215,7 @@
                     <div class="cell">项目路径</div>
                   </td>
                   <td colspan="3" class="el-table__cell is-leaf">
-                    <div class="cell" v-if="server.sys">
-                      {{ server.sys.userDir }}
-                    </div>
+                    <div class="cell" v-if="server.sys">{{ server.sys.userDir }}</div>
                   </td>
                 </tr>
                 <tr>
@@ -241,9 +223,7 @@
                     <div class="cell">运行参数</div>
                   </td>
                   <td colspan="3" class="el-table__cell is-leaf">
-                    <div class="cell" v-if="server.jvm">
-                      {{ server.jvm.inputArgs }}
-                    </div>
+                    <div class="cell" v-if="server.jvm">{{ server.jvm.inputArgs }}</div>
                   </td>
                 </tr>
               </tbody>
@@ -251,7 +231,9 @@
           </div>
         </el-card>
       </el-col>
+    </el-row>
 
+    <el-row :gutter="20">
       <el-col :span="24" class="card-box">
         <el-card>
           <template #header><span>磁盘状态</span></template>

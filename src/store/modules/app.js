@@ -7,8 +7,8 @@ const useAppStore = defineStore('app', {
       withoutAnimation: false,
       hide: false,
     },
+    shrink: false,
     device: 'desktop',
-    size: Cookies.get('size') || 'default',
   }),
   actions: {
     toggleSideBar(withoutAnimation) {
@@ -31,12 +31,14 @@ const useAppStore = defineStore('app', {
     toggleDevice(device) {
       this.device = device;
     },
-    setSize(size) {
-      this.size = size;
-      Cookies.set('size', size);
+    setShrink(shrink) {
+      this.shrink = shrink;
     },
     toggleSideBarHide(status) {
       this.sidebar.hide = status;
+    },
+    menuWidth() {
+      return this.sidebar.menuWidth + 'px';
     },
   },
 });

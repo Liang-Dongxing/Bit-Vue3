@@ -1,7 +1,7 @@
 <template>
-  <div class="app-container">
+  <div class="om-app-container">
     <el-row :gutter="20">
-      <el-col :span="6" :xs="24">
+      <el-col :span="7" :xs="24">
         <el-card class="box-card">
           <template #header>
             <div class="clearfix">
@@ -10,44 +10,21 @@
           </template>
           <div>
             <div class="text-center">
-              <userAvatar :user="state.user" />
+              <user-avatar />
             </div>
-            <ul class="list-group list-group-striped">
-              <li class="list-group-item">
-                <svg-icon icon-class="user" />
-                用户名称
-                <div class="pull-right">{{ state.user.userName }}</div>
-              </li>
-              <li class="list-group-item">
-                <svg-icon icon-class="phone" />
-                手机号码
-                <div class="pull-right">{{ state.user.phonenumber }}</div>
-              </li>
-              <li class="list-group-item">
-                <svg-icon icon-class="email" />
-                用户邮箱
-                <div class="pull-right">{{ state.user.email }}</div>
-              </li>
-              <li class="list-group-item">
-                <svg-icon icon-class="tree" />
-                所属部门
-                <div class="pull-right" v-if="state.user.dept">{{ state.user.dept.deptName }} / {{ state.postGroup }}</div>
-              </li>
-              <li class="list-group-item">
-                <svg-icon icon-class="peoples" />
-                所属角色
-                <div class="pull-right">{{ state.roleGroup }}</div>
-              </li>
-              <li class="list-group-item">
-                <svg-icon icon-class="date" />
-                创建日期
-                <div class="pull-right">{{ state.user.createTime }}</div>
-              </li>
-            </ul>
+            <el-table :data="list" :show-header="false">
+              <el-table-column prop="icon" label="icon" width="24px">
+                <template #default="{ row }">
+                  <icon-park :type="row.icon" theme="filled" />
+                </template>
+              </el-table-column>
+              <el-table-column prop="label" label="label" width="80px" />
+              <el-table-column prop="value" label="value" />
+            </el-table>
           </div>
         </el-card>
       </el-col>
-      <el-col :span="18" :xs="24">
+      <el-col :span="17" :xs="24">
         <el-card>
           <template #header>
             <div class="clearfix">
@@ -56,10 +33,10 @@
           </template>
           <el-tabs v-model="activeTab">
             <el-tab-pane label="基本资料" name="userinfo">
-              <userInfo :user="state.user" />
+              <user-info :user="state.user" />
             </el-tab-pane>
             <el-tab-pane label="修改密码" name="resetPwd">
-              <resetPwd />
+              <reset-pwd />
             </el-tab-pane>
           </el-tabs>
         </el-card>
@@ -69,10 +46,10 @@
 </template>
 
 <script setup name="Profile">
-import userAvatar from './userAvatar';
-import userInfo from './userInfo';
-import resetPwd from './resetPwd';
 import { getUserProfile } from '@/api/system/user';
+import UserAvatar from '@/views/system/user/profile/userAvatar';
+import UserInfo from '@/views/system/user/profile/userInfo';
+import ResetPwd from '@/views/system/user/profile/resetPwd';
 
 const activeTab = ref('userinfo');
 const state = reactive({
@@ -81,11 +58,26 @@ const state = reactive({
   postGroup: {},
 });
 
+const list = ref([]);
+
 function getUser() {
   getUserProfile().then((response) => {
     state.user = response.data;
     state.roleGroup = response.roleGroup;
     state.postGroup = response.postGroup;
+
+    list.value = [
+      { icon: 'user', label: '用户名称', value: state.user.userName },
+      { icon: 'phone', label: '手机号码', value: state.user.phonenumber },
+      { icon: 'mail', label: '用户邮箱', value: state.user.email },
+      {
+        icon: 'peoples',
+        label: '所属部门',
+        value: state.user.dept ? `${state.user.dept.deptName} / ${state.postGroup}` : '',
+      },
+      { icon: 'permissions', label: '所属角色', value: state.roleGroup },
+      { icon: 'calendar', label: '创建日期', value: state.user.createTime },
+    ];
   });
 }
 

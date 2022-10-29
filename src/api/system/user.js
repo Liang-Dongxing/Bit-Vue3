@@ -1,5 +1,6 @@
 import request from '@/utils/request';
-import { parseStrEmpty } from '@/utils/ruoyi';
+import defaultConstant from '@/constant';
+import { parseStrEmpty } from '@/utils/bit';
 
 // 查询用户列表
 export function listUser(query) {
@@ -106,6 +107,9 @@ export function uploadAvatar(data) {
     url: '/system/user/profile/avatar',
     method: 'post',
     data: data,
+    headers: {
+      'Content-Type': defaultConstant.MULTIPART_FORM_DATA_VALUE,
+    },
   });
 }
 

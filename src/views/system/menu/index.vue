@@ -1,6 +1,6 @@
 <template>
-  <div class="app-container">
-    <el-form :model="queryParams" ref="queryRef" :inline="true" v-show="showSearch">
+  <div class="om-app-container">
+    <el-form :model="queryParams" ref="queryRef" :inline="true" v-show="showSearch" class="om-table-header" label-width="70px">
       <el-form-item label="菜单名称" prop="menuName">
         <el-input v-model="queryParams.menuName" placeholder="请输入菜单名称" clearable @keyup.enter="handleQuery" />
       </el-form-item>
@@ -15,18 +15,16 @@
       </el-form-item>
     </el-form>
 
-    <el-row :gutter="10" class="mb8">
-      <el-col :span="1.5">
-        <el-button type="primary" plain icon="Plus" @click="handleAdd" v-hasPermi="['system:menu:add']">新增</el-button>
-      </el-col>
-      <el-col :span="1.5">
-        <el-button type="info" plain icon="Sort" @click="toggleExpandAll">展开/折叠</el-button>
+    <el-row :gutter="10" justify="space-between" class="om-table-header">
+      <el-col :span="21" :xs="24" :sm="18" :md="18" :lg="18" :xl="21">
+        <el-button type="primary" icon="Plus" @click="handleAdd" v-hasPermi="['system:menu:add']">新增</el-button>
+        <el-button type="info" icon="Sort" @click="toggleExpandAll">展开/折叠</el-button>
       </el-col>
       <right-toolbar v-model:showSearch="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
     <el-table v-if="refreshTable" v-loading="loading" :data="menuList" row-key="menuId" :default-expand-all="isExpandAll" :tree-props="{ children: 'children', hasChildren: 'hasChildren' }">
-      <el-table-column prop="menuName" label="菜单名称" :show-overflow-tooltip="true" width="260"></el-table-column>
+      <el-table-column prop="menuName" label="菜单名称" :show-overflow-tooltip="true" width="560"></el-table-column>
       <el-table-column prop="icon" label="图标" align="center" width="100">
         <template #default="scope">
           <svg-icon :icon-class="scope.row.icon" />
@@ -40,16 +38,22 @@
           <dict-tag :options="sys_normal_disable" :value="scope.row.status" />
         </template>
       </el-table-column>
-      <el-table-column label="创建时间" align="center" prop="createTime">
+      <el-table-column label="创建时间" align="center" prop="createTime" width="180">
         <template #default="scope">
           <span>{{ parseTime(scope.row.createTime) }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="操作" align="center" width="200" class-name="small-padding fixed-width">
+      <el-table-column label="操作" align="center" width="150" class-name="om-table-operation">
         <template #default="scope">
-          <el-button type="text" icon="Edit" @click="handleUpdate(scope.row)" v-hasPermi="['system:menu:edit']">修改</el-button>
-          <el-button type="text" icon="Plus" @click="handleAdd(scope.row)" v-hasPermi="['system:menu:add']">新增</el-button>
-          <el-button type="text" icon="Delete" @click="handleDelete(scope.row)" v-hasPermi="['system:menu:remove']">删除</el-button>
+          <el-tooltip content="新增" placement="top">
+            <el-button type="primary" icon="Plus" @click="handleAdd(scope.row)" v-hasPermi="['system:menu:add']"></el-button>
+          </el-tooltip>
+          <el-tooltip content="修改" placement="top">
+            <el-button type="success" icon="Edit" @click="handleUpdate(scope.row)" v-hasPermi="['system:menu:edit']"></el-button>
+          </el-tooltip>
+          <el-tooltip content="删除" placement="top">
+            <el-button type="danger" icon="Delete" @click="handleDelete(scope.row)" v-hasPermi="['system:menu:remove']"></el-button>
+          </el-tooltip>
         </template>
       </el-table-column>
     </el-table>
@@ -60,17 +64,7 @@
         <el-row>
           <el-col :span="24">
             <el-form-item label="上级菜单">
-              <el-tree-select
-                v-model="form.parentId"
-                :data="menuOptions"
-                :props="{
-                  value: 'menuId',
-                  label: 'menuName',
-                  children: 'children',
-                }"
-                value-key="menuId"
-                placeholder="选择上级菜单"
-                check-strictly />
+              <el-tree-select v-model="form.parentId" :data="menuOptions" :props="{ value: 'menuId', label: 'menuName', children: 'children' }" value-key="menuId" placeholder="选择上级菜单" check-strictly />
             </el-form-item>
           </el-col>
           <el-col :span="24">
@@ -89,9 +83,7 @@
                   <el-input v-model="form.icon" placeholder="点击选择图标" @click="showSelectIcon" v-click-outside="hideSelectIcon" readonly>
                     <template #prefix>
                       <svg-icon v-if="form.icon" :icon-class="form.icon" class="el-input__icon" style="height: 32px; width: 16px" />
-                      <el-icon v-else style="height: 32px; width: 16px">
-                        <search />
-                      </el-icon>
+                      <el-icon v-else style="height: 32px; width: 16px"><search /></el-icon>
                     </template>
                   </el-input>
                 </template>
@@ -204,9 +196,7 @@
                 </span>
               </template>
               <el-radio-group v-model="form.visible">
-                <el-radio v-for="dict in sys_show_hide" :key="dict.value" :label="dict.value">
-                  {{ dict.label }}
-                </el-radio>
+                <el-radio v-for="dict in sys_show_hide" :key="dict.value" :label="dict.value">{{ dict.label }}</el-radio>
               </el-radio-group>
             </el-form-item>
           </el-col>
@@ -221,9 +211,7 @@
                 </span>
               </template>
               <el-radio-group v-model="form.status">
-                <el-radio v-for="dict in sys_normal_disable" :key="dict.value" :label="dict.value">
-                  {{ dict.label }}
-                </el-radio>
+                <el-radio v-for="dict in sys_normal_disable" :key="dict.value" :label="dict.value">{{ dict.label }}</el-radio>
               </el-radio-group>
             </el-form-item>
           </el-col>
@@ -251,7 +239,7 @@ const { sys_show_hide, sys_normal_disable } = proxy.useDict('sys_show_hide', 'sy
 const menuList = ref([]);
 const open = ref(false);
 const loading = ref(true);
-const showSearch = ref(true);
+const showSearch = ref(false);
 const title = ref('');
 const menuOptions = ref([]);
 const isExpandAll = ref(false);

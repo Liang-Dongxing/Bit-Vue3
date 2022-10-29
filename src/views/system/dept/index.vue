@@ -1,6 +1,6 @@
 <template>
-  <div class="app-container">
-    <el-form :model="queryParams" ref="queryRef" :inline="true" v-show="showSearch">
+  <div class="om-app-container">
+    <el-form :model="queryParams" ref="queryRef" :inline="true" v-show="showSearch" class="om-table-header" label-width="70px">
       <el-form-item label="部门名称" prop="deptName">
         <el-input v-model="queryParams.deptName" placeholder="请输入部门名称" clearable @keyup.enter="handleQuery" />
       </el-form-item>
@@ -15,34 +15,38 @@
       </el-form-item>
     </el-form>
 
-    <el-row :gutter="10" class="mb8">
-      <el-col :span="1.5">
-        <el-button type="primary" plain icon="Plus" @click="handleAdd" v-hasPermi="['system:dept:add']">新增</el-button>
-      </el-col>
-      <el-col :span="1.5">
-        <el-button type="info" plain icon="Sort" @click="toggleExpandAll">展开/折叠</el-button>
+    <el-row :gutter="10" justify="space-between" class="om-table-header">
+      <el-col :span="21" :xs="24" :sm="18" :md="18" :lg="18" :xl="21">
+        <el-button type="primary" icon="Plus" @click="handleAdd" v-hasPermi="['system:dept:add']">新增</el-button>
+        <el-button type="info" icon="Sort" @click="toggleExpandAll">展开/折叠</el-button>
       </el-col>
       <right-toolbar v-model:showSearch="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
     <el-table v-if="refreshTable" v-loading="loading" :data="deptList" row-key="deptId" :default-expand-all="isExpandAll" :tree-props="{ children: 'children', hasChildren: 'hasChildren' }">
-      <el-table-column prop="deptName" label="部门名称" width="260"></el-table-column>
-      <el-table-column prop="orderNum" label="排序" width="200"></el-table-column>
+      <el-table-column prop="deptName" label="部门名称"></el-table-column>
+      <el-table-column prop="orderNum" label="排序" align="center" width="80"></el-table-column>
       <el-table-column prop="status" label="状态" width="100">
         <template #default="scope">
           <dict-tag :options="sys_normal_disable" :value="scope.row.status" />
         </template>
       </el-table-column>
-      <el-table-column label="创建时间" align="center" prop="createTime" width="200">
+      <el-table-column label="创建时间" align="center" prop="createTime" width="180">
         <template #default="scope">
           <span>{{ parseTime(scope.row.createTime) }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
+      <el-table-column label="操作" align="center" width="150" class-name="om-table-operation">
         <template #default="scope">
-          <el-button type="text" icon="Edit" @click="handleUpdate(scope.row)" v-hasPermi="['system:dept:edit']">修改</el-button>
-          <el-button type="text" icon="Plus" @click="handleAdd(scope.row)" v-hasPermi="['system:dept:add']">新增</el-button>
-          <el-button v-if="scope.row.parentId != 0" type="text" icon="Delete" @click="handleDelete(scope.row)" v-hasPermi="['system:dept:remove']">删除</el-button>
+          <el-tooltip content="新增" placement="top">
+            <el-button type="primary" icon="Plus" @click="handleAdd(scope.row)" v-hasPermi="['system:dept:add']"></el-button>
+          </el-tooltip>
+          <el-tooltip content="修改" placement="top">
+            <el-button type="success" icon="Edit" @click="handleUpdate(scope.row)" v-hasPermi="['system:dept:edit']"></el-button>
+          </el-tooltip>
+          <el-tooltip content="删除" placement="top">
+            <el-button v-if="scope.row.parentId != 0" type="danger" icon="Delete" @click="handleDelete(scope.row)" v-hasPermi="['system:dept:remove']"></el-button>
+          </el-tooltip>
         </template>
       </el-table-column>
     </el-table>
@@ -53,17 +57,7 @@
         <el-row>
           <el-col :span="24" v-if="form.parentId !== 0">
             <el-form-item label="上级部门" prop="parentId">
-              <el-tree-select
-                v-model="form.parentId"
-                :data="deptOptions"
-                :props="{
-                  value: 'deptId',
-                  label: 'deptName',
-                  children: 'children',
-                }"
-                value-key="deptId"
-                placeholder="选择上级部门"
-                check-strictly />
+              <el-tree-select v-model="form.parentId" :data="deptOptions" :props="{ value: 'deptId', label: 'deptName', children: 'children' }" value-key="deptId" placeholder="选择上级部门" check-strictly />
             </el-form-item>
           </el-col>
           <el-col :span="12">
@@ -94,9 +88,7 @@
           <el-col :span="12">
             <el-form-item label="部门状态">
               <el-radio-group v-model="form.status">
-                <el-radio v-for="dict in sys_normal_disable" :key="dict.value" :label="dict.value">
-                  {{ dict.label }}
-                </el-radio>
+                <el-radio v-for="dict in sys_normal_disable" :key="dict.value" :label="dict.value">{{ dict.label }}</el-radio>
               </el-radio-group>
             </el-form-item>
           </el-col>
@@ -113,7 +105,7 @@
 </template>
 
 <script setup name="Dept">
-import { listDept, getDept, delDept, addDept, updateDept, listDeptExcludeChild } from '@/api/system/dept';
+import { addDept, delDept, getDept, listDept, listDeptExcludeChild, updateDept } from '@/api/system/dept';
 
 const { proxy } = getCurrentInstance();
 const { sys_normal_disable } = proxy.useDict('sys_normal_disable');
@@ -121,7 +113,7 @@ const { sys_normal_disable } = proxy.useDict('sys_normal_disable');
 const deptList = ref([]);
 const open = ref(false);
 const loading = ref(true);
-const showSearch = ref(true);
+const showSearch = ref(false);
 const title = ref('');
 const deptOptions = ref([]);
 const isExpandAll = ref(true);
@@ -137,20 +129,8 @@ const data = reactive({
     parentId: [{ required: true, message: '上级部门不能为空', trigger: 'blur' }],
     deptName: [{ required: true, message: '部门名称不能为空', trigger: 'blur' }],
     orderNum: [{ required: true, message: '显示排序不能为空', trigger: 'blur' }],
-    email: [
-      {
-        type: 'email',
-        message: '请输入正确的邮箱地址',
-        trigger: ['blur', 'change'],
-      },
-    ],
-    phone: [
-      {
-        pattern: /^1[3|4|5|6|7|8|9][0-9]\d{8}$/,
-        message: '请输入正确的手机号码',
-        trigger: 'blur',
-      },
-    ],
+    email: [{ type: 'email', message: '请输入正确的邮箱地址', trigger: ['blur', 'change'] }],
+    phone: [{ pattern: /^1[3|4|5|6|7|8|9][0-9]\d{8}$/, message: '请输入正确的手机号码', trigger: 'blur' }],
   },
 });
 

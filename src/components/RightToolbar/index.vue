@@ -1,20 +1,26 @@
 <template>
-  <div class="top-right-btn" :style="style">
-    <el-row>
+  <el-col :span="3" :sm="5" :md="5" :lg="6" :xl="3" class="top-right-btn hidden-xs-only">
+    <el-button-group>
       <el-tooltip class="item" effect="dark" :content="showSearch ? '隐藏搜索' : '显示搜索'" placement="top" v-if="search">
-        <el-button circle icon="Search" @click="toggleSearch()" />
+        <el-button icon="Search" @click="toggleSearch()" />
       </el-tooltip>
       <el-tooltip class="item" effect="dark" content="刷新" placement="top">
-        <el-button circle icon="Refresh" @click="refresh()" />
+        <el-button icon="Refresh" @click="refresh()" />
       </el-tooltip>
-      <el-tooltip class="item" effect="dark" content="显隐列" placement="top" v-if="columns">
-        <el-button circle icon="Menu" @click="showColumn()" />
-      </el-tooltip>
-    </el-row>
-    <el-dialog :title="title" v-model="open" append-to-body>
-      <el-transfer :titles="['显示', '隐藏']" v-model="value" :data="columns" @change="dataChange"></el-transfer>
-    </el-dialog>
-  </div>
+    </el-button-group>
+    <el-tooltip class="item" effect="dark" content="显隐列" placement="top" v-if="columns">
+      <el-dropdown :hide-on-click="false">
+        <el-button icon="Menu" />
+        <template #dropdown>
+          <el-dropdown-menu>
+            <el-dropdown-item v-for="(item, idx) in columns" :key="idx">
+              <el-checkbox @change="dataChange(item)" :checked="!item.visible" :model-value="item.visible" size="small" :label="item.label" />
+            </el-dropdown-item>
+          </el-dropdown-menu>
+        </template>
+      </el-dropdown>
+    </el-tooltip>
+  </el-col>
 </template>
 
 <script setup>
@@ -38,21 +44,6 @@ const props = defineProps({
 
 const emits = defineEmits(['update:showSearch', 'queryTable']);
 
-// 显隐数据
-const value = ref([]);
-// 弹出层标题
-const title = ref('显示/隐藏');
-// 是否显示弹出层
-const open = ref(false);
-
-const style = computed(() => {
-  const ret = {};
-  if (props.gutter) {
-    ret.marginRight = `${props.gutter / 2}px`;
-  }
-  return ret;
-});
-
 // 搜索
 function toggleSearch() {
   emits('update:showSearch', !props.showSearch);
@@ -64,16 +55,8 @@ function refresh() {
 }
 
 // 右侧列表元素变化
-function dataChange(data) {
-  for (let item in props.columns) {
-    const key = props.columns[item].key;
-    props.columns[item].visible = !data.includes(key);
-  }
-}
-
-// 打开显隐列dialog
-function showColumn() {
-  open.value = true;
+function dataChange(item) {
+  item.visible = !item.visible;
 }
 
 // 显隐列初始默认隐藏列
@@ -85,16 +68,12 @@ for (let item in props.columns) {
 </script>
 
 <style lang="scss" scoped>
-:deep(.el-transfer__button) {
-  border-radius: 50%;
-  display: block;
-  margin-left: 0px;
-}
-:deep(.el-transfer__button:first-child) {
-  margin-bottom: 10px;
-}
+.top-right-btn {
+  display: flex;
+  justify-content: flex-end;
 
-.my-el-transfer {
-  text-align: center;
+  .el-dropdown {
+    margin-left: 4px;
+  }
 }
 </style>

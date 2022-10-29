@@ -92,9 +92,7 @@
               <el-select v-model="scope.row.dictType" clearable filterable placeholder="请选择">
                 <el-option v-for="dict in dictOptions" :key="dict.dictType" :label="dict.dictName" :value="dict.dictType">
                   <span style="float: left">{{ dict.dictName }}</span>
-                  <span style="float: right; color: #8492a6; font-size: 13px">
-                    {{ dict.dictType }}
-                  </span>
+                  <span style="float: right; color: #8492a6; font-size: 13px">{{ dict.dictType }}</span>
                 </el-option>
               </el-select>
             </template>
@@ -117,8 +115,6 @@
 <script setup name="GenEdit">
 import { getGenTable, updateGenTable } from '@/api/tool/gen';
 import { optionselect as getDictOptionselect } from '@/api/system/dict/type';
-import basicInfoForm from './basicInfoForm';
-import genInfoForm from './genInfoForm';
 
 const route = useRoute();
 const { proxy } = getCurrentInstance();
@@ -164,10 +160,7 @@ function getFormPromise(form) {
   });
 }
 function close() {
-  const obj = {
-    path: '/tool/gen',
-    query: { t: Date.now(), pageNum: route.query.pageNum },
-  };
+  const obj = { path: '/tool/gen', query: { t: Date.now(), pageNum: route.query.pageNum } };
   proxy.$tab.closeOpenPage(obj);
 }
 

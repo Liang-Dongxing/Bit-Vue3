@@ -1,15 +1,16 @@
 <template>
-  <router-view />
+  <water-mark :text="watermarkContent" :visible="isWatermark">
+    <router-view />
+  </water-mark>
 </template>
 
 <script setup>
+import { WaterMark } from '@zu1662/watermark-vue';
 import useSettingsStore from '@/store/modules/settings';
-import { handleThemeStyle } from '@/utils/theme';
 
-onMounted(() => {
-  nextTick(() => {
-    // 初始化主题样式
-    handleThemeStyle(useSettingsStore().theme);
-  });
-});
+const settingsStore = useSettingsStore();
+const storeSettings = computed(() => settingsStore);
+
+const isWatermark = computed(() => storeSettings.value.watermark);
+const watermarkContent = computed(() => storeSettings.value.watermarkText);
 </script>

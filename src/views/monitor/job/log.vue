@@ -1,6 +1,6 @@
 <template>
-  <div class="app-container">
-    <el-form :model="queryParams" ref="queryRef" :inline="true" v-show="showSearch" label-width="68px">
+  <div class="om-app-container">
+    <el-form :model="queryParams" ref="queryRef" :inline="true" v-show="showSearch" class="om-table-header" label-width="70px">
       <el-form-item label="任务名称" prop="jobName">
         <el-input v-model="queryParams.jobName" placeholder="请输入任务名称" clearable style="width: 240px" @keyup.enter="handleQuery" />
       </el-form-item>
@@ -23,18 +23,12 @@
       </el-form-item>
     </el-form>
 
-    <el-row :gutter="10" class="mb8">
-      <el-col :span="1.5">
-        <el-button type="danger" plain icon="Delete" :disabled="multiple" @click="handleDelete" v-hasPermi="['monitor:job:remove']">删除</el-button>
-      </el-col>
-      <el-col :span="1.5">
-        <el-button type="danger" plain icon="Delete" @click="handleClean" v-hasPermi="['monitor:job:remove']">清空</el-button>
-      </el-col>
-      <el-col :span="1.5">
-        <el-button type="warning" plain icon="Download" @click="handleExport" v-hasPermi="['monitor:job:export']">导出</el-button>
-      </el-col>
-      <el-col :span="1.5">
-        <el-button type="warning" plain icon="Close" @click="handleClose">关闭</el-button>
+    <el-row :gutter="10" justify="space-between" class="om-table-header">
+      <el-col :span="21" :xs="24" :sm="18" :md="18" :lg="18" :xl="21">
+        <el-button type="danger" icon="Delete" :disabled="multiple" @click="handleDelete" v-hasPermi="['monitor:job:remove']">删除</el-button>
+        <el-button type="danger" icon="Delete" @click="handleClean" v-hasPermi="['monitor:job:remove']">清空</el-button>
+        <el-button type="warning" icon="Download" @click="handleExport" v-hasPermi="['monitor:job:export']">导出</el-button>
+        <el-button type="warning" icon="Close" @click="handleClose">关闭</el-button>
       </el-col>
       <right-toolbar v-model:showSearch="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
@@ -60,9 +54,9 @@
           <span>{{ parseTime(scope.row.createTime) }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
+      <el-table-column label="操作" align="center" class-name="om-table-operation" width="150">
         <template #default="scope">
-          <el-button type="text" icon="View" @click="handleView(scope.row)" v-hasPermi="['monitor:job:query']">详细</el-button>
+          <el-button icon="View" @click="handleView(scope.row)" v-hasPermi="['monitor:job:query']">详细</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -79,19 +73,13 @@
           </el-col>
           <el-col :span="12">
             <el-form-item label="任务分组：">{{ form.jobGroup }}</el-form-item>
-            <el-form-item label="执行时间：">
-              {{ form.createTime }}
-            </el-form-item>
+            <el-form-item label="执行时间：">{{ form.createTime }}</el-form-item>
           </el-col>
           <el-col :span="24">
-            <el-form-item label="调用方法：">
-              {{ form.invokeTarget }}
-            </el-form-item>
+            <el-form-item label="调用方法：">{{ form.invokeTarget }}</el-form-item>
           </el-col>
           <el-col :span="24">
-            <el-form-item label="日志信息：">
-              {{ form.jobMessage }}
-            </el-form-item>
+            <el-form-item label="日志信息：">{{ form.jobMessage }}</el-form-item>
           </el-col>
           <el-col :span="24">
             <el-form-item label="执行状态：">
@@ -100,9 +88,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="24">
-            <el-form-item label="异常信息：" v-if="form.status == 1">
-              {{ form.exceptionInfo }}
-            </el-form-item>
+            <el-form-item label="异常信息：" v-if="form.status == 1">{{ form.exceptionInfo }}</el-form-item>
           </el-col>
         </el-row>
       </el-form>
@@ -117,7 +103,7 @@
 
 <script setup name="JobLog">
 import { getJob } from '@/api/monitor/job';
-import { listJobLog, delJobLog, cleanJobLog } from '@/api/monitor/jobLog';
+import { cleanJobLog, delJobLog, listJobLog } from '@/api/monitor/jobLog';
 
 const { proxy } = getCurrentInstance();
 const { sys_common_status, sys_job_group } = proxy.useDict('sys_common_status', 'sys_job_group');
@@ -125,7 +111,7 @@ const { sys_common_status, sys_job_group } = proxy.useDict('sys_common_status', 
 const jobLogList = ref([]);
 const open = ref(false);
 const loading = ref(true);
-const showSearch = ref(true);
+const showSearch = ref(false);
 const ids = ref([]);
 const multiple = ref(true);
 const total = ref(0);

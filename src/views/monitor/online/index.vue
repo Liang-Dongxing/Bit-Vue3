@@ -1,6 +1,6 @@
 <template>
-  <div class="app-container">
-    <el-form :model="queryParams" ref="queryRef" :inline="true" label-width="68px">
+  <div class="om-app-container">
+    <el-form :model="queryParams" ref="queryRef" :inline="true" class="om-table-header" label-width="70px">
       <el-form-item label="登录地址" prop="ipaddr">
         <el-input v-model="queryParams.ipaddr" placeholder="请输入登录地址" clearable @keyup.enter="handleQuery" />
       </el-form-item>
@@ -13,7 +13,7 @@
       </el-form-item>
     </el-form>
     <el-table v-loading="loading" :data="onlineList.slice((pageNum - 1) * pageSize, pageNum * pageSize)" style="width: 100%">
-      <el-table-column label="序号" width="50" type="index" align="center">
+      <el-table-column label="序号" width="120" type="index" align="center">
         <template #default="scope">
           <span>{{ (pageNum - 1) * pageSize + scope.$index + 1 }}</span>
         </template>
@@ -30,9 +30,11 @@
           <span>{{ parseTime(scope.row.loginTime) }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
+      <el-table-column label="操作" align="center" class-name="om-table-operation" width="150">
         <template #default="scope">
-          <el-button type="text" icon="Delete" @click="handleForceLogout(scope.row)" v-hasPermi="['monitor:online:forceLogout']">强退</el-button>
+          <el-tooltip content="强退" placement="top">
+            <el-button type="danger" icon="Delete" @click="handleForceLogout(scope.row)" v-hasPermi="['monitor:online:forceLogout']"></el-button>
+          </el-tooltip>
         </template>
       </el-table-column>
     </el-table>

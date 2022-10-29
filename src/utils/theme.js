@@ -1,11 +1,39 @@
+import { useCssVar } from '@vueuse/core';
+
+export const el = ref(null);
+const color = useCssVar('--el-color-primary', el);
+const color_light_1 = useCssVar('--el-color-primary-light-1', el);
+const color_light_2 = useCssVar('--el-color-primary-light-2', el);
+const color_light_3 = useCssVar('--el-color-primary-light-3', el);
+const color_light_4 = useCssVar('--el-color-primary-light-4', el);
+const color_light_5 = useCssVar('--el-color-primary-light-5', el);
+const color_light_6 = useCssVar('--el-color-primary-light-6', el);
+const color_light_7 = useCssVar('--el-color-primary-light-7', el);
+const color_light_8 = useCssVar('--el-color-primary-light-8', el);
+const color_light_9 = useCssVar('--el-color-primary-light-9', el);
 // 处理主题样式
-export function handleThemeStyle(theme) {
-  document.documentElement.style.setProperty('--el-color-primary', theme);
-  for (let i = 1; i <= 9; i++) {
-    document.documentElement.style.setProperty(`--el-color-primary-light-${i}`, `${getLightColor(theme, i / 10)}`);
-  }
-  for (let i = 1; i <= 9; i++) {
-    document.documentElement.style.setProperty(`--el-color-primary-dark-${i}`, `${getDarkColor(theme, i / 10)}`);
+export function handleThemeStyle(theme, isDark) {
+  color.value = theme;
+  if (isDark) {
+    color_light_1.value = `${getDarkColor(theme, 1 / 10)}`;
+    color_light_2.value = `${getDarkColor(theme, 2 / 10)}`;
+    color_light_3.value = `${getDarkColor(theme, 3 / 10)}`;
+    color_light_4.value = `${getDarkColor(theme, 4 / 10)}`;
+    color_light_5.value = `${getDarkColor(theme, 5 / 10)}`;
+    color_light_6.value = `${getDarkColor(theme, 6 / 10)}`;
+    color_light_7.value = `${getDarkColor(theme, 7 / 10)}`;
+    color_light_8.value = `${getDarkColor(theme, 8 / 10)}`;
+    color_light_9.value = `${getDarkColor(theme, 9 / 10)}`;
+  } else {
+    color_light_1.value = `${getLightColor(theme, 1 / 10)}`;
+    color_light_2.value = `${getLightColor(theme, 2 / 10)}`;
+    color_light_3.value = `${getLightColor(theme, 3 / 10)}`;
+    color_light_4.value = `${getLightColor(theme, 4 / 10)}`;
+    color_light_5.value = `${getLightColor(theme, 5 / 10)}`;
+    color_light_6.value = `${getLightColor(theme, 6 / 10)}`;
+    color_light_7.value = `${getLightColor(theme, 7 / 10)}`;
+    color_light_8.value = `${getLightColor(theme, 8 / 10)}`;
+    color_light_9.value = `${getLightColor(theme, 9 / 10)}`;
   }
 }
 

@@ -1,5 +1,5 @@
-import { login, logout, getInfo } from '@/api/login';
-import { getToken, setToken, removeToken } from '@/utils/auth';
+import { getInfo, login, logout } from '@/api/login';
+import { getToken, removeToken, setToken } from '@/utils/auth';
 import defAva from '@/assets/images/profile.jpg';
 
 const useUserStore = defineStore('user', {
@@ -7,6 +7,12 @@ const useUserStore = defineStore('user', {
     token: getToken(),
     name: '',
     avatar: '',
+    nickName: '',
+    sex: '',
+    email: '',
+    phonenumber: '',
+    createTime: '',
+    deptName: '',
     roles: [],
     permissions: [],
   }),
@@ -45,7 +51,13 @@ const useUserStore = defineStore('user', {
               this.roles = ['ROLE_DEFAULT'];
             }
             this.name = user.userName;
+            this.nickName = user.nickName;
+            this.sex = user.sex;
             this.avatar = avatar;
+            this.email = user.email;
+            this.createTime = user.createTime;
+            this.phonenumber = user.phonenumber;
+            this.deptName = user.dept.deptName;
             resolve(res);
           })
           .catch((error) => {
