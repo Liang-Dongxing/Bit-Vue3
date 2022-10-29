@@ -1,6 +1,6 @@
 <template>
-  <div class="app-container">
-    <el-form :model="queryParams" ref="queryRef" :inline="true" v-show="showSearch">
+  <div class="om-app-container">
+    <el-form class="om-table-header" :model="queryParams" ref="queryRef" :inline="true" v-show="showSearch">
       <el-form-item label="主机记录" prop="hostRecord">
         <el-input v-model="queryParams.hostRecord" placeholder="请输入主机记录" clearable @keyup.enter="handleQuery" />
       </el-form-item>
@@ -15,17 +15,11 @@
       </el-form-item>
     </el-form>
 
-    <el-row :gutter="10" class="mb8">
-      <el-col :span="1.5">
+    <el-row :gutter="10" justify="space-between" class="om-table-header">
+      <el-col :span="21" :xs="24" :sm="18" :md="18" :lg="18" :xl="21">
         <el-button type="primary" plain icon="Plus" @click="handleAdd" v-hasPermi="['ops:ddns:add']">新增</el-button>
-      </el-col>
-      <el-col :span="1.5">
         <el-button type="success" plain icon="Edit" :disabled="single" @click="handleUpdate" v-hasPermi="['ops:ddns:edit']">修改</el-button>
-      </el-col>
-      <el-col :span="1.5">
         <el-button type="danger" plain icon="Delete" :disabled="multiple" @click="handleDelete" v-hasPermi="['ops:ddns:remove']">删除</el-button>
-      </el-col>
-      <el-col :span="1.5">
         <el-button type="warning" plain icon="Download" @click="handleExport" v-hasPermi="['ops:ddns:export']">导出</el-button>
       </el-col>
       <right-toolbar v-model:showSearch="showSearch" @queryTable="getList"></right-toolbar>
