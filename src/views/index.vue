@@ -5,6 +5,9 @@
         <el-card shadow="hover">
           <v-chart :option="dynamic_options" :autoresize="true" style="height: 300px" />
         </el-card>
+        <el-card shadow="hover">
+          <el-calendar v-model="calendarValue" />
+        </el-card>
       </el-col>
       <el-col :span="7">
         <el-card shadow="hover">
@@ -34,6 +37,7 @@ import UpdateLog from '@/components/UpdateLog';
 const { proxy } = getCurrentInstance();
 const userStore = useUserStore();
 const dynamic_options = ref({});
+const calendarValue = ref(new Date());
 
 onMounted(() => {
   dynamic_options_Fun();
@@ -50,7 +54,7 @@ const dynamic_options_Fun = () => {
   }
 
   let data = [];
-  let now = new Date(1997, 9, 3);
+  let now = new Date(2020, 1, 1);
   let oneDay = 24 * 3600 * 1000;
   let value = Math.random() * 1000;
   for (var i = 0; i < 1000; i++) {
@@ -95,7 +99,7 @@ const dynamic_options_Fun = () => {
             },
             {
               offset: 1,
-              color: 'rgb(255,255,255)',
+              color: 'rgba(255,255,255,0)',
             },
           ]),
         },

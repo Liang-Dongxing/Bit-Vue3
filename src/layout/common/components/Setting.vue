@@ -1,5 +1,5 @@
 <template>
-  <el-drawer v-model="showSettings" direction="rtl" size="300px">
+  <el-drawer v-model="showSettings" direction="rtl" :with-header="false" size="300px">
     <template #header>
       <h3>布局配置</h3>
     </template>
@@ -248,6 +248,15 @@ defineExpose({
 </script>
 
 <style lang="scss" scoped>
+:deep(.el-overlay){
+  .el-drawer{
+
+    :deep(.el-drawer__header) {
+      margin-bottom: 0;
+    }
+  }
+}
+
 .el-button.el-button--primary {
   width: 100%;
 }

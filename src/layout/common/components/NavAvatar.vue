@@ -25,7 +25,7 @@
       <icon-park size="24" v-show="isFullscreen" type="off-screen" theme="filled" class="hvr-icon" />
     </el-button>
     <el-button link class="hvr-icon-push" @click="openSetting">
-      <icon-park size="24" type="setting-one" theme="filled" class="hvr-icon" />
+      <icon-park size="24" type="page" theme="filled" class="hvr-icon" />
     </el-button>
   </div>
 </template>
