@@ -1,13 +1,12 @@
 import { createApp } from 'vue';
 
-import Cookies from 'js-cookie';
-
 import ElementPlus from 'element-plus';
 import locale from 'element-plus/lib/locale/lang/zh-cn'; // 中文语言
+// Echarts
+import * as echarts from 'echarts';
+import VueECharts from 'vue-echarts';
 
 import '@/assets/styles/index.scss'; // global css
-
-import { IconPark } from '@icon-park/vue-next/es/all';
 
 import App from './App';
 import store from './store';
@@ -21,6 +20,7 @@ import { download } from '@/utils/request';
 import 'virtual:svg-icons-register';
 import SvgIcon from '@/components/SvgIcon';
 import elementIcons from '@/components/SvgIcon/svgicon';
+import { IconPark } from '@icon-park/vue-next/es/all';
 
 import './permission'; // permission control
 import { useDict } from '@/utils/dict';
@@ -54,6 +54,7 @@ app.config.globalProperties.handleTree = handleTree;
 app.config.globalProperties.addDateRange = addDateRange;
 app.config.globalProperties.selectDictLabel = selectDictLabel;
 app.config.globalProperties.selectDictLabels = selectDictLabels;
+app.config.globalProperties.$echarts = echarts;
 
 // 全局组件挂载
 app.component('DictTag', DictTag);
@@ -63,14 +64,15 @@ app.component('FileUpload', FileUpload);
 app.component('ImageUpload', ImageUpload);
 app.component('ImagePreview', ImagePreview);
 app.component('RightToolbar', RightToolbar);
+app.component('SvgIcon', SvgIcon);
+app.component('IconPark', IconPark);
+app.component('VChart', VueECharts);
 
 // app.use(defaultSettings);
 app.use(router);
 app.use(store);
 app.use(plugins);
 app.use(elementIcons);
-app.component('SvgIcon', SvgIcon);
-app.component('IconPark', IconPark);
 app.use(VueKinesis);
 
 directive(app);

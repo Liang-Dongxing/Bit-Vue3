@@ -251,3 +251,26 @@ export async function blobValidate(data) {
     return true;
   }
 }
+
+export const getGreet = () => {
+  const now = new Date();
+  const hour = now.getHours();
+  let greet = '';
+
+  if (hour < 5) {
+    greet = '夜深了，注意身体哦！';
+  } else if (hour < 9) {
+    greet = '早上好！';
+  } else if (hour < 12) {
+    greet = '上午好';
+  } else if (hour < 14) {
+    greet = '中午好！';
+  } else if (hour < 18) {
+    greet = '下午好！';
+  } else if (hour < 24) {
+    greet = '晚上好！';
+  } else {
+    greet = '您好！';
+  }
+  return greet;
+};

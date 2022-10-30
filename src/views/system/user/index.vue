@@ -1,6 +1,6 @@
 <template>
   <div class="om-app-container">
-    <el-row :gutter="20">
+    <el-row>
       <!--部门数据-->
       <el-col :span="4" :md="24" :lg="6" :xl="4" class="dept-tree hidden-xs-only hidden-sm-only">
         <div class="head-container">
@@ -33,7 +33,7 @@
           </el-form-item>
         </el-form>
 
-        <el-row :gutter="10" justify="space-between" class="om-table-header">
+        <el-row justify="space-between" class="om-table-header">
           <el-col :span="21" :xs="24" :sm="19" :md="19" :lg="18" :xl="21">
             <el-button type="primary" icon="Plus" @click="handleAdd" v-hasPermi="['system:user:add']">新增</el-button>
             <el-button type="success" icon="Edit" :disabled="single" @click="handleUpdate" v-hasPermi="['system:user:edit']">修改</el-button>
@@ -527,6 +527,7 @@ getList();
 .om-app-container {
   .dept-tree {
     padding: 13px 30px 13px 30px !important;
+    background-color: var(--el-bg-color);
   }
 }
 </style>

@@ -21,7 +21,7 @@
       </el-form-item>
     </el-form>
 
-    <el-row :gutter="10" justify="space-between" class="om-table-header">
+    <el-row justify="space-between" class="om-table-header">
       <el-col :span="21" :xs="24" :sm="18" :md="18" :lg="18" :xl="21">
         <el-button type="danger" icon="Delete" @click="handleClean" v-hasPermi="['monitor:logininfor:remove']">清空</el-button>
         <el-button type="danger" icon="Delete" :disabled="multiple" @click="handleDelete" v-hasPermi="['monitor:logininfor:remove']">删除</el-button>

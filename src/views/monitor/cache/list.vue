@@ -1,6 +1,6 @@
 <template>
   <div class="om-app-container">
-    <el-row :gutter="10">
+    <el-row>
       <el-col :span="8">
         <el-card style="height: calc(100vh - 125px)">
           <template #header>

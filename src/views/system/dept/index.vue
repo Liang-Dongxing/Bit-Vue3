@@ -15,7 +15,7 @@
       </el-form-item>
     </el-form>
 
-    <el-row :gutter="10" justify="space-between" class="om-table-header">
+    <el-row justify="space-between" class="om-table-header">
       <el-col :span="21" :xs="24" :sm="18" :md="18" :lg="18" :xl="21">
         <el-button type="primary" icon="Plus" @click="handleAdd" v-hasPermi="['system:dept:add']">新增</el-button>
         <el-button type="info" icon="Sort" @click="toggleExpandAll">展开/折叠</el-button>

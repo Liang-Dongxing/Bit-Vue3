@@ -15,7 +15,7 @@
       </el-form-item>
     </el-form>
 
-    <el-row :gutter="10" justify="space-between" class="om-table-header">
+    <el-row justify="space-between" class="om-table-header">
       <el-col :span="21" :xs="24" :sm="18" :md="18" :lg="18" :xl="21">
         <el-button type="primary" plain icon="Plus" @click="handleAdd" v-hasPermi="['ops:access:add']">新增</el-button>
         <el-button type="success" plain icon="Edit" :disabled="single" @click="handleUpdate" v-hasPermi="['ops:access:edit']">修改</el-button>
@@ -79,7 +79,7 @@ const { access_key_type } = proxy.useDict('access_key_type');
 const accessList = ref([]);
 const open = ref(false);
 const loading = ref(true);
-const showSearch = ref(true);
+const showSearch = ref(false);
 const ids = ref([]);
 const single = ref(true);
 const multiple = ref(true);

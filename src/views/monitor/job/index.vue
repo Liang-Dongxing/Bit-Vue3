@@ -20,7 +20,7 @@
       </el-form-item>
     </el-form>
 
-    <el-row :gutter="10" justify="space-between" class="om-table-header">
+    <el-row justify="space-between" class="om-table-header">
       <el-col :span="21" :xs="24" :sm="18" :md="18" :lg="18" :xl="21">
         <el-button type="primary" icon="Plus" @click="handleAdd" v-hasPermi="['monitor:job:add']">新增</el-button>
         <el-button type="success" icon="Edit" :disabled="single" @click="handleUpdate" v-hasPermi="['monitor:job:edit']">修改</el-button>

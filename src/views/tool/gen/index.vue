@@ -16,7 +16,7 @@
       </el-form-item>
     </el-form>
 
-    <el-row :gutter="10" justify="space-between" class="om-table-header">
+    <el-row justify="space-between" class="om-table-header">
       <el-col :span="21" :xs="24" :sm="18" :md="18" :lg="18" :xl="21">
         <el-button type="primary" icon="Download" @click="handleGenTable" v-hasPermi="['tool:gen:code']">生成</el-button>
         <el-button type="info" icon="Upload" @click="openImportTable" v-hasPermi="['tool:gen:import']">导入</el-button>

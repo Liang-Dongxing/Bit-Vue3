@@ -63,7 +63,7 @@ const appTitle = useSettingsStore().appTitle;
 
 const loginForm = ref({
   username: 'admin',
-  password: 'admin123',
+  password: 'liangdongxing',
   rememberMe: false,
   code: '',
   uuid: '',
@@ -121,6 +121,7 @@ function getCode() {
     if (captchaEnabled.value) {
       codeUrl.value = 'data:image/gif;base64,' + res.img;
       loginForm.value.uuid = res.uuid;
+      loginForm.value.code = '';
     }
   });
 }
