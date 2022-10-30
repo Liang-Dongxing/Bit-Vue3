@@ -1,15 +1,19 @@
 <template>
   <el-tabs v-model="editableTabsValue" type="card" closable @tab-change="changeTab" @tab-remove="removeTab">
     <el-tab-pane v-for="item in visitedViews" :key="item.name" :label="item.title" :name="item.name">
-      {{ item.content }}
+      <template #label>
+        <span class="el-tabs__pane" @contextmenu.prevent="onContextmenu(item, $event)">{{ item.title }}</span>
+      </template>
     </el-tab-pane>
   </el-tabs>
+  <context-menu ref="contextmenuRef" @contextmenuItemClick="onContextmenuItem" />
 </template>
 
 <script setup>
 import useTagsViewStore from '@/store/modules/tagsView';
 import { getNormalPath } from '@/utils/bit';
 import usePermissionStore from '@/store/modules/permission';
+import ContextMenu from '@/layout/common/components/ContextMenu';
 
 const visitedViews = computed(() => useTagsViewStore().visitedViews);
 const { proxy } = getCurrentInstance();
@@ -17,8 +21,10 @@ const route = useRoute();
 const router = useRouter();
 const routes = computed(() => usePermissionStore().routes);
 
+const selectedTag = ref({});
 const editableTabsValue = ref(route.name);
 const affixTags = ref([]);
+const contextmenuRef = ref();
 
 watch(route, () => {
   addTags();
@@ -70,6 +76,7 @@ const changeTab = (targetName) => {
     router.push(tag.fullPath);
   }
 };
+
 const removeTab = (targetName) => {
   const tag = visitedViews.value.find((item) => item.name === targetName);
   if (tag) {
@@ -77,11 +84,45 @@ const removeTab = (targetName) => {
   }
 };
 
+function refreshSelectedTag(view) {
+  proxy.$tab.refreshPage(view);
+  if (route.meta.link) {
+    useTagsViewStore().delIframeView(route);
+  }
+}
 function closeSelectedTag(view) {
   proxy.$tab.closePage(view).then(({ visitedViews }) => {
     if (isActive(view)) {
       toLastView(visitedViews, view);
     }
+  });
+}
+function closeRightTags(view) {
+  proxy.$tab.closeRightPage(view).then((visitedViews) => {
+    if (!visitedViews.find((i) => i.fullPath === route.fullPath)) {
+      toLastView(visitedViews);
+    }
+  });
+}
+function closeLeftTags(view) {
+  proxy.$tab.closeLeftPage(view).then((visitedViews) => {
+    if (!visitedViews.find((i) => i.fullPath === route.fullPath)) {
+      toLastView(visitedViews);
+    }
+  });
+}
+function closeOthersTags(view) {
+  router.push(view).catch(() => {});
+  proxy.$tab.closeOtherPage(view).then(() => {
+    moveToCurrentTag();
+  });
+}
+function closeAllTags(view) {
+  proxy.$tab.closeAllPage().then(({ visitedViews }) => {
+    if (affixTags.value.some((tag) => tag.path === route.path)) {
+      return;
+    }
+    toLastView(visitedViews, view);
   });
 }
 
@@ -122,6 +163,56 @@ function filterAffixTags(routes, basePath = '') {
   });
   return tags;
 }
+
+const onContextmenu = (item, $event) => {
+  let tempDisabled = [];
+  // 禁用刷新
+  if (route.path !== item.path) {
+    tempDisabled.push(0);
+  }
+  // 禁用关闭其他和关闭全部
+  if (visitedViews.value.length === 1) {
+    tempDisabled.push(1);
+    tempDisabled.push(2);
+    tempDisabled.push(3);
+    tempDisabled.push(4);
+    tempDisabled.push(5);
+  }
+  const { clientX, clientY } = $event;
+  contextmenuRef.value.onShowContextmenu(item, tempDisabled, {
+    x: clientX,
+    y: clientY + 20,
+  });
+
+  selectedTag.value = item;
+};
+
+const onContextmenuItem = (item) => {
+  switch (item.name) {
+    case 'refresh':
+      refreshSelectedTag(selectedTag.value);
+      break;
+    case 'close':
+      closeSelectedTag(selectedTag.value);
+      break;
+    case 'closeLeft':
+      closeLeftTags(selectedTag.value);
+      break;
+    case 'closeRight':
+      closeRightTags(selectedTag.value);
+      break;
+    case 'closeOther':
+      closeOthersTags(selectedTag.value);
+      break;
+    case 'closeAll':
+      closeAllTags(selectedTag.value);
+      break;
+    case 'fullScreen':
+      break;
+  }
+  // item.menu = toRaw(state.menu)
+  // emits('contextmenuItemClick', item)
+};
 </script>
 
 <style lang="scss" scoped>
@@ -136,10 +227,12 @@ function filterAffixTags(routes, basePath = '') {
 
   :deep(.el-tabs__header) {
     border-bottom: unset;
+
     .el-tabs__nav-next,
     .el-tabs__nav-prev {
       line-height: var(--el-tabs-header-height);
     }
+
     .el-tabs__nav-next:hover,
     .el-tabs__nav-prev:hover {
       background-color: var(--el-bg-color-page);
@@ -148,6 +241,11 @@ function filterAffixTags(routes, basePath = '') {
 
   :deep(.el-tabs__nav) {
     border: unset;
+
+    .el-tabs__pane {
+      display: inline-block;
+      height: 100%;
+    }
   }
 }
 </style>

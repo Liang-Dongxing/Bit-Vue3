@@ -44,8 +44,8 @@
           <el-tooltip content="修改" placement="top">
             <el-button type="success" icon="Edit" @click="handleUpdate(scope.row)" v-hasPermi="['system:dept:edit']"></el-button>
           </el-tooltip>
-          <el-tooltip content="删除" placement="top">
-            <el-button v-if="scope.row.parentId != 0" type="danger" icon="Delete" @click="handleDelete(scope.row)" v-hasPermi="['system:dept:remove']"></el-button>
+          <el-tooltip v-if="scope.row.parentId !== 0" content="删除" placement="top">
+            <el-button type="danger" icon="Delete" @click="handleDelete(scope.row)" v-hasPermi="['system:dept:remove']"></el-button>
           </el-tooltip>
         </template>
       </el-table-column>
