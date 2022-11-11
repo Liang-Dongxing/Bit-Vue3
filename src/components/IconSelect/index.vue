@@ -3,9 +3,10 @@
     <el-input v-model="iconName" style="position: relative" clearable placeholder="请输入图标名称" @clear="filterIcons" @input="filterIcons">
       <template #suffix><i class="el-icon-search el-input__icon" /></template>
     </el-input>
-    <div class="icon-list">
+    <div class="icon-list" v-infinite-scroll="load" infinite-scroll-distance="50">
       <div v-for="(item, index) in iconList" :key="index" @click="selectedIcon(item)">
-        <svg-icon :icon-class="item" style="height: 30px; width: 16px" />
+        <svg-icon v-if="item.indexOf('--i') !== -1" :icon-class="item" style="height: 30px; width: 16px" />
+        <icon-park v-else :type="item" :size="16" theme="filled" />
         <span>{{ item }}</span>
       </div>
     </div>
@@ -16,8 +17,15 @@
 import icons from './requireIcons';
 
 const iconName = ref('');
-const iconList = ref(icons);
+const iconListAll = ref(icons);
+const iconList = ref(iconListAll.value.slice(0, 29));
 const emit = defineEmits(['selected']);
+
+const load = () => {
+  if (iconList.value.length < iconListAll.value.length) {
+    iconList.value = iconListAll.value.slice(0, iconList.value.length + 29);
+  }
+};
 
 function filterIcons() {
   iconList.value = icons;
@@ -33,7 +41,7 @@ function selectedIcon(name) {
 
 function reset() {
   iconName.value = '';
-  iconList.value = icons;
+  iconList.value = iconListAll.value.slice(0, 29);
 }
 
 defineExpose({

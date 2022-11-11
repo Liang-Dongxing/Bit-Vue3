@@ -27,7 +27,7 @@
       <el-table-column prop="menuName" label="菜单名称" :show-overflow-tooltip="true" width="560"></el-table-column>
       <el-table-column prop="icon" label="图标" align="center" width="100">
         <template #default="scope">
-          <svg-icon :icon-class="scope.row.icon" />
+          <icon-park v-if="scope.row && scope.row.icon !== '#'" :type="scope.row.icon" theme="filled" />
         </template>
       </el-table-column>
       <el-table-column prop="orderNum" label="排序" width="60"></el-table-column>
@@ -78,12 +78,12 @@
           </el-col>
           <el-col :span="24" v-if="form.menuType != 'F'">
             <el-form-item label="菜单图标" prop="icon">
-              <el-popover placement="bottom-start" :width="540" v-model:visible="showChooseIcon" trigger="click" @show="showSelectIcon">
+              <el-popover placement="bottom-start" :width="740" trigger="click" @show="showSelectIcon">
                 <template #reference>
-                  <el-input v-model="form.icon" placeholder="点击选择图标" @click="showSelectIcon" v-click-outside="hideSelectIcon" readonly>
+                  <el-input v-model="form.icon" placeholder="点击选择图标" @click="showSelectIcon" v-click-outside="hideSelectIcon">
                     <template #prefix>
-                      <svg-icon v-if="form.icon" :icon-class="form.icon" class="el-input__icon" style="height: 32px; width: 16px" />
-                      <el-icon v-else style="height: 32px; width: 16px"><search /></el-icon>
+                      <svg-icon v-if="form.icon && form.icon.indexOf('--i') === 1" :icon-class="form.icon" class="el-input__icon" style="height: 32px; width: 16px" />
+                      <icon-park v-else :type="form.icon" :size="16" theme="filled" />
                     </template>
                   </el-input>
                 </template>
@@ -303,19 +303,19 @@ function reset() {
 /** 展示下拉图标 */
 function showSelectIcon() {
   iconSelectRef.value.reset();
-  showChooseIcon.value = true;
+  // showChooseIcon.value = true;
 }
 /** 选择图标 */
 function selected(name) {
   form.value.icon = name;
-  showChooseIcon.value = false;
+  // showChooseIcon.value = false;
 }
 /** 图标外层点击隐藏下拉列表 */
 function hideSelectIcon(event) {
   var elem = event.relatedTarget || event.srcElement || event.target || event.currentTarget;
   var className = elem.className;
   if (className !== 'el-input__inner') {
-    showChooseIcon.value = false;
+    // showChooseIcon.value = false;
   }
 }
 /** 搜索按钮操作 */

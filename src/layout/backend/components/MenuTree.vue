@@ -1,6 +1,6 @@
 <template>
   <template v-for="menu in props.menus">
-    <template v-if="menu.children && menu.children.length > 1">
+    <template v-if="!menu.hidden && menu.children && menu.children.length > 1">
       <el-sub-menu :index="resolvePath(menu.path)" :key="menu.path">
         <template #title>
           <el-icon>
@@ -11,7 +11,7 @@
         <menu-tree :menus="menu.children" :base-path="resolvePath(menu.path)"></menu-tree>
       </el-sub-menu>
     </template>
-    <template v-else-if="menu.children && menu.children.length === 1">
+    <template v-else-if="!menu.hidden && menu.children && menu.children.length === 1">
       <el-menu-item :index="resolvePath(menu.children[0].path)" :key="menu.children[0].path">
         <el-icon>
           <icon-park v-if="menu.children[0].meta && menu.children[0].meta.icon !== '#'" :type="menu.children[0].meta.icon" theme="filled" />
@@ -21,7 +21,7 @@
         </template>
       </el-menu-item>
     </template>
-    <template v-else>
+    <template v-else-if="!menu.hidden">
       <el-menu-item :index="resolvePath(menu.path)" :key="menu.path">
         <el-icon>
           <icon-park v-if="menu.meta && menu.meta.icon !== '#'" :type="menu.meta.icon" theme="filled" />

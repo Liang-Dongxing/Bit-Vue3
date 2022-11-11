@@ -2,8 +2,8 @@
   <div class="theme-toggle-content">
     <div class="switch">
       <div class="switch-action">
-        <svg-icon name="local-dark" color="#f2f2f2" size="13px" class="switch-icon dark-icon" icon-class="dark" />
-        <svg-icon name="local-light" color="#303133" size="13px" class="switch-icon light-icon" icon-class="light" />
+        <svg-icon name="local-dark" color="#f2f2f2" size="13px" class="switch-icon dark-icon" icon-class="dark--i" />
+        <svg-icon name="local-light" color="#303133" size="13px" class="switch-icon light-icon" icon-class="light--i" />
       </div>
     </div>
   </div>
