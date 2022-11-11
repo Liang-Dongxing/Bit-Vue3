@@ -17,10 +17,10 @@
 
     <el-row justify="space-between" class="om-table-header">
       <el-col :span="21" :xs="24" :sm="18" :md="18" :lg="18" :xl="21">
-        <el-button type="primary" plain icon="Plus" @click="handleAdd" v-hasPermi="['ops:access:add']">新增</el-button>
-        <el-button type="success" plain icon="Edit" :disabled="single" @click="handleUpdate" v-hasPermi="['ops:access:edit']">修改</el-button>
-        <el-button type="danger" plain icon="Delete" :disabled="multiple" @click="handleDelete" v-hasPermi="['ops:access:remove']">删除</el-button>
-        <el-button type="warning" plain icon="Download" @click="handleExport" v-hasPermi="['ops:access:export']">导出</el-button>
+        <el-button type="primary" plain icon="Plus" @click="handleAdd" v-hasPermi="['ops:ak:add']">新增</el-button>
+        <el-button type="success" plain icon="Edit" :disabled="single" @click="handleUpdate" v-hasPermi="['ops:ak:edit']">修改</el-button>
+        <el-button type="danger" plain icon="Delete" :disabled="multiple" @click="handleDelete" v-hasPermi="['ops:ak:remove']">删除</el-button>
+        <el-button type="warning" plain icon="Download" @click="handleExport" v-hasPermi="['ops:ak:export']">导出</el-button>
       </el-col>
       <right-toolbar v-model:showSearch="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
@@ -37,8 +37,8 @@
       </el-table-column>
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width" width="140">
         <template #default="scope">
-          <el-button type="text" icon="Edit" @click="handleUpdate(scope.row)" v-hasPermi="['ops:access:edit']">修改</el-button>
-          <el-button type="text" icon="Delete" @click="handleDelete(scope.row)" v-hasPermi="['ops:access:remove']">删除</el-button>
+          <el-button type="text" icon="Edit" @click="handleUpdate(scope.row)" v-hasPermi="['ops:ak:edit']">修改</el-button>
+          <el-button type="text" icon="Delete" @click="handleDelete(scope.row)" v-hasPermi="['ops:ak:remove']">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
