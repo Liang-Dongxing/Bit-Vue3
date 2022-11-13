@@ -22,7 +22,7 @@
         <el-button type="danger" plain icon="Delete" :disabled="multiple" @click="handleDelete" v-hasPermi="['ops:ddns:remove']">删除</el-button>
         <el-button type="warning" plain icon="Download" @click="handleExport" v-hasPermi="['ops:ddns:export']">导出</el-button>
         <el-button type="primary" plain icon="Link">
-          <router-link to="/tool/ak">AK 配置</router-link>
+          <router-link to="/tool/ak" class="router-link">AK 配置</router-link>
         </el-button>
       </el-col>
       <right-toolbar v-model:showSearch="showSearch" @queryTable="getList"></right-toolbar>
