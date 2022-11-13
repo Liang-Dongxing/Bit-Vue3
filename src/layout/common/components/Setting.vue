@@ -17,6 +17,12 @@
           <el-form-item label="主题颜色">
             <el-color-picker v-model="theme" :predefine="predefineColors" @change="themeChange" />
           </el-form-item>
+          <el-form-item label="语言">
+            <el-select v-model="language" @change="editDefaultLang">
+              <el-option label="中文简体" value="zh-cn" />
+              <el-option label="English" value="en" />
+            </el-select>
+          </el-form-item>
           <el-form-item label="显示水印">
             <el-switch v-model="watermark" />
           </el-form-item>
@@ -77,14 +83,19 @@
 
 <script setup>
 import useSettingsStore from '@/store/modules/settings';
+import useLanguageStore from '@/store/modules/language';
 import DarkSwitch from '@/layout/common/components/DarkSwitch';
+import { editDefaultLang } from '@/language';
 import { isDark, toggleDark } from '@/utils/dark';
 import { handleThemeStyle } from '@/utils/theme';
 import { useDynamicTitle } from '@/utils/dynamicTitle';
 
 const { proxy } = getCurrentInstance();
 const settingsStore = useSettingsStore();
+const languageStore = useLanguageStore();
+
 const theme = ref(settingsStore.theme);
+const language = ref(languageStore.defaultLang);
 const storeSettings = computed(() => settingsStore);
 
 const showSettings = ref(false);
@@ -95,7 +106,6 @@ const sidebarLogo = computed({
   get: () => storeSettings.value.sidebarLogo,
   set: (val) => {
     settingsStore.changeSetting({ key: 'sidebarLogo', value: val });
-    saveSetting();
   },
 });
 /**是否需要水印 */
@@ -104,7 +114,6 @@ const watermark = computed({
   set: (val) => {
     settingsStore.changeSetting({ key: 'watermark', value: val });
     settingsStore.getWatermarkContent();
-    saveSetting();
   },
 });
 /**水印内容 */
@@ -113,7 +122,6 @@ const watermarkContent = computed({
   set: (val) => {
     settingsStore.changeSetting({ key: 'watermarkContent', value: val });
     settingsStore.getWatermarkContent();
-    saveSetting();
   },
 });
 /**是否需要折叠侧边栏 */
@@ -122,7 +130,6 @@ const sidebarCollapse = computed({
   set: (val) => {
     settingsStore.changeSetting({ key: 'sidebarCollapse', value: val });
     settingsStore.setMenuWidth();
-    saveSetting();
   },
 });
 /**是否需要侧边栏的动态网页的title */
@@ -132,7 +139,6 @@ const dynamicTitle = computed({
     settingsStore.changeSetting({ key: 'dynamicTitle', value: val });
     // 动态设置网页标题
     useDynamicTitle();
-    saveSetting();
   },
 });
 
@@ -141,7 +147,6 @@ const breadcrumb = computed({
   get: () => storeSettings.value.breadcrumb,
   set: (val) => {
     settingsStore.changeSetting({ key: 'breadcrumb', value: val });
-    saveSetting();
   },
 });
 /**是否开启垂直菜单 */
@@ -150,7 +155,6 @@ const verticalMenu = computed({
   set: (val) => {
     settingsStore.changeSetting({ key: 'horizontalMenu', value: !val });
     settingsStore.changeSetting({ key: 'horizontalMenuExclusive', value: false });
-    saveSetting();
   },
 });
 /**是否开启垂直菜单 */
@@ -158,7 +162,6 @@ const menuWidth = computed({
   get: () => storeSettings.value.menuWidth,
   set: (val) => {
     settingsStore.changeSetting({ key: 'menuWidth', value: val });
-    saveSetting();
   },
 });
 /**是否开启水平菜单 */
@@ -166,7 +169,6 @@ const horizontalMenu = computed({
   get: () => storeSettings.value.horizontalMenu,
   set: (val) => {
     settingsStore.changeSetting({ key: 'horizontalMenu', value: val });
-    saveSetting();
   },
 });
 /**水平菜单对齐位置 */
@@ -174,7 +176,6 @@ const horizontalMenuLocation = computed({
   get: () => storeSettings.value.horizontalMenuLocation,
   set: (val) => {
     settingsStore.changeSetting({ key: 'horizontalMenuLocation', value: val });
-    saveSetting();
   },
 });
 /**是否开启水平菜单独占一行 */
@@ -182,7 +183,6 @@ const horizontalMenuExclusive = computed({
   get: () => storeSettings.value.horizontalMenuExclusive,
   set: (val) => {
     settingsStore.changeSetting({ key: 'horizontalMenuExclusive', value: val });
-    saveSetting();
   },
 });
 /**是否只展开一个子菜单 */
@@ -190,46 +190,18 @@ const uniqueOpened = computed({
   get: () => storeSettings.value.uniqueOpened,
   set: (val) => {
     settingsStore.changeSetting({ key: 'uniqueOpened', value: val });
-    saveSetting();
   },
 });
 
 const handleTheme = () => {
   settingsStore.changeSetting({ key: 'isDark', value: isDark.value });
   handleThemeStyle(theme.value, isDark.value);
-  saveSetting();
 };
 
 const themeChange = (val) => {
   settingsStore.changeSetting({ key: 'theme', value: val });
   theme.value = val;
   handleThemeStyle(val, isDark.value);
-  saveSetting();
-};
-
-const saveSetting = () => {
-  // proxy.$modal.loading('正在保存到本地，请稍候...');
-  let layoutSetting = {
-    topNav: storeSettings.value.topNav,
-    tagsView: storeSettings.value.tagsView,
-    fixedHeader: storeSettings.value.fixedHeader,
-    sidebarLogo: storeSettings.value.sidebarLogo,
-    dynamicTitle: storeSettings.value.dynamicTitle,
-    sideTheme: storeSettings.value.sideTheme,
-    isDark: storeSettings.value.isDark,
-    theme: storeSettings.value.theme,
-    breadcrumb: storeSettings.value.breadcrumb,
-    horizontalMenu: storeSettings.value.horizontalMenu,
-    horizontalMenuLocation: storeSettings.value.horizontalMenuLocation,
-    horizontalMenuExclusive: storeSettings.value.horizontalMenuExclusive,
-    menuWidth: storeSettings.value.menuWidth,
-    watermark: storeSettings.value.watermark,
-    watermarkContent: storeSettings.value.watermarkContent,
-    watermarkText: storeSettings.value.watermarkText,
-    isUniqueOpened: storeSettings.value.isUniqueOpened,
-  };
-  localStorage.setItem('layout-setting', JSON.stringify(layoutSetting));
-  // setTimeout(proxy.$modal.closeLoading(), 1000);
 };
 
 const resetSetting = () => {
@@ -248,9 +220,8 @@ defineExpose({
 </script>
 
 <style lang="scss" scoped>
-:deep(.el-overlay){
-  .el-drawer{
-
+:deep(.el-overlay) {
+  .el-drawer {
     :deep(.el-drawer__header) {
       margin-bottom: 0;
     }

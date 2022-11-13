@@ -1,4 +1,3 @@
-import defaultSettings from '@/settings';
 import useSettingsStore from '@/store/modules/settings';
 
 /**
@@ -7,8 +6,8 @@ import useSettingsStore from '@/store/modules/settings';
 export function useDynamicTitle() {
   const settingsStore = useSettingsStore();
   if (settingsStore.dynamicTitle) {
-    document.title = settingsStore.title + ' - ' + defaultSettings.appTitle;
+    document.title = settingsStore.title + ' - ' + settingsStore.appTitle;
   } else {
-    document.title = defaultSettings.appTitle;
+    document.title = settingsStore.appTitle;
   }
 }

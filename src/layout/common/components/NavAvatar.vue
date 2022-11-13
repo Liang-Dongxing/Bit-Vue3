@@ -124,8 +124,8 @@ function openSetting() {
     }
   }
 
-  .el-button,
-  .el-dropdown {
+  > .el-button,
+  > .el-dropdown {
     padding: 0 7px;
     height: 60px;
   }

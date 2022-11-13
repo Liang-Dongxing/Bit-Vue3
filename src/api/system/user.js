@@ -1,5 +1,5 @@
 import request from '@/utils/request';
-import defaultConstant from '@/constant';
+import defaultConstant from '@/utils/constant';
 import { parseStrEmpty } from '@/utils/bit';
 
 // 查询用户列表
