@@ -7,49 +7,49 @@
       <el-form-item label="岗位名称" prop="postName">
         <el-input v-model="queryParams.postName" placeholder="请输入岗位名称" clearable @keyup.enter="handleQuery" />
       </el-form-item>
-      <el-form-item label="状态" prop="status">
+      <el-form-item :label="$t('om.status')" prop="status">
         <el-select v-model="queryParams.status" placeholder="岗位状态" clearable>
           <el-option v-for="dict in sys_normal_disable" :key="dict.value" :label="dict.label" :value="dict.value" />
         </el-select>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" icon="Search" @click="handleQuery">搜索</el-button>
-        <el-button icon="Refresh" @click="resetQuery">重置</el-button>
+        <el-button type="primary" icon="Search" @click="handleQuery">{{ $t('om.search') }}</el-button>
+        <el-button icon="Refresh" @click="resetQuery">{{ $t('om.reset') }}</el-button>
       </el-form-item>
     </el-form>
 
     <el-row justify="space-between" class="om-table-header">
       <el-col :span="21" :xs="24" :sm="18" :md="18" :lg="18" :xl="21">
-        <el-button type="primary" icon="Plus" @click="handleAdd" v-hasPermi="['system:post:add']">新增</el-button>
-        <el-button type="success" icon="Edit" :disabled="single" @click="handleUpdate" v-hasPermi="['system:post:edit']">修改</el-button>
-        <el-button type="danger" icon="Delete" :disabled="multiple" @click="handleDelete" v-hasPermi="['system:post:remove']">删除</el-button>
-        <el-button type="warning" icon="Download" @click="handleExport" v-hasPermi="['system:post:export']">导出</el-button>
+        <el-button type="primary" icon="Plus" @click="handleAdd" v-hasPermi="['system:post:add']">{{ $t('om.add') }}</el-button>
+        <el-button type="success" icon="Edit" :disabled="single" @click="handleUpdate" v-hasPermi="['system:post:edit']">{{ $t('om.edit') }}</el-button>
+        <el-button type="danger" icon="Delete" :disabled="multiple" @click="handleDelete" v-hasPermi="['system:post:remove']">{{ $t('om.delete') }}</el-button>
+        <el-button type="warning" icon="Download" @click="handleExport" v-hasPermi="['system:post:export']">{{ $t('om.export') }}</el-button>
       </el-col>
       <right-toolbar v-model:showSearch="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
     <el-table v-loading="loading" :data="postList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="岗位编号" align="center" prop="postId" width="120" />
+      <el-table-column :label="$t('om.no')" align="center" prop="postId" width="120" />
       <el-table-column label="岗位编码" align="center" prop="postCode" />
       <el-table-column label="岗位名称" align="center" prop="postName" />
       <el-table-column label="岗位排序" align="center" prop="postSort" width="120" />
-      <el-table-column label="状态" align="center" prop="status" width="100">
+      <el-table-column :label="$t('om.status')" align="center" prop="status" width="100">
         <template #default="scope">
           <dict-tag :options="sys_normal_disable" :value="scope.row.status" />
         </template>
       </el-table-column>
-      <el-table-column label="创建时间" align="center" prop="createTime" width="180">
+      <el-table-column :label="$t('om.creation_time')" align="center" prop="createTime" width="180">
         <template #default="scope">
           <span>{{ parseTime(scope.row.createTime) }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="操作" align="center" class-name="om-table-operation" width="150">
+      <el-table-column :label="$t('om.operation')" align="center" class-name="om-table-operation" width="150">
         <template #default="scope">
-          <el-tooltip content="修改" placement="top">
+          <el-tooltip :content="$t('om.edit')" placement="top">
             <el-button type="success" icon="Edit" @click="handleUpdate(scope.row)" v-hasPermi="['system:post:edit']"></el-button>
           </el-tooltip>
-          <el-tooltip content="修改" placement="top">
+          <el-tooltip :content="$t('om.edit')" placement="top">
             <el-button type="danger" icon="Delete" @click="handleDelete(scope.row)" v-hasPermi="['system:post:remove']"></el-button>
           </el-tooltip>
         </template>

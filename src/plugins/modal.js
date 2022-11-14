@@ -1,4 +1,5 @@
 import { ElLoading, ElMessage, ElMessageBox, ElNotification } from 'element-plus';
+import { i18n } from "@/language"
 
 let loadingInstance;
 
@@ -21,19 +22,19 @@ export default {
   },
   // 弹出提示
   alert(content) {
-    ElMessageBox.alert(content, '系统提示');
+    ElMessageBox.alert(content, i18n.global.t('om.system_prompt'));
   },
   // 错误提示
   alertError(content) {
-    ElMessageBox.alert(content, '系统提示', { type: 'error' });
+    ElMessageBox.alert(content, i18n.global.t('om.system_prompt'), { type: 'error' });
   },
   // 成功提示
   alertSuccess(content) {
-    ElMessageBox.alert(content, '系统提示', { type: 'success' });
+    ElMessageBox.alert(content, i18n.global.t('om.system_prompt'), { type: 'success' });
   },
   // 警告提示
   alertWarning(content) {
-    ElMessageBox.alert(content, '系统提示', { type: 'warning' });
+    ElMessageBox.alert(content, i18n.global.t('om.system_prompt'), { type: 'warning' });
   },
   // 通知提示
   notify(content) {
@@ -53,17 +54,17 @@ export default {
   },
   // 确认窗体
   confirm(content) {
-    return ElMessageBox.confirm(content, '系统提示', {
-      confirmButtonText: '确定',
-      cancelButtonText: '取消',
+    return ElMessageBox.confirm(content, i18n.global.t('om.system_prompt'), {
+      confirmButtonText: i18n.global.t('om.save'),
+      cancelButtonText: i18n.global.t('om.cancel'),
       type: 'warning',
     });
   },
   // 提交内容
   prompt(content) {
-    return ElMessageBox.prompt(content, '系统提示', {
-      confirmButtonText: '确定',
-      cancelButtonText: '取消',
+    return ElMessageBox.prompt(content, i18n.global.t('om.system_prompt'), {
+      confirmButtonText: i18n.global.t('om.save'),
+      cancelButtonText: i18n.global.t('om.cancel'),
       type: 'warning',
     });
   },

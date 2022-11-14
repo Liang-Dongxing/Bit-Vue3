@@ -10,19 +10,19 @@
         </el-select>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" icon="Search" @click="handleQuery">搜索</el-button>
-        <el-button icon="Refresh" @click="resetQuery">重置</el-button>
+        <el-button type="primary" icon="Search" @click="handleQuery">{{ $t('om.search') }}</el-button>
+        <el-button icon="Refresh" @click="resetQuery">{{ $t('om.reset') }}</el-button>
       </el-form-item>
     </el-form>
 
     <el-row justify="space-between" class="om-table-header">
       <el-col :span="21" :xs="24" :sm="18" :md="18" :lg="18" :xl="21">
-        <el-button type="primary" plain icon="Plus" @click="handleAdd" v-hasPermi="['ops:ddns:add']">新增</el-button>
-        <el-button type="success" plain icon="Edit" :disabled="single" @click="handleUpdate" v-hasPermi="['ops:ddns:edit']">修改</el-button>
-        <el-button type="danger" plain icon="Delete" :disabled="multiple" @click="handleDelete" v-hasPermi="['ops:ddns:remove']">删除</el-button>
-        <el-button type="warning" plain icon="Download" @click="handleExport" v-hasPermi="['ops:ddns:export']">导出</el-button>
+        <el-button type="primary" plain icon="Plus" @click="handleAdd" v-hasPermi="['ops:ddns:add']">{{ $t('om.add') }}</el-button>
+        <el-button type="success" plain icon="Edit" :disabled="single" @click="handleUpdate" v-hasPermi="['ops:ddns:edit']">{{ $t('om.edit') }}</el-button>
+        <el-button type="danger" plain icon="Delete" :disabled="multiple" @click="handleDelete" v-hasPermi="['ops:ddns:remove']">{{ $t('om.delete') }}</el-button>
+        <el-button type="warning" plain icon="Download" @click="handleExport" v-hasPermi="['ops:ddns:export']">{{ $t('om.export') }}</el-button>
         <el-button type="primary" plain icon="Link">
-          <router-link to="/tool/ak" class="router-link">AK 配置</router-link>
+          <router-link to="/tool/ak" class="router-link">{{ $t('om.ak_configuration') }}</router-link>
         </el-button>
       </el-col>
       <right-toolbar v-model:showSearch="showSearch" @queryTable="getList"></right-toolbar>
@@ -41,10 +41,14 @@
       <el-table-column label="记录值" align="center" prop="recordTheValue" />
       <el-table-column label="Access ID" align="center" prop="accessId" />
       <el-table-column label="备注" align="center" prop="remark" />
-      <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
+      <el-table-column :label="$t('om.operation')" align="center" class-name="om-table-operation">
         <template #default="scope">
-          <el-button type="text" icon="Edit" @click="handleUpdate(scope.row)" v-hasPermi="['ops:ddns:edit']">修改</el-button>
-          <el-button type="text" icon="Delete" @click="handleDelete(scope.row)" v-hasPermi="['ops:ddns:remove']">删除</el-button>
+          <el-tooltip :content="$t('om.edit')" placement="top">
+            <el-button type="success" icon="Edit" @click="handleUpdate(scope.row)" v-hasPermi="['ops:ddns:edit']"></el-button>
+          </el-tooltip>
+          <el-tooltip :content="$t('om.delete')" placement="top">
+            <el-button type="danger" icon="Delete" @click="handleDelete(scope.row)" v-hasPermi="['ops:ddns:remove']"></el-button>
+          </el-tooltip>
         </template>
       </el-table-column>
     </el-table>

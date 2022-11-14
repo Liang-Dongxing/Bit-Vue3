@@ -2,7 +2,7 @@
   <el-card shadow="hover">
     <template #header>
       <div class="clearfix">
-        <span>Bit 更新日志</span>
+        <span>Bit {{ $t('om.update_log') }}</span>
       </div>
     </template>
     <el-collapse accordion>
@@ -23,7 +23,7 @@
   <el-card shadow="hover">
     <template #header>
       <div class="clearfix">
-        <span>若依 更新日志</span>
+        <span>若依 {{ $t('om.update_log') }}</span>
       </div>
     </template>
     <el-collapse accordion>

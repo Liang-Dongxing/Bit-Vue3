@@ -8,8 +8,8 @@
         <el-input v-model="queryParams.userName" placeholder="请输入用户名称" clearable @keyup.enter="handleQuery" />
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" icon="Search" @click="handleQuery">搜索</el-button>
-        <el-button icon="Refresh" @click="resetQuery">重置</el-button>
+        <el-button type="primary" icon="Search" @click="handleQuery">{{ $t('om.search') }}</el-button>
+        <el-button icon="Refresh" @click="resetQuery">{{ $t('om.reset') }}</el-button>
       </el-form-item>
     </el-form>
     <el-table v-loading="loading" :data="onlineList.slice((pageNum - 1) * pageSize, pageNum * pageSize)" style="width: 100%">
@@ -18,7 +18,7 @@
           <span>{{ (pageNum - 1) * pageSize + scope.$index + 1 }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="会话编号" align="center" prop="tokenId" :show-overflow-tooltip="true" />
+      <el-table-column :label="$t('om.no')" align="center" prop="tokenId" :show-overflow-tooltip="true" />
       <el-table-column label="登录名称" align="center" prop="userName" :show-overflow-tooltip="true" />
       <el-table-column label="所属部门" align="center" prop="deptName" :show-overflow-tooltip="true" />
       <el-table-column label="主机" align="center" prop="ipaddr" :show-overflow-tooltip="true" />
@@ -30,9 +30,9 @@
           <span>{{ parseTime(scope.row.loginTime) }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="操作" align="center" class-name="om-table-operation" width="150">
+      <el-table-column :label="$t('om.operation')" align="center" class-name="om-table-operation" width="150">
         <template #default="scope">
-          <el-tooltip content="强退" placement="top">
+          <el-tooltip :content="$t('om.strong_retreat')" placement="top">
             <el-button type="danger" icon="Delete" @click="handleForceLogout(scope.row)" v-hasPermi="['monitor:online:forceLogout']"></el-button>
           </el-tooltip>
         </template>

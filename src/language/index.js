@@ -10,17 +10,19 @@ import { createI18n } from 'vue-i18n';
 import elementZhcnLocale from 'element-plus/lib/locale/lang/zh-cn';
 import elementEnLocale from 'element-plus/lib/locale/lang/en';
 
+export let i18n = null;
+
 const assignLocale = {
   'zh-cn': [elementZhcnLocale],
   en: [elementEnLocale],
 };
 
-export function loadLang(app) {
+export async function loadLang(app) {
   const config = useLanguageStore();
   const locale = config.defaultLang;
 
   // 加载框架语言包
-  const lang = import(`./globs-${locale}.js`);
+  const lang = await import(`./globs-${locale}.js`);
   const message = lang.default ?? {};
 
   /*
@@ -28,8 +30,8 @@ export function loadLang(app) {
    * 1、vue3 setup 内只能使用 useI18n({messages:{}}) 来动态载入当前页面单独的语言包，不方便使用
    * 2、直接载入所有 /@/lang/pages/语言/*.ts 文件，若某页面有特别大量的语言配置，可在其他位置单独建立语言包文件，并在对应页面加载语言包
    */
-  const pages = `./pages/${locale}/lang.js`;
-  assignLocale[locale].push(getLangFileMessage(import(pages), locale));
+  // const pages = `./pages/${locale}/lang.js`;
+  // assignLocale[locale].push(getLangFileMessage(import(pages), locale));
 
   const messages = {
     [locale]: {
@@ -39,8 +41,8 @@ export function loadLang(app) {
 
   // 合并语言包(含element-puls、页面语言包)
   Object.assign(messages[locale], ...assignLocale[locale]);
-
-  const i18n = createI18n({
+  console.log(messages);
+  i18n = createI18n({
     locale: locale,
     legacy: false, // 组合式api
     globalInjection: true, // 挂载$t,$d等到全局

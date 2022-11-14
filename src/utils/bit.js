@@ -1,3 +1,4 @@
+import { i18n } from '@/language';
 /**
  * 通用js方法封装处理
  * Copyright (c) 2019 bit
@@ -258,19 +259,19 @@ export const getGreet = () => {
   let greet = '';
 
   if (hour < 5) {
-    greet = '夜深了，注意身体哦！';
+    greet = i18n.global.t('om.greet_1');
   } else if (hour < 9) {
-    greet = '早上好！';
+    greet = i18n.global.t('om.greet_2');
   } else if (hour < 12) {
-    greet = '上午好';
+    greet = i18n.global.t('om.greet_3');
   } else if (hour < 14) {
-    greet = '中午好！';
+    greet = i18n.global.t('om.greet_4');
   } else if (hour < 18) {
-    greet = '下午好！';
+    greet = i18n.global.t('om.greet_5');
   } else if (hour < 24) {
-    greet = '晚上好！';
+    greet = i18n.global.t('om.greet_6');
   } else {
-    greet = '您好！';
+    greet = i18n.global.t('om.greet_7');
   }
   return greet;
 };

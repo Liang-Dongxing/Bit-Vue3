@@ -7,21 +7,21 @@
       <el-form-item label="表描述" prop="tableComment">
         <el-input v-model="queryParams.tableComment" placeholder="请输入表描述" clearable @keyup.enter="handleQuery" />
       </el-form-item>
-      <el-form-item label="创建时间" style="width: 308px">
-        <el-date-picker v-model="dateRange" value-format="YYYY-MM-DD" type="daterange" range-separator="-" start-placeholder="开始日期" end-placeholder="结束日期"></el-date-picker>
+      <el-form-item :label="$t('om.creation_time')" style="width: 308px">
+        <el-date-picker v-model="dateRange" value-format="YYYY-MM-DD" type="daterange" range-separator="-" :start-placeholder="$t('om.start_date')" :end-placeholder="$t('om.end_date')"></el-date-picker>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" icon="Search" @click="handleQuery">搜索</el-button>
-        <el-button icon="Refresh" @click="resetQuery">重置</el-button>
+        <el-button type="primary" icon="Search" @click="handleQuery">{{ $t('om.search') }}</el-button>
+        <el-button icon="Refresh" @click="resetQuery">{{ $t('om.reset') }}</el-button>
       </el-form-item>
     </el-form>
 
     <el-row justify="space-between" class="om-table-header">
       <el-col :span="21" :xs="24" :sm="18" :md="18" :lg="18" :xl="21">
-        <el-button type="primary" icon="Download" @click="handleGenTable" v-hasPermi="['tool:gen:code']">生成</el-button>
-        <el-button type="info" icon="Upload" @click="openImportTable" v-hasPermi="['tool:gen:import']">导入</el-button>
-        <el-button type="success" icon="Edit" :disabled="single" @click="handleEditTable" v-hasPermi="['tool:gen:edit']">修改</el-button>
-        <el-button type="danger" icon="Delete" :disabled="multiple" @click="handleDelete" v-hasPermi="['tool:gen:remove']">删除</el-button>
+        <el-button type="primary" icon="Download" @click="handleGenTable" v-hasPermi="['tool:gen:code']">{{ $t('om.generate') }}</el-button>
+        <el-button type="info" icon="Upload" @click="openImportTable" v-hasPermi="['tool:gen:import']">{{ $t('om.import') }}</el-button>
+        <el-button type="success" icon="Edit" :disabled="single" @click="handleEditTable" v-hasPermi="['tool:gen:edit']">{{ $t('om.edit') }}</el-button>
+        <el-button type="danger" icon="Delete" :disabled="multiple" @click="handleDelete" v-hasPermi="['tool:gen:remove']">{{ $t('om.delete') }}</el-button>
       </el-col>
       <right-toolbar v-model:showSearch="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
@@ -36,9 +36,9 @@
       <el-table-column label="表名称" align="center" prop="tableName" :show-overflow-tooltip="true" />
       <el-table-column label="表描述" align="center" prop="tableComment" :show-overflow-tooltip="true" />
       <el-table-column label="实体" align="center" prop="className" :show-overflow-tooltip="true" />
-      <el-table-column label="创建时间" align="center" prop="createTime" width="180" />
+      <el-table-column :label="$t('om.creation_time')" align="center" prop="createTime" width="180" />
       <el-table-column label="更新时间" align="center" prop="updateTime" width="180" />
-      <el-table-column label="操作" align="center" width="330" class-name="om-table-operation">
+      <el-table-column :label="$t('om.operation')" align="center" width="330" class-name="om-table-operation">
         <template #default="scope">
           <el-tooltip content="预览" placement="top">
             <el-button icon="View" @click="handlePreview(scope.row)" v-hasPermi="['tool:gen:preview']"></el-button>
@@ -46,7 +46,7 @@
           <el-tooltip content="编辑" placement="top">
             <el-button type="success" icon="Edit" @click="handleEditTable(scope.row)" v-hasPermi="['tool:gen:edit']"></el-button>
           </el-tooltip>
-          <el-tooltip content="删除" placement="top">
+          <el-tooltip :content="$t('om.delete')" placement="top">
             <el-button type="danger" icon="Delete" @click="handleDelete(scope.row)" v-hasPermi="['tool:gen:remove']"></el-button>
           </el-tooltip>
           <el-tooltip content="同步" placement="top">

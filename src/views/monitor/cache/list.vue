@@ -13,7 +13,7 @@
             <el-table-column label="缓存名称" align="center" prop="cacheName" :show-overflow-tooltip="true" :formatter="nameFormatter"></el-table-column>
 
             <el-table-column label="备注" align="center" prop="remark" :show-overflow-tooltip="true" />
-            <el-table-column label="操作" width="150" align="center" class-name="om-table-operation">
+            <el-table-column :label="$t('om.operation')" width="150" align="center" class-name="om-table-operation">
               <template #default="scope">
                 <el-button type="danger" icon="Delete" @click="handleClearCacheName(scope.row)"></el-button>
               </template>
@@ -31,7 +31,7 @@
           <el-table v-loading="subLoading" :data="cacheKeys" :height="tableHeight" highlight-current-row @row-click="handleCacheValue" style="width: 100%">
             <el-table-column label="序号" width="120" type="index"></el-table-column>
             <el-table-column label="缓存键名" align="center" :show-overflow-tooltip="true" :formatter="keyFormatter"></el-table-column>
-            <el-table-column label="操作" width="150" align="center" class-name="om-table-operation">
+            <el-table-column :label="$t('om.operation')" width="150" align="center" class-name="om-table-operation">
               <template #default="scope">
                 <el-button type="danger" icon="Delete" @click="handleClearCacheKey(scope.row)"></el-button>
               </template>

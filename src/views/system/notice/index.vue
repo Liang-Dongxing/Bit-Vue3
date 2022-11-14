@@ -13,16 +13,16 @@
         </el-select>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" icon="Search" @click="handleQuery">搜索</el-button>
-        <el-button icon="Refresh" @click="resetQuery">重置</el-button>
+        <el-button type="primary" icon="Search" @click="handleQuery">{{ $t('om.search') }}</el-button>
+        <el-button icon="Refresh" @click="resetQuery">{{ $t('om.reset') }}</el-button>
       </el-form-item>
     </el-form>
 
     <el-row justify="space-between" class="om-table-header">
       <el-col :span="21" :xs="24" :sm="18" :md="18" :lg="18" :xl="21">
-        <el-button type="primary" icon="Plus" @click="handleAdd" v-hasPermi="['system:notice:add']">新增</el-button>
-        <el-button type="success" icon="Edit" :disabled="single" @click="handleUpdate" v-hasPermi="['system:notice:edit']">修改</el-button>
-        <el-button type="danger" icon="Delete" :disabled="multiple" @click="handleDelete" v-hasPermi="['system:notice:remove']">删除</el-button>
+        <el-button type="primary" icon="Plus" @click="handleAdd" v-hasPermi="['system:notice:add']">{{ $t('om.add') }}</el-button>
+        <el-button type="success" icon="Edit" :disabled="single" @click="handleUpdate" v-hasPermi="['system:notice:edit']">{{ $t('om.edit') }}</el-button>
+        <el-button type="danger" icon="Delete" :disabled="multiple" @click="handleDelete" v-hasPermi="['system:notice:remove']">{{ $t('om.delete') }}</el-button>
       </el-col>
       <right-toolbar v-model:showSearch="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
@@ -36,23 +36,23 @@
           <dict-tag :options="sys_notice_type" :value="scope.row.noticeType" />
         </template>
       </el-table-column>
-      <el-table-column label="状态" align="center" prop="status" width="100">
+      <el-table-column :label="$t('om.status')" align="center" prop="status" width="100">
         <template #default="scope">
           <dict-tag :options="sys_notice_status" :value="scope.row.status" />
         </template>
       </el-table-column>
       <el-table-column label="创建者" align="center" prop="createBy" width="100" />
-      <el-table-column label="创建时间" align="center" prop="createTime" width="100">
+      <el-table-column :label="$t('om.creation_time')" align="center" prop="createTime" width="100">
         <template #default="scope">
           <span>{{ parseTime(scope.row.createTime, '{y}-{m}-{d}') }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="操作" align="center" width="150" class-name="om-table-operation">
+      <el-table-column :label="$t('om.operation')" align="center" width="150" class-name="om-table-operation">
         <template #default="scope">
-          <el-tooltip content="修改" placement="top">
+          <el-tooltip :content="$t('om.edit')" placement="top">
             <el-button type="success" icon="Edit" @click="handleUpdate(scope.row)" v-hasPermi="['system:notice:edit']"></el-button>
           </el-tooltip>
-          <el-tooltip content="删除" placement="top">
+          <el-tooltip :content="$t('om.delete')" placement="top">
             <el-button type="danger" icon="Delete" @click="handleDelete(scope.row)" v-hasPermi="['system:notice:remove']"></el-button>
           </el-tooltip>
         </template>
@@ -78,7 +78,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="24">
-            <el-form-item label="状态">
+            <el-form-item :label="$t('om.status')">
               <el-radio-group v-model="form.status">
                 <el-radio v-for="dict in sys_notice_status" :key="dict.value" :label="dict.value">{{ dict.label }}</el-radio>
               </el-radio-group>

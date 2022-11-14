@@ -15,19 +15,19 @@
         </el-select>
       </el-form-item>
       <el-form-item label="执行时间" style="width: 308px">
-        <el-date-picker v-model="dateRange" value-format="YYYY-MM-DD" type="daterange" range-separator="-" start-placeholder="开始日期" end-placeholder="结束日期"></el-date-picker>
+        <el-date-picker v-model="dateRange" value-format="YYYY-MM-DD" type="daterange" range-separator="-" :start-placeholder="$t('om.start_date')" :end-placeholder="$t('om.end_date')"></el-date-picker>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" icon="Search" @click="handleQuery">搜索</el-button>
-        <el-button icon="Refresh" @click="resetQuery">重置</el-button>
+        <el-button type="primary" icon="Search" @click="handleQuery">{{ $t('om.search') }}</el-button>
+        <el-button icon="Refresh" @click="resetQuery">{{ $t('om.reset') }}</el-button>
       </el-form-item>
     </el-form>
 
     <el-row justify="space-between" class="om-table-header">
       <el-col :span="21" :xs="24" :sm="18" :md="18" :lg="18" :xl="21">
-        <el-button type="danger" icon="Delete" :disabled="multiple" @click="handleDelete" v-hasPermi="['monitor:job:remove']">删除</el-button>
-        <el-button type="danger" icon="Delete" @click="handleClean" v-hasPermi="['monitor:job:remove']">清空</el-button>
-        <el-button type="warning" icon="Download" @click="handleExport" v-hasPermi="['monitor:job:export']">导出</el-button>
+        <el-button type="danger" icon="Delete" :disabled="multiple" @click="handleDelete" v-hasPermi="['monitor:job:remove']">{{ $t('om.delete') }}</el-button>
+        <el-button type="danger" icon="Delete" @click="handleClean" v-hasPermi="['monitor:job:remove']">{{ $t('om.empty') }}</el-button>
+        <el-button type="warning" icon="Download" @click="handleExport" v-hasPermi="['monitor:job:export']">{{ $t('om.export') }}</el-button>
         <el-button type="warning" icon="Close" @click="handleClose">关闭</el-button>
       </el-col>
       <right-toolbar v-model:showSearch="showSearch" @queryTable="getList"></right-toolbar>
@@ -35,7 +35,7 @@
 
     <el-table v-loading="loading" :data="jobLogList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="日志编号" width="80" align="center" prop="jobLogId" />
+      <el-table-column :label="$t('om.no')" width="80" align="center" prop="jobLogId" />
       <el-table-column label="任务名称" align="center" prop="jobName" :show-overflow-tooltip="true" />
       <el-table-column label="任务组名" align="center" prop="jobGroup" :show-overflow-tooltip="true">
         <template #default="scope">
@@ -54,7 +54,7 @@
           <span>{{ parseTime(scope.row.createTime) }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="操作" align="center" class-name="om-table-operation" width="150">
+      <el-table-column :label="$t('om.operation')" align="center" class-name="om-table-operation" width="150">
         <template #default="scope">
           <el-button icon="View" @click="handleView(scope.row)" v-hasPermi="['monitor:job:query']">详细</el-button>
         </template>

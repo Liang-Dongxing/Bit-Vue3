@@ -1,14 +1,14 @@
 <template>
   <el-col :span="3" :sm="5" :md="5" :lg="6" :xl="3" class="top-right-btn hidden-xs-only">
     <el-button-group>
-      <el-tooltip class="item" effect="dark" :content="showSearch ? '隐藏搜索' : '显示搜索'" placement="top" v-if="search">
+      <el-tooltip class="item" effect="dark" :content="showSearch ? $t('om.hide_search') : $t('om.show_search')" placement="top" v-if="search">
         <el-button icon="Search" @click="toggleSearch()" />
       </el-tooltip>
-      <el-tooltip class="item" effect="dark" content="刷新" placement="top">
+      <el-tooltip class="item" effect="dark" :content="$t('om.refresh')" placement="top">
         <el-button icon="Refresh" @click="refresh()" />
       </el-tooltip>
     </el-button-group>
-    <el-tooltip class="item" effect="dark" content="显隐列" placement="top" v-if="columns">
+    <el-tooltip class="item" effect="dark" :content="$t('om.hidden_column')" placement="top" v-if="columns">
       <el-dropdown :hide-on-click="false">
         <el-button icon="Menu" />
         <template #dropdown>

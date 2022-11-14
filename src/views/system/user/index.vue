@@ -4,7 +4,7 @@
       <!--部门数据-->
       <el-col :span="4" :md="24" :lg="6" :xl="4" class="dept-tree hidden-xs-only hidden-sm-only">
         <div class="head-container">
-          <el-input v-model="deptName" placeholder="请输入部门名称" clearable prefix-icon="Search" style="margin-bottom: 20px" />
+          <el-input v-model="deptName" :placeholder="$t('om.please_enter') + $t('om.user.department')" clearable prefix-icon="Search" style="margin-bottom: 20px" />
         </div>
         <div class="head-container">
           <el-tree :data="deptOptions" :props="{ label: 'label', children: 'children' }" :expand-on-click-node="false" :filter-node-method="filterNode" ref="deptTreeRef" node-key="id" highlight-current default-expand-all @node-click="handleNodeClick" />
@@ -12,67 +12,71 @@
       </el-col>
       <!--用户数据-->
       <el-col :span="20" :xs="24" :sm="24" :md="24" :lg="18" :xl="20">
-        <el-form :model="queryParams" ref="queryRef" :inline="true" v-show="showSearch" class="om-table-header" label-width="70px">
-          <el-form-item label="用户名称" prop="userName">
-            <el-input v-model="queryParams.userName" placeholder="请输入用户名称" clearable @keyup.enter="handleQuery" />
+        <el-form :model="queryParams" ref="queryRef" :inline="true" v-show="showSearch" class="om-table-header">
+          <el-form-item :label="$t('om.user.user_name')" prop="userName">
+            <el-input v-model="queryParams.userName" :placeholder="$t('om.fuzzy_query')" clearable @keyup.enter="handleQuery" />
           </el-form-item>
-          <el-form-item label="手机号码" prop="phonenumber">
-            <el-input v-model="queryParams.phonenumber" placeholder="请输入手机号码" clearable @keyup.enter="handleQuery" />
+          <el-form-item :label="$t('om.user.mobile_phone_number')" prop="phonenumber">
+            <el-input v-model="queryParams.phonenumber" :placeholder="$t('om.fuzzy_query')" clearable @keyup.enter="handleQuery" />
           </el-form-item>
-          <el-form-item label="状态" prop="status">
-            <el-select v-model="queryParams.status" placeholder="用户状态" clearable>
+          <el-form-item :label="$t('om.status')" prop="status">
+            <el-select v-model="queryParams.status" :placeholder="$t('om.select')" clearable>
               <el-option v-for="dict in sys_normal_disable" :key="dict.value" :label="dict.label" :value="dict.value" />
             </el-select>
           </el-form-item>
-          <el-form-item label="创建时间">
-            <el-date-picker v-model="dateRange" value-format="YYYY-MM-DD" type="daterange" range-separator="-" start-placeholder="开始日期" end-placeholder="结束日期"></el-date-picker>
+          <el-form-item :label="$t('om.creation_time')">
+            <el-date-picker v-model="dateRange" value-format="YYYY-MM-DD" type="daterange" range-separator="-" :start-placeholder="$t('om.start_date')" :end-placeholder="$t('om.end_date')"></el-date-picker>
           </el-form-item>
           <el-form-item>
-            <el-button type="primary" icon="Search" @click="handleQuery">搜索</el-button>
-            <el-button icon="Refresh" @click="resetQuery">重置</el-button>
+            <el-button type="primary" icon="Search" @click="handleQuery">{{ $t('om.search') }}</el-button>
+            <el-button icon="Refresh" @click="resetQuery">{{ $t('om.reset') }}</el-button>
           </el-form-item>
         </el-form>
 
         <el-row justify="space-between" class="om-table-header">
           <el-col :span="21" :xs="24" :sm="19" :md="19" :lg="18" :xl="21">
-            <el-button type="primary" icon="Plus" @click="handleAdd" v-hasPermi="['system:user:add']">新增</el-button>
-            <el-button type="success" icon="Edit" :disabled="single" @click="handleUpdate" v-hasPermi="['system:user:edit']">修改</el-button>
-            <el-button type="danger" icon="Delete" :disabled="multiple" @click="handleDelete" v-hasPermi="['system:user:remove']">删除</el-button>
-            <el-button type="info" icon="Upload" @click="handleImport" v-hasPermi="['system:user:import']">导入</el-button>
-            <el-button type="warning" icon="Download" @click="handleExport" v-hasPermi="['system:user:export']">导出</el-button>
+            <el-button type="primary" icon="Plus" @click="handleAdd" v-hasPermi="['system:user:add']">{{ $t('om.add') }}</el-button>
+            <el-button type="success" icon="Edit" :disabled="single" @click="handleUpdate" v-hasPermi="['system:user:edit']">{{ $t('om.edit') }}</el-button>
+            <el-button type="danger" icon="Delete" :disabled="multiple" @click="handleDelete" v-hasPermi="['system:user:remove']">{{ $t('om.delete') }}</el-button>
+            <el-button type="info" icon="Upload" @click="handleImport" v-hasPermi="['system:user:import']">
+              {{ $t('om.import') }}
+            </el-button>
+            <el-button type="warning" icon="Download" @click="handleExport" v-hasPermi="['system:user:export']">
+              {{ $t('om.export') }}
+            </el-button>
           </el-col>
           <right-toolbar v-model:showSearch="showSearch" @queryTable="getList" :columns="columns"></right-toolbar>
         </el-row>
 
         <el-table v-loading="loading" :data="userList" @selection-change="handleSelectionChange">
           <el-table-column type="selection" width="50" align="center" />
-          <el-table-column label="用户编号" align="center" key="userId" prop="userId" v-if="columns[0].visible" width="120" />
-          <el-table-column label="用户名称" align="center" key="userName" prop="userName" v-if="columns[1].visible" :show-overflow-tooltip="true" />
-          <el-table-column label="用户昵称" align="center" key="nickName" prop="nickName" v-if="columns[2].visible" :show-overflow-tooltip="true" />
-          <el-table-column label="部门" align="center" key="deptName" prop="dept.deptName" v-if="columns[3].visible" :show-overflow-tooltip="true" />
-          <el-table-column label="手机号码" align="center" key="phonenumber" prop="phonenumber" v-if="columns[4].visible" width="120" />
-          <el-table-column label="状态" align="center" key="status" v-if="columns[5].visible">
+          <el-table-column :label="$t('om.no')" align="center" key="userId" prop="userId" v-if="columns[0].visible" width="120" />
+          <el-table-column :label="$t('om.user.user_name')" align="center" key="userName" prop="userName" v-if="columns[1].visible" :show-overflow-tooltip="true" />
+          <el-table-column :label="$t('om.user.user_nickname')" align="center" key="nickName" prop="nickName" v-if="columns[2].visible" :show-overflow-tooltip="true" />
+          <el-table-column :label="$t('om.user.department')" align="center" key="deptName" prop="dept.deptName" v-if="columns[3].visible" :show-overflow-tooltip="true" />
+          <el-table-column :label="$t('om.user.mobile_phone_number')" align="center" key="phonenumber" prop="phonenumber" v-if="columns[4].visible" width="120" />
+          <el-table-column :label="$t('om.status')" align="center" key="status" v-if="columns[5].visible">
             <template #default="scope">
               <el-switch v-model="scope.row.status" active-value="0" inactive-value="1" @change="handleStatusChange(scope.row)"></el-switch>
             </template>
           </el-table-column>
-          <el-table-column label="创建时间" align="center" prop="createTime" v-if="columns[6].visible" width="180">
+          <el-table-column :label="$t('om.creation_time')" align="center" prop="createTime" v-if="columns[6].visible" width="180">
             <template #default="scope">
               <span>{{ parseTime(scope.row.createTime) }}</span>
             </template>
           </el-table-column>
-          <el-table-column label="操作" align="center" width="150" class-name="om-table-operation">
+          <el-table-column :label="$t('om.operation')" align="center" width="150" class-name="om-table-operation">
             <template #default="scope">
-              <el-tooltip content="修改" placement="top" v-if="scope.row.userId !== 1">
+              <el-tooltip :content="$t('om.edit')" placement="top" v-if="scope.row.userId !== 1">
                 <el-button type="success" icon="Edit" @click="handleUpdate(scope.row)" v-hasPermi="['system:user:edit']"></el-button>
               </el-tooltip>
-              <el-tooltip content="删除" placement="top" v-if="scope.row.userId !== 1">
+              <el-tooltip :content="$t('om.delete')" placement="top" v-if="scope.row.userId !== 1">
                 <el-button type="danger" icon="Delete" @click="handleDelete(scope.row)" v-hasPermi="['system:user:remove']"></el-button>
               </el-tooltip>
-              <el-tooltip content="重置密码" placement="top" v-if="scope.row.userId !== 1">
+              <el-tooltip :content="$t('om.reset_password')" placement="top" v-if="scope.row.userId !== 1">
                 <el-button icon="Key" @click="handleResetPwd(scope.row)" v-hasPermi="['system:user:resetPwd']"></el-button>
               </el-tooltip>
-              <el-tooltip content="分配角色" placement="top" v-if="scope.row.userId !== 1">
+              <el-tooltip :content="$t('om.assign_roles')" placement="top" v-if="scope.row.userId !== 1">
                 <el-button icon="CircleCheck" @click="handleAuthRole(scope.row)" v-hasPermi="['system:user:edit']"></el-button>
               </el-tooltip>
             </template>
@@ -84,82 +88,48 @@
 
     <!-- 添加或修改用户配置对话框 -->
     <el-dialog :title="title" v-model="open" width="600px" append-to-body>
-      <el-form :model="form" :rules="rules" ref="userRef" label-width="80px">
-        <el-row>
-          <el-col :span="12">
-            <el-form-item label="用户昵称" prop="nickName">
-              <el-input v-model="form.nickName" placeholder="请输入用户昵称" maxlength="30" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="归属部门" prop="deptId">
-              <el-tree-select v-model="form.deptId" :data="deptOptions" :props="{ value: 'id', label: 'label', children: 'children' }" value-key="id" placeholder="请选择归属部门" check-strictly />
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="12">
-            <el-form-item label="手机号码" prop="phonenumber">
-              <el-input v-model="form.phonenumber" placeholder="请输入手机号码" maxlength="11" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="邮箱" prop="email">
-              <el-input v-model="form.email" placeholder="请输入邮箱" maxlength="50" />
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="12">
-            <el-form-item v-if="form.userId == undefined" label="用户名称" prop="userName">
-              <el-input v-model="form.userName" placeholder="请输入用户名称" maxlength="30" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item v-if="form.userId == undefined" label="用户密码" prop="password">
-              <el-input v-model="form.password" placeholder="请输入用户密码" type="password" maxlength="20" show-password />
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="12">
-            <el-form-item label="用户性别">
-              <el-select v-model="form.sex" placeholder="请选择">
-                <el-option v-for="dict in sys_user_sex" :key="dict.value" :label="dict.label" :value="dict.value"></el-option>
-              </el-select>
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="状态">
-              <el-radio-group v-model="form.status">
-                <el-radio v-for="dict in sys_normal_disable" :key="dict.value" :label="dict.value">{{ dict.label }}</el-radio>
-              </el-radio-group>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="12">
-            <el-form-item label="岗位">
-              <el-select v-model="form.postIds" multiple placeholder="请选择">
-                <el-option v-for="item in postOptions" :key="item.postId" :label="item.postName" :value="item.postId" :disabled="item.status == 1"></el-option>
-              </el-select>
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="角色">
-              <el-select v-model="form.roleIds" multiple placeholder="请选择">
-                <el-option v-for="item in roleOptions" :key="item.roleId" :label="item.roleName" :value="item.roleId" :disabled="item.status == 1"></el-option>
-              </el-select>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="24">
-            <el-form-item label="备注">
-              <el-input v-model="form.remark" type="textarea" placeholder="请输入内容"></el-input>
-            </el-form-item>
-          </el-col>
-        </el-row>
+      <el-form :model="form" :rules="rules" ref="userRef" label-position="top" label-width="160px">
+        <el-form-item :label="$t('om.user.user_nickname')" prop="nickName">
+          <el-input v-model="form.nickName" :placeholder="$t('om.please_enter') + $t('om.user.user_nickname')" maxlength="30" />
+        </el-form-item>
+        <el-form-item :label="$t('om.user.department')" prop="deptId">
+          <el-tree-select v-model="form.deptId" :data="deptOptions" :props="{ value: 'id', label: 'label', children: 'children' }" value-key="id" :placeholder="$t('om.select')" check-strictly />
+        </el-form-item>
+        <el-form-item :label="$t('om.user.mobile_phone_number')" prop="phonenumber">
+          <el-input v-model="form.phonenumber" :placeholder="$t('om.please_enter') + $t('om.user.mobile_phone_number')" maxlength="11" />
+        </el-form-item>
+        <el-form-item :label="$t('om.user.email')" prop="email">
+          <el-input v-model="form.email" :placeholder="$t('om.please_enter') + $t('om.user.email')" maxlength="50" />
+        </el-form-item>
+        <el-form-item v-if="form.userId === undefined" :label="$t('om.user.user_name')" prop="userName">
+          <el-input v-model="form.userName" :placeholder="$t('om.please_enter') + $t('om.user.user_name')" maxlength="30" />
+        </el-form-item>
+        <el-form-item v-if="form.userId === undefined" :label="$t('om.user.user_password')" prop="password">
+          <el-input v-model="form.password" :placeholder="$t('om.please_enter') + $t('om.user.user_password')" type="password" maxlength="20" show-password />
+        </el-form-item>
+        <el-form-item :label="$t('om.user.user_gender')">
+          <el-select v-model="form.sex" :placeholder="$t('om.select')">
+            <el-option v-for="dict in sys_user_sex" :key="dict.value" :label="dict.label" :value="dict.value"></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item :label="$t('om.status')">
+          <el-radio-group v-model="form.status">
+            <el-radio v-for="dict in sys_normal_disable" :key="dict.value" :label="dict.value">{{ dict.label }}</el-radio>
+          </el-radio-group>
+        </el-form-item>
+        <el-form-item :label="$t('om.user.position')">
+          <el-select v-model="form.postIds" multiple :placeholder="$t('om.select')">
+            <el-option v-for="item in postOptions" :key="item.postId" :label="item.postName" :value="item.postId" :disabled="item.status == 1"></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item :label="$t('om.user.role')">
+          <el-select v-model="form.roleIds" multiple :placeholder="$t('om.select')">
+            <el-option v-for="item in roleOptions" :key="item.roleId" :label="item.roleName" :value="item.roleId" :disabled="item.status == 1"></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item :label="$t('om.remarks')">
+          <el-input v-model="form.remark" type="textarea" placeholder="请输入内容"></el-input>
+        </el-form-item>
       </el-form>
       <template #footer>
         <div class="dialog-footer">
@@ -206,7 +176,6 @@
 import { getToken } from '@/utils/auth';
 import { addUser, changeUserStatus, delUser, deptTreeSelect, getUser, listUser, resetUserPwd, updateUser } from '@/api/system/user';
 import AuthRole from '@/views/system/user/authRole';
-import { onMounted } from 'vue';
 
 const { proxy } = getCurrentInstance();
 const { sys_normal_disable, sys_user_sex } = proxy.useDict('sys_normal_disable', 'sys_user_sex');
@@ -245,13 +214,13 @@ const upload = reactive({
 });
 // 列显隐信息
 const columns = ref([
-  { key: 0, label: `用户编号`, visible: true },
-  { key: 1, label: `用户名称`, visible: true },
-  { key: 2, label: `用户昵称`, visible: true },
-  { key: 3, label: `部门`, visible: true },
-  { key: 4, label: `手机号码`, visible: true },
-  { key: 5, label: `状态`, visible: true },
-  { key: 6, label: `创建时间`, visible: true },
+  { key: 0, label: proxy.$t('om.user.user_number'), visible: true },
+  { key: 1, label: proxy.$t('om.user.user_name'), visible: true },
+  { key: 2, label: proxy.$t('om.user.user_nickname'), visible: true },
+  { key: 3, label: proxy.$t('om.user.department'), visible: true },
+  { key: 4, label: proxy.$t('om.user.mobile_phone_number'), visible: true },
+  { key: 5, label: proxy.$t('om.status'), visible: true },
+  { key: 6, label: proxy.$t('om.creation_time'), visible: true },
 ]);
 
 const data = reactive({
@@ -394,7 +363,7 @@ const handleAuthRole = (row) => {
 /** 重置密码按钮操作 */
 function handleResetPwd(row) {
   proxy
-    .$prompt('请输入"' + row.userName + '"的新密码', '提示', {
+    .$prompt('请输入"' + row.userName + '"的新密码', proxy.$t('om.hint'), {
       confirmButtonText: '确定',
       cancelButtonText: '取消',
       closeOnClickModal: false,
@@ -477,7 +446,7 @@ function handleAdd() {
     postOptions.value = response.posts;
     roleOptions.value = response.roles;
     open.value = true;
-    title.value = '添加用户';
+    title.value = proxy.$t('om.user.add_user');
     form.value.password = initPassword.value;
   });
 }
@@ -493,7 +462,7 @@ function handleUpdate(row) {
     form.value.postIds = response.postIds;
     form.value.roleIds = response.roleIds;
     open.value = true;
-    title.value = '修改用户';
+    title.value = proxy.$t('om.user.edit_user');
     form.password = '';
   });
 }

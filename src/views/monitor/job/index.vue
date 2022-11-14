@@ -15,25 +15,25 @@
         </el-select>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" icon="Search" @click="handleQuery">搜索</el-button>
-        <el-button icon="Refresh" @click="resetQuery">重置</el-button>
+        <el-button type="primary" icon="Search" @click="handleQuery">{{ $t('om.search') }}</el-button>
+        <el-button icon="Refresh" @click="resetQuery">{{ $t('om.reset') }}</el-button>
       </el-form-item>
     </el-form>
 
     <el-row justify="space-between" class="om-table-header">
       <el-col :span="21" :xs="24" :sm="18" :md="18" :lg="18" :xl="21">
-        <el-button type="primary" icon="Plus" @click="handleAdd" v-hasPermi="['monitor:job:add']">新增</el-button>
-        <el-button type="success" icon="Edit" :disabled="single" @click="handleUpdate" v-hasPermi="['monitor:job:edit']">修改</el-button>
-        <el-button type="danger" icon="Delete" :disabled="multiple" @click="handleDelete" v-hasPermi="['monitor:job:remove']">删除</el-button>
+        <el-button type="primary" icon="Plus" @click="handleAdd" v-hasPermi="['monitor:job:add']">{{ $t('om.add') }}</el-button>
+        <el-button type="success" icon="Edit" :disabled="single" @click="handleUpdate" v-hasPermi="['monitor:job:edit']">{{ $t('om.edit') }}</el-button>
+        <el-button type="danger" icon="Delete" :disabled="multiple" @click="handleDelete" v-hasPermi="['monitor:job:remove']">{{ $t('om.delete') }}</el-button>
         <el-button type="info" icon="Operation" @click="handleJobLog" v-hasPermi="['monitor:job:query']">日志</el-button>
-        <el-button type="warning" icon="Download" @click="handleExport" v-hasPermi="['monitor:job:export']">导出</el-button>
+        <el-button type="warning" icon="Download" @click="handleExport" v-hasPermi="['monitor:job:export']">{{ $t('om.export') }}</el-button>
       </el-col>
       <right-toolbar v-model:showSearch="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
     <el-table v-loading="loading" :data="jobList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="任务编号" width="100" align="center" prop="jobId" />
+      <el-table-column :label="$t('om.no')" width="100" align="center" prop="jobId" />
       <el-table-column label="任务名称" align="center" prop="jobName" :show-overflow-tooltip="true" />
       <el-table-column label="任务组名" align="center" prop="jobGroup">
         <template #default="scope">
@@ -42,26 +42,26 @@
       </el-table-column>
       <el-table-column label="调用目标字符串" align="center" prop="invokeTarget" :show-overflow-tooltip="true" />
       <el-table-column label="cron执行表达式" align="center" prop="cronExpression" :show-overflow-tooltip="true" />
-      <el-table-column label="状态" align="center" width="100">
+      <el-table-column :label="$t('om.status')" align="center" width="100">
         <template #default="scope">
           <el-switch v-model="scope.row.status" active-value="0" inactive-value="1" @change="handleStatusChange(scope.row)"></el-switch>
         </template>
       </el-table-column>
-      <el-table-column label="操作" align="center" width="200" class-name="om-table-operation">
+      <el-table-column :label="$t('om.operation')" align="center" width="200" class-name="om-table-operation">
         <template #default="scope">
-          <el-tooltip content="修改" placement="top">
+          <el-tooltip :content="$t('om.edit')" placement="top">
             <el-button type="success" icon="Edit" @click="handleUpdate(scope.row)" v-hasPermi="['monitor:job:edit']"></el-button>
           </el-tooltip>
-          <el-tooltip content="删除" placement="top">
+          <el-tooltip :content="$t('om.delete')" placement="top">
             <el-button type="danger" icon="Delete" @click="handleDelete(scope.row)" v-hasPermi="['monitor:job:remove']"></el-button>
           </el-tooltip>
-          <el-tooltip content="执行一次" placement="top">
+          <el-tooltip :content="$t('om.perform_once')" placement="top">
             <el-button icon="CaretRight" @click="handleRun(scope.row)" v-hasPermi="['monitor:job:changeStatus']"></el-button>
           </el-tooltip>
-          <el-tooltip content="任务详细" placement="top">
+          <el-tooltip :content="$t('om.task_details')" placement="top">
             <el-button icon="View" @click="handleView(scope.row)" v-hasPermi="['monitor:job:query']"></el-button>
           </el-tooltip>
-          <el-tooltip content="调度日志" placement="top">
+          <el-tooltip :content="$t('om.scheduling_log')" placement="top">
             <el-button icon="Operation" @click="handleJobLog(scope.row)" v-hasPermi="['monitor:job:query']"></el-button>
           </el-tooltip>
         </template>
@@ -138,7 +138,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="状态">
+            <el-form-item :label="$t('om.status')">
               <el-radio-group v-model="form.status">
                 <el-radio v-for="dict in sys_job_status" :key="dict.value" :label="dict.value">{{ dict.label }}</el-radio>
               </el-radio-group>

@@ -7,34 +7,34 @@
       <el-form-item label="字典类型" prop="dictType">
         <el-input v-model="queryParams.dictType" placeholder="请输入字典类型" clearable style="width: 240px" @keyup.enter="handleQuery" />
       </el-form-item>
-      <el-form-item label="状态" prop="status">
+      <el-form-item :label="$t('om.status')" prop="status">
         <el-select v-model="queryParams.status" placeholder="字典状态" clearable style="width: 240px">
           <el-option v-for="dict in sys_normal_disable" :key="dict.value" :label="dict.label" :value="dict.value" />
         </el-select>
       </el-form-item>
-      <el-form-item label="创建时间" style="width: 308px">
-        <el-date-picker v-model="dateRange" value-format="YYYY-MM-DD" type="daterange" range-separator="-" start-placeholder="开始日期" end-placeholder="结束日期"></el-date-picker>
+      <el-form-item :label="$t('om.creation_time')" style="width: 308px">
+        <el-date-picker v-model="dateRange" value-format="YYYY-MM-DD" type="daterange" range-separator="-" :start-placeholder="$t('om.start_date')" :end-placeholder="$t('om.end_date')"></el-date-picker>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" icon="Search" @click="handleQuery">搜索</el-button>
-        <el-button icon="Refresh" @click="resetQuery">重置</el-button>
+        <el-button type="primary" icon="Search" @click="handleQuery">{{ $t('om.search') }}</el-button>
+        <el-button icon="Refresh" @click="resetQuery">{{ $t('om.reset') }}</el-button>
       </el-form-item>
     </el-form>
 
     <el-row justify="space-between" class="om-table-header">
       <el-col :span="21" :xs="24" :sm="18" :md="18" :lg="18" :xl="21">
-        <el-button type="primary" icon="Plus" @click="handleAdd" v-hasPermi="['system:dict:add']">新增</el-button>
-        <el-button type="success" icon="Edit" :disabled="single" @click="handleUpdate" v-hasPermi="['system:dict:edit']">修改</el-button>
-        <el-button type="danger" icon="Delete" :disabled="multiple" @click="handleDelete" v-hasPermi="['system:dict:remove']">删除</el-button>
-        <el-button type="warning" icon="Download" @click="handleExport" v-hasPermi="['system:dict:export']">导出</el-button>
-        <el-button type="danger" icon="Refresh" @click="handleRefreshCache" v-hasPermi="['system:dict:remove']">刷新缓存</el-button>
+        <el-button type="primary" icon="Plus" @click="handleAdd" v-hasPermi="['system:dict:add']">{{ $t('om.add') }}</el-button>
+        <el-button type="success" icon="Edit" :disabled="single" @click="handleUpdate" v-hasPermi="['system:dict:edit']">{{ $t('om.edit') }}</el-button>
+        <el-button type="danger" icon="Delete" :disabled="multiple" @click="handleDelete" v-hasPermi="['system:dict:remove']">{{ $t('om.delete') }}</el-button>
+        <el-button type="warning" icon="Download" @click="handleExport" v-hasPermi="['system:dict:export']">{{ $t('om.export') }}</el-button>
+        <el-button type="danger" icon="Refresh" @click="handleRefreshCache" v-hasPermi="['system:dict:remove']">{{ $t('om.refresh_cache') }}</el-button>
       </el-col>
       <right-toolbar v-model:showSearch="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
     <el-table v-loading="loading" :data="typeList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="字典编号" align="center" prop="dictId" width="120" />
+      <el-table-column :label="$t('om.no')" align="center" prop="dictId" width="120" />
       <el-table-column label="字典名称" align="center" prop="dictName" :show-overflow-tooltip="true" />
       <el-table-column label="字典类型" align="center" :show-overflow-tooltip="true">
         <template #default="scope">
@@ -44,22 +44,22 @@
         </template>
       </el-table-column>
       <el-table-column label="备注" align="center" prop="remark" :show-overflow-tooltip="true" />
-      <el-table-column label="状态" align="center" prop="status" width="100">
+      <el-table-column :label="$t('om.status')" align="center" prop="status" width="100">
         <template #default="scope">
           <dict-tag :options="sys_normal_disable" :value="scope.row.status" />
         </template>
       </el-table-column>
-      <el-table-column label="创建时间" align="center" prop="createTime" width="180">
+      <el-table-column :label="$t('om.creation_time')" align="center" prop="createTime" width="180">
         <template #default="scope">
           <span>{{ parseTime(scope.row.createTime) }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="操作" align="center" class-name="om-table-operation" width="150">
+      <el-table-column :label="$t('om.operation')" align="center" class-name="om-table-operation" width="150">
         <template #default="scope">
-          <el-tooltip content="修改" placement="top">
+          <el-tooltip :content="$t('om.edit')" placement="top">
             <el-button type="success" icon="Edit" @click="handleUpdate(scope.row)" v-hasPermi="['system:dict:edit']"></el-button>
           </el-tooltip>
-          <el-tooltip content="删除" placement="top">
+          <el-tooltip :content="$t('om.delete')" placement="top">
             <el-button type="danger" icon="Delete" @click="handleDelete(scope.row)" v-hasPermi="['system:dict:remove']"></el-button>
           </el-tooltip>
         </template>
@@ -77,7 +77,7 @@
         <el-form-item label="字典类型" prop="dictType">
           <el-input v-model="form.dictType" placeholder="请输入字典类型" />
         </el-form-item>
-        <el-form-item label="状态" prop="status">
+        <el-form-item :label="$t('om.status')" prop="status">
           <el-radio-group v-model="form.status">
             <el-radio v-for="dict in sys_normal_disable" :key="dict.value" :label="dict.value">{{ dict.label }}</el-radio>
           </el-radio-group>

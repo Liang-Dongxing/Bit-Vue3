@@ -25,7 +25,7 @@ components(app);
 directive(app);
 
 // 全局语言包加载
-const i18n = loadLang(app);
+const i18n = await loadLang(app);
 app.use(ElementPlus, { i18n: i18n.global.t });
 
 app.mount('#app');

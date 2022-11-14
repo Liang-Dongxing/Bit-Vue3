@@ -12,32 +12,32 @@
           <el-option v-for="dict in sys_oper_type" :key="dict.value" :label="dict.label" :value="dict.value" />
         </el-select>
       </el-form-item>
-      <el-form-item label="状态" prop="status">
+      <el-form-item :label="$t('om.status')" prop="status">
         <el-select v-model="queryParams.status" placeholder="操作状态" clearable style="width: 240px">
           <el-option v-for="dict in sys_common_status" :key="dict.value" :label="dict.label" :value="dict.value" />
         </el-select>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" icon="Search" @click="handleQuery">搜索</el-button>
-        <el-button icon="Refresh" @click="resetQuery">重置</el-button>
+        <el-button type="primary" icon="Search" @click="handleQuery">{{ $t('om.search') }}</el-button>
+        <el-button icon="Refresh" @click="resetQuery">{{ $t('om.reset') }}</el-button>
       </el-form-item>
       <el-form-item label="操作时间" style="width: 308px">
-        <el-date-picker v-model="dateRange" value-format="YYYY-MM-DD" type="daterange" range-separator="-" start-placeholder="开始日期" end-placeholder="结束日期"></el-date-picker>
+        <el-date-picker v-model="dateRange" value-format="YYYY-MM-DD" type="daterange" range-separator="-" :start-placeholder="$t('om.start_date')" :end-placeholder="$t('om.end_date')"></el-date-picker>
       </el-form-item>
     </el-form>
 
     <el-row justify="space-between" class="om-table-header">
       <el-col :span="21" :xs="24" :sm="18" :md="18" :lg="18" :xl="21">
-        <el-button type="danger" icon="Delete" :disabled="multiple" @click="handleDelete" v-hasPermi="['monitor:operlog:remove']">删除</el-button>
-        <el-button type="danger" icon="Delete" @click="handleClean" v-hasPermi="['monitor:operlog:remove']">清空</el-button>
-        <el-button type="warning" icon="Download" @click="handleExport" v-hasPermi="['monitor:operlog:export']">导出</el-button>
+        <el-button type="danger" icon="Delete" :disabled="multiple" @click="handleDelete" v-hasPermi="['monitor:operlog:remove']">{{ $t('om.delete') }}</el-button>
+        <el-button type="danger" icon="Delete" @click="handleClean" v-hasPermi="['monitor:operlog:remove']">{{ $t('om.empty') }}</el-button>
+        <el-button type="warning" icon="Download" @click="handleExport" v-hasPermi="['monitor:operlog:export']">{{ $t('om.export') }}</el-button>
       </el-col>
       <right-toolbar v-model:showSearch="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
     <el-table ref="operlogRef" v-loading="loading" :data="operlogList" @selection-change="handleSelectionChange" :default-sort="defaultSort" @sort-change="handleSortChange">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="日志编号" align="center" prop="operId" width="120" />
+      <el-table-column :label="$t('om.no')" align="center" prop="operId" width="120" />
       <el-table-column label="系统模块" align="center" prop="title" />
       <el-table-column label="操作类型" align="center" prop="businessType">
         <template #default="scope">
@@ -57,9 +57,11 @@
           <span>{{ parseTime(scope.row.operTime) }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="操作" align="center" class-name="om-table-operation" width="150">
+      <el-table-column :label="$t('om.operation')" align="center" class-name="om-table-operation" width="150">
         <template #default="scope">
-          <el-button icon="View" content="详细" @click="handleView(scope.row, scope.index)" v-hasPermi="['monitor:operlog:query']"></el-button>
+          <el-tooltip :content="$t('om.details')" placement="top">
+            <el-button icon="View" @click="handleView(scope.row, scope.index)" v-hasPermi="['monitor:operlog:query']"></el-button>
+          </el-tooltip>
         </template>
       </el-table-column>
     </el-table>
