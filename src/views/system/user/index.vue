@@ -128,13 +128,13 @@
           </el-select>
         </el-form-item>
         <el-form-item :label="$t('om.remarks')">
-          <el-input v-model="form.remark" type="textarea" placeholder="请输入内容"></el-input>
+          <el-input v-model="form.remark" type="textarea" :placeholder="$t('om.please_enter')"></el-input>
         </el-form-item>
       </el-form>
       <template #footer>
         <div class="dialog-footer">
-          <el-button type="primary" @click="submitForm">确 定</el-button>
-          <el-button @click="cancel">取 消</el-button>
+          <el-button type="primary" @click="submitForm">{{ $t('om.save') }}</el-button>
+          <el-button @click="cancel">{{ $t('om.cancel') }}</el-button>
         </div>
       </template>
     </el-dialog>
@@ -146,24 +146,24 @@
           <upload-filled />
         </el-icon>
         <div class="el-upload__text">
-          将文件拖到此处，或
-          <em>点击上传</em>
+          {{ $t('om.user.msg8') }}
+          <em>{{ $t('om.user.msg10') }}</em>
         </div>
         <template #tip>
           <div class="el-upload__tip text-center">
             <div class="el-upload__tip">
               <el-checkbox v-model="upload.updateSupport" />
-              是否更新已经存在的用户数据
+              {{ $t('om.user.msg6') }}
             </div>
-            <span>仅允许导入xls、xlsx格式文件。</span>
-            <el-link type="primary" :underline="false" style="font-size: 12px; vertical-align: baseline" @click="importTemplate">下载模板</el-link>
+            <span>{{ $t('om.user.msg7') }}</span>
+            <el-link type="primary" :underline="false" style="font-size: 12px; vertical-align: baseline" @click="importTemplate">{{ $t('om.user.msg9') }}</el-link>
           </div>
         </template>
       </el-upload>
       <template #footer>
         <div class="dialog-footer">
-          <el-button type="primary" @click="submitFileForm">确 定</el-button>
-          <el-button @click="upload.open = false">取 消</el-button>
+          <el-button type="primary" @click="submitFileForm">{{ $t('om.save') }}</el-button>
+          <el-button @click="upload.open = false">{{ $t('om.cancel') }}</el-button>
         </div>
       </template>
     </el-dialog>
@@ -235,16 +235,16 @@ const data = reactive({
   },
   rules: {
     userName: [
-      { required: true, message: '用户名称不能为空', trigger: 'blur' },
-      { min: 2, max: 20, message: '用户名称长度必须介于 2 和 20 之间', trigger: 'blur' },
+      { required: true, message: proxy.$t('om.user.rules1'), trigger: 'blur' },
+      { min: 2, max: 20, message: proxy.$t('om.user.rules2'), trigger: 'blur' },
     ],
-    nickName: [{ required: true, message: '用户昵称不能为空', trigger: 'blur' }],
+    nickName: [{ required: true, message: proxy.$t('om.user.rules3'), trigger: 'blur' }],
     password: [
-      { required: true, message: '用户密码不能为空', trigger: 'blur' },
-      { min: 5, max: 20, message: '用户密码长度必须介于 5 和 20 之间', trigger: 'blur' },
+      { required: true, message: proxy.$t('om.user.rules4'), trigger: 'blur' },
+      { min: 5, max: 20, message: proxy.$t('om.user.rules5'), trigger: 'blur' },
     ],
-    email: [{ type: 'email', message: '请输入正确的邮箱地址', trigger: ['blur', 'change'] }],
-    phonenumber: [{ pattern: /^1[3|4|5|6|7|8|9][0-9]\d{8}$/, message: '请输入正确的手机号码', trigger: 'blur' }],
+    email: [{ type: 'email', message: proxy.$t('om.user.rules6'), trigger: ['blur', 'change'] }],
+    phonenumber: [{ pattern: /^1[3|4|5|6|7|8|9][0-9]\d{8}$/, message: proxy.$t('om.user.rules7'), trigger: 'blur' }],
   },
 });
 
@@ -302,13 +302,13 @@ function resetQuery() {
 function handleDelete(row) {
   const userIds = row.userId || ids.value;
   proxy.$modal
-    .confirm('是否确认删除用户编号为"' + userIds + '"的数据项？')
+    .confirm(proxy.$t('om.user.msg5', { field: userIds }))
     .then(function () {
       return delUser(userIds);
     })
     .then(() => {
       getList();
-      proxy.$modal.msgSuccess('删除成功');
+      proxy.$modal.msgSuccess(proxy.$t('om.mssage.delete_success'));
     })
     .catch(() => {});
 }
@@ -326,14 +326,14 @@ function handleExport() {
 
 /** 用户状态修改  */
 function handleStatusChange(row) {
-  let text = row.status === '0' ? '启用' : '停用';
+  let text = row.status === '0' ? proxy.$t('om.enabled') : proxy.$t('om.deactivation');
   proxy.$modal
-    .confirm('确认要"' + text + '""' + row.userName + '"用户吗?')
+    .confirm(proxy.$t('om.user.msg1', { field1: text, field2: row.userName }))
     .then(function () {
       return changeUserStatus(row.userId, row.status);
     })
     .then(() => {
-      proxy.$modal.msgSuccess(text + '成功');
+      proxy.$modal.msgSuccess(text + proxy.$t('om.success'));
     })
     .catch(function () {
       row.status = row.status === '0' ? '1' : '0';
@@ -363,16 +363,16 @@ const handleAuthRole = (row) => {
 /** 重置密码按钮操作 */
 function handleResetPwd(row) {
   proxy
-    .$prompt('请输入"' + row.userName + '"的新密码', proxy.$t('om.hint'), {
-      confirmButtonText: '确定',
-      cancelButtonText: '取消',
+    .$prompt(proxy.$t('om.user.msg2', { field1: row.userName }), proxy.$t('om.hint'), {
+      confirmButtonText: proxy.$t('om.save'),
+      cancelButtonText: proxy.$t('om.cancel'),
       closeOnClickModal: false,
       inputPattern: /^.{5,20}$/,
-      inputErrorMessage: '用户密码长度必须介于 5 和 20 之间',
+      inputErrorMessage: proxy.$t('om.user.rules5'),
     })
     .then(({ value }) => {
       resetUserPwd(row.userId, value).then((response) => {
-        proxy.$modal.msgSuccess('修改成功，新密码是：' + value);
+        proxy.$modal.msgSuccess(proxy.$t('om.user.msg3', { field: value }));
       });
     })
     .catch(() => {});
@@ -387,7 +387,7 @@ function handleSelectionChange(selection) {
 
 /** 导入按钮操作 */
 function handleImport() {
-  upload.title = '用户导入';
+  upload.title = proxy.$t('om.user.import_user');
   upload.open = true;
 }
 
@@ -405,7 +405,7 @@ const handleFileSuccess = (response, file, fileList) => {
   upload.open = false;
   upload.isUploading = false;
   proxy.$refs['uploadRef'].handleRemove(file);
-  proxy.$alert("<div style='overflow: auto;overflow-x: hidden;max-height: 70vh;padding: 10px 20px 0;'>" + response.msg + '</div>', '导入结果', { dangerouslyUseHTMLString: true });
+  proxy.$alert("<div style='overflow: auto;overflow-x: hidden;max-height: 70vh;padding: 10px 20px 0;'>" + response.msg + '</div>', proxy.$t('om.user.msg4'), { dangerouslyUseHTMLString: true });
   getList();
 };
 
@@ -473,13 +473,13 @@ function submitForm() {
     if (valid) {
       if (form.value.userId != undefined) {
         updateUser(form.value).then((response) => {
-          proxy.$modal.msgSuccess('修改成功');
+          proxy.$modal.msgSuccess(proxy.$t('om.success'));
           open.value = false;
           getList();
         });
       } else {
         addUser(form.value).then((response) => {
-          proxy.$modal.msgSuccess('新增成功');
+          proxy.$modal.msgSuccess(proxy.$t('om.success'));
           open.value = false;
           getList();
         });
