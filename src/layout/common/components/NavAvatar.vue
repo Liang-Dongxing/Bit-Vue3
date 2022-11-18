@@ -12,10 +12,10 @@
       <template #dropdown>
         <el-dropdown-menu>
           <router-link to="/user/profile" class="router-link">
-            <el-dropdown-item>个人中心</el-dropdown-item>
+            <el-dropdown-item>{{ $t('om.header.conf1') }}</el-dropdown-item>
           </router-link>
           <el-dropdown-item divided command="logout">
-            <span>退出登录</span>
+            <span>{{ $t('om.header.conf2') }}</span>
           </el-dropdown-item>
         </el-dropdown-menu>
       </template>
@@ -37,6 +37,7 @@ import useSettingsStore from '@/store/modules/settings';
 import useAppStore from '@/store/modules/app';
 import { useFullscreen } from '@vueuse/core';
 
+const { proxy } = getCurrentInstance();
 const { isFullscreen, enter, exit, toggle } = useFullscreen();
 
 const userStore = useUserStore();
@@ -78,9 +79,9 @@ function dropdownHandleCommand(command) {
 }
 
 function logout() {
-  ElMessageBox.confirm('确定注销并退出系统吗？', '提示', {
-    confirmButtonText: '确定',
-    cancelButtonText: '取消',
+  ElMessageBox.confirm(proxy.$t('om.header.msg1'), proxy.$t('om.hint'), {
+    confirmButtonText: proxy.$t('om.confirm'),
+    cancelButtonText: proxy.$t('om.cancel'),
     type: 'warning',
   })
     .then(() => {

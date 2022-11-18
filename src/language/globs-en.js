@@ -48,6 +48,7 @@ export default {
     hint: 'Hint',
     system_prompt: 'System prompt',
     save: 'Save',
+    confirm: 'Confirm',
     cancel: 'Cancel',
     enabled: 'Enabled',
     deactivation: 'Deactivation',
@@ -79,6 +80,11 @@ export default {
       conf21: 'Medium',
       conf22: 'Right',
       conf23: 'Restore default',
+    },
+    header: {
+      conf1: 'Personal center',
+      conf2: 'Exit login',
+      msg1: 'Are you sure to log off and exit the system?',
     },
     user: {
       user_number: 'User number',

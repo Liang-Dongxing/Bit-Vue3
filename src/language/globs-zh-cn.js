@@ -48,6 +48,7 @@ export default {
     hint: '提示',
     system_prompt: '系统提示',
     save: '保存',
+    confirm: '确定',
     cancel: '取消',
     enabled: '启用',
     deactivation: '停用',
@@ -79,6 +80,11 @@ export default {
       conf21: '中',
       conf22: '右',
       conf23: '恢复默认',
+    },
+    header: {
+      conf1: '个人中心',
+      conf2: '退出登录',
+      msg1: '确定注销并退出系统吗？',
     },
     user: {
       user_name: '用户名称',
