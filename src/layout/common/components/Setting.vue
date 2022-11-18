@@ -1,32 +1,31 @@
 <template>
-  <el-drawer v-model="showSettings" direction="rtl" :with-header="false" size="300px">
+  <el-drawer v-model="showSettings" direction="rtl" :with-header="false" size="500px">
     <template #header>
-      <h3>布局配置</h3>
+      <h3>{{ $t('om.setting.conf1') }}</h3>
     </template>
     <template #default>
       <el-scrollbar>
         <el-form>
-          <el-divider border-style="dashed">全局</el-divider>
-          <el-form-item label="暗黑模式">
+          <el-divider border-style="dashed">{{ $t('om.setting.conf2') }}</el-divider>
+          <el-form-item :label="$t('om.setting.conf3')">
             <DarkSwitch
               @click="
                 toggleDark();
                 handleTheme();
               " />
           </el-form-item>
-          <el-form-item label="主题颜色">
+          <el-form-item :label="$t('om.setting.conf4')">
             <el-color-picker v-model="theme" :predefine="predefineColors" @change="themeChange" />
           </el-form-item>
-          <el-form-item label="语言">
+          <el-form-item :label="$t('om.setting.conf5')">
             <el-select v-model="language" @change="editDefaultLang">
-              <el-option label="中文简体" value="zh-cn" />
-              <el-option label="English" value="en" />
+              <el-option v-for="item in languageArray" :key="item" :label="item.name" :value="item.value" />
             </el-select>
           </el-form-item>
-          <el-form-item label="显示水印">
+          <el-form-item :label="$t('om.setting.conf6')">
             <el-switch v-model="watermark" />
           </el-form-item>
-          <el-form-item label="显示水印内容">
+          <el-form-item :label="$t('om.setting.conf7')">
             <el-checkbox-group v-model="watermarkContent">
               <el-checkbox label="name">用户名</el-checkbox>
               <el-checkbox label="nickName">昵称</el-checkbox>
@@ -35,48 +34,48 @@
               <el-checkbox label="email">邮箱</el-checkbox>
             </el-checkbox-group>
           </el-form-item>
-          <el-divider border-style="dashed">系统布局配置</el-divider>
-          <el-form-item label="隐藏面包屑">
+          <el-divider border-style="dashed">{{ $t('om.setting.conf8') }}</el-divider>
+          <el-form-item :label="$t('om.setting.conf9')">
             <el-switch v-model="breadcrumb" />
           </el-form-item>
-          <el-form-item label="显示动态标题">
+          <el-form-item :label="$t('om.setting.conf10')">
             <el-switch v-model="dynamicTitle" />
           </el-form-item>
-          <el-form-item label="隐藏LOGO">
+          <el-form-item :label="$t('om.setting.conf11')">
             <el-switch v-model="sidebarLogo" />
           </el-form-item>
-          <el-divider border-style="dashed">侧边菜单</el-divider>
-          <el-form-item label="侧边菜单开启">
+          <el-divider border-style="dashed">{{ $t('om.setting.conf12') }}</el-divider>
+          <el-form-item :label="$t('om.setting.conf13')">
             <el-switch v-model="verticalMenu" />
           </el-form-item>
-          <el-form-item label="侧边菜单宽度（px）">
+          <el-form-item :label="$t('om.setting.conf14')">
             <el-input-number v-model="menuWidth" :step="1" :min="230" :max="400" />
           </el-form-item>
-          <el-form-item label="是否只展开一个子菜单">
+          <el-form-item :label="$t('om.setting.conf15')">
             <el-switch v-model="uniqueOpened" />
           </el-form-item>
-          <el-form-item label="侧边菜单折叠">
+          <el-form-item :label="$t('om.setting.conf16')">
             <el-switch v-model="sidebarCollapse" />
           </el-form-item>
-          <el-divider border-style="dashed">顶部菜单</el-divider>
-          <el-form-item label="顶部菜单">
+          <el-divider border-style="dashed">{{ $t('om.setting.conf17') }}</el-divider>
+          <el-form-item :label="$t('om.setting.conf17')">
             <el-switch v-model="horizontalMenu" />
           </el-form-item>
-          <el-form-item label="顶部菜单独占一行">
+          <el-form-item :label="$t('om.setting.conf18')">
             <el-switch v-model="horizontalMenuExclusive" />
           </el-form-item>
-          <el-form-item label="顶部菜单">
+          <el-form-item :label="$t('om.setting.conf19')">
             <el-radio-group v-model="horizontalMenuLocation">
-              <el-radio-button label="left">左</el-radio-button>
-              <el-radio-button label="center">中</el-radio-button>
-              <el-radio-button label="right">右</el-radio-button>
+              <el-radio-button label="left">{{ $t('om.setting.conf20') }}</el-radio-button>
+              <el-radio-button label="center">{{ $t('om.setting.conf21') }}</el-radio-button>
+              <el-radio-button label="right">{{ $t('om.setting.conf22') }}</el-radio-button>
             </el-radio-group>
           </el-form-item>
         </el-form>
       </el-scrollbar>
     </template>
     <template #footer>
-      <el-button icon="Refresh" type="primary" @click="resetSetting">恢复默认</el-button>
+      <el-button icon="Refresh" type="primary" @click="resetSetting">{{ $t('om.setting.conf23') }}</el-button>
     </template>
   </el-drawer>
 </template>
@@ -96,6 +95,7 @@ const languageStore = useLanguageStore();
 
 const theme = ref(settingsStore.theme);
 const language = ref(languageStore.defaultLang);
+const languageArray = ref(languageStore.langArray);
 const storeSettings = computed(() => settingsStore);
 
 const showSettings = ref(false);

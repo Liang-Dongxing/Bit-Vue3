@@ -8,8 +8,8 @@ const useLanguageStore = defineStore('language', {
     fallbackLang: 'zh-cn',
     // 支持的语言列表
     langArray: [
-      { name: 'zh-cn', value: '中文简体' },
-      { name: 'en', value: 'English' },
+      { name: '中文简体', value: 'zh-cn' },
+      { name: '英文', value: 'en' },
     ],
   }),
   actions: {
