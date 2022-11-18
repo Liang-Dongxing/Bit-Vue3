@@ -27,11 +27,11 @@
           </el-form-item>
           <el-form-item :label="$t('om.setting.conf7')">
             <el-checkbox-group v-model="watermarkContent">
-              <el-checkbox label="name">用户名</el-checkbox>
-              <el-checkbox label="nickName">昵称</el-checkbox>
-              <el-checkbox label="deptName">部门</el-checkbox>
-              <el-checkbox label="phonenumber">手机</el-checkbox>
-              <el-checkbox label="email">邮箱</el-checkbox>
+              <el-checkbox label="name">{{ $t('om.user.user_name') }}</el-checkbox>
+              <el-checkbox label="nickName">{{ $t('om.user.user_nickname') }}</el-checkbox>
+              <el-checkbox label="deptName">{{ $t('om.user.department') }}</el-checkbox>
+              <el-checkbox label="phonenumber">{{ $t('om.user.mobile_phone_number') }}</el-checkbox>
+              <el-checkbox label="email">{{ $t('om.user.email') }}</el-checkbox>
             </el-checkbox-group>
           </el-form-item>
           <el-divider border-style="dashed">{{ $t('om.setting.conf8') }}</el-divider>

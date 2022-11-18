@@ -58,7 +58,7 @@ export default {
     setting: {
       conf1: 'Layout configuration',
       conf2: 'Global',
-      conf3: 'Diablo mode',
+      conf3: 'Dark mode',
       conf4: 'Theme color',
       conf5: 'Language',
       conf6: 'Display watermark',
