@@ -1,5 +1,5 @@
 <template>
-  <el-form size="small">
+  <el-form size="small" :label-position="settingsStore.labelPosition">
     <el-form-item>
       <el-radio v-model="radioValue" :label="1">周，允许的通配符[, - * ? / L #]</el-radio>
     </el-form-item>
@@ -53,7 +53,10 @@
 </template>
 
 <script setup>
+import useSettingsStore from '@/store/modules/settings';
+
 const emit = defineEmits(['update']);
+const settingsStore = useSettingsStore();
 const props = defineProps({
   cron: {
     type: Object,

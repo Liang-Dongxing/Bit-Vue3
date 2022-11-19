@@ -1,6 +1,6 @@
 <template>
   <div class="om-app-container">
-    <el-form :model="queryParams" ref="queryRef" :inline="true" v-show="showSearch" class="om-table-header" label-width="70px">
+    <el-form :model="queryParams" ref="queryRef" :inline="true" v-show="showSearch" :label-position="settingsStore.labelPosition" class="om-table-header" label-width="70px">
       <el-form-item label="任务名称" prop="jobName">
         <el-input v-model="queryParams.jobName" placeholder="请输入任务名称" clearable style="width: 240px" @keyup.enter="handleQuery" />
       </el-form-item>
@@ -17,7 +17,7 @@
       <el-form-item label="执行时间" style="width: 308px">
         <el-date-picker v-model="dateRange" value-format="YYYY-MM-DD" type="daterange" range-separator="-" :start-placeholder="$t('om.start_date')" :end-placeholder="$t('om.end_date')"></el-date-picker>
       </el-form-item>
-      <el-form-item>
+      <el-form-item :label="$t('om.operation')">
         <el-button type="primary" icon="Search" @click="handleQuery">{{ $t('om.search') }}</el-button>
         <el-button icon="Refresh" @click="resetQuery">{{ $t('om.reset') }}</el-button>
       </el-form-item>
@@ -65,32 +65,18 @@
 
     <!-- 调度日志详细 -->
     <el-dialog title="调度日志详细" v-model="open" width="700px" append-to-body>
-      <el-form :model="form" label-width="100px">
-        <el-row>
-          <el-col :span="12">
-            <el-form-item label="日志序号：">{{ form.jobLogId }}</el-form-item>
-            <el-form-item label="任务名称：">{{ form.jobName }}</el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="任务分组：">{{ form.jobGroup }}</el-form-item>
-            <el-form-item label="执行时间：">{{ form.createTime }}</el-form-item>
-          </el-col>
-          <el-col :span="24">
-            <el-form-item label="调用方法：">{{ form.invokeTarget }}</el-form-item>
-          </el-col>
-          <el-col :span="24">
-            <el-form-item label="日志信息：">{{ form.jobMessage }}</el-form-item>
-          </el-col>
-          <el-col :span="24">
-            <el-form-item label="执行状态：">
-              <div v-if="form.status == 0">正常</div>
-              <div v-else-if="form.status == 1">失败</div>
-            </el-form-item>
-          </el-col>
-          <el-col :span="24">
-            <el-form-item label="异常信息：" v-if="form.status == 1">{{ form.exceptionInfo }}</el-form-item>
-          </el-col>
-        </el-row>
+      <el-form :model="form" label-width="100px" :label-position="settingsStore.labelPosition">
+        <el-form-item label="日志序号：">{{ form.jobLogId }}</el-form-item>
+        <el-form-item label="任务名称：">{{ form.jobName }}</el-form-item>
+        <el-form-item label="任务分组：">{{ form.jobGroup }}</el-form-item>
+        <el-form-item label="执行时间：">{{ form.createTime }}</el-form-item>
+        <el-form-item label="调用方法：">{{ form.invokeTarget }}</el-form-item>
+        <el-form-item label="日志信息：">{{ form.jobMessage }}</el-form-item>
+        <el-form-item label="执行状态：">
+          <div v-if="form.status == 0">正常</div>
+          <div v-else-if="form.status == 1">失败</div>
+        </el-form-item>
+        <el-form-item label="异常信息：" v-if="form.status == 1">{{ form.exceptionInfo }}</el-form-item>
       </el-form>
       <template #footer>
         <div class="dialog-footer">
@@ -104,8 +90,10 @@
 <script setup name="JobLog">
 import { getJob } from '@/api/monitor/job';
 import { cleanJobLog, delJobLog, listJobLog } from '@/api/monitor/jobLog';
+import useSettingsStore from '@/store/modules/settings';
 
 const { proxy } = getCurrentInstance();
+const settingsStore = useSettingsStore();
 const { sys_common_status, sys_job_group } = proxy.useDict('sys_common_status', 'sys_job_group');
 
 const jobLogList = ref([]);

@@ -1,13 +1,13 @@
 <template>
   <div class="om-app-container">
-    <el-form :model="queryParams" ref="queryRef" v-show="showSearch" :inline="true" class="om-table-header" label-width="70px">
+    <el-form :model="queryParams" ref="queryRef" v-show="showSearch" :label-position="settingsStore.labelPosition" :inline="true" class="om-table-header" label-width="70px">
       <el-form-item label="用户名称" prop="userName">
         <el-input v-model="queryParams.userName" placeholder="请输入用户名称" clearable style="width: 240px" @keyup.enter="handleQuery" />
       </el-form-item>
       <el-form-item label="手机号码" prop="phonenumber">
         <el-input v-model="queryParams.phonenumber" placeholder="请输入手机号码" clearable style="width: 240px" @keyup.enter="handleQuery" />
       </el-form-item>
-      <el-form-item>
+      <el-form-item :label="$t('om.operation')">
         <el-button type="primary" icon="Search" @click="handleQuery">{{ $t('om.search') }}</el-button>
         <el-button icon="Refresh" @click="resetQuery">{{ $t('om.reset') }}</el-button>
       </el-form-item>
@@ -52,9 +52,11 @@
 
 <script setup name="AuthUser">
 import { allocatedUserList, authUserCancel, authUserCancelAll } from '@/api/system/role';
+import useSettingsStore from '@/store/modules/settings';
 
 const route = useRoute();
 const { proxy } = getCurrentInstance();
+const settingsStore = useSettingsStore();
 const { sys_normal_disable } = proxy.useDict('sys_normal_disable');
 
 const userList = ref([]);

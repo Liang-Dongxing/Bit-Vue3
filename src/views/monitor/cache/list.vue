@@ -46,24 +46,16 @@
             <span>缓存内容</span>
             <el-button style="float: right; padding: 3px 0" icon="Refresh" @click="handleClearCacheAll()">清理全部</el-button>
           </template>
-          <el-form :model="cacheForm">
-            <el-row :gutter="32">
-              <el-col :offset="1" :span="22">
-                <el-form-item label="缓存名称:" prop="cacheName">
-                  <el-input v-model="cacheForm.cacheName" :read-only="true" />
-                </el-form-item>
-              </el-col>
-              <el-col :offset="1" :span="22">
-                <el-form-item label="缓存键名:" prop="cacheKey">
-                  <el-input v-model="cacheForm.cacheKey" :read-only="true" />
-                </el-form-item>
-              </el-col>
-              <el-col :offset="1" :span="22">
-                <el-form-item label="缓存内容:" prop="cacheValue">
-                  <el-input v-model="cacheForm.cacheValue" type="textarea" :rows="8" :read-only="true" />
-                </el-form-item>
-              </el-col>
-            </el-row>
+          <el-form :model="cacheForm" :label-position="settingsStore.labelPosition">
+            <el-form-item label="缓存名称:" prop="cacheName">
+              <el-input v-model="cacheForm.cacheName" :read-only="true" />
+            </el-form-item>
+            <el-form-item label="缓存键名:" prop="cacheKey">
+              <el-input v-model="cacheForm.cacheKey" :read-only="true" />
+            </el-form-item>
+            <el-form-item label="缓存内容:" prop="cacheValue">
+              <el-input v-model="cacheForm.cacheValue" type="textarea" :rows="8" :read-only="true" />
+            </el-form-item>
           </el-form>
         </el-card>
       </el-col>
@@ -73,8 +65,10 @@
 
 <script setup name="CacheList">
 import { clearCacheAll, clearCacheKey, clearCacheName, getCacheValue, listCacheKey, listCacheName } from '@/api/monitor/cache';
+import useSettingsStore from '@/store/modules/settings';
 
 const { proxy } = getCurrentInstance();
+const settingsStore = useSettingsStore();
 
 const cacheNames = ref([]);
 const cacheKeys = ref([]);

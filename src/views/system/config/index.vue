@@ -1,6 +1,6 @@
 <template>
   <div class="om-app-container">
-    <el-form :model="queryParams" ref="queryRef" :inline="true" v-show="showSearch" class="om-table-header" label-width="70px">
+    <el-form :model="queryParams" ref="queryRef" :inline="true" v-show="showSearch" :label-position="settingsStore.labelPosition" class="om-table-header" label-width="70px">
       <el-form-item label="参数名称" prop="configName">
         <el-input v-model="queryParams.configName" placeholder="请输入参数名称" clearable style="width: 240px" @keyup.enter="handleQuery" />
       </el-form-item>
@@ -15,7 +15,7 @@
       <el-form-item :label="$t('om.creation_time')" style="width: 308px">
         <el-date-picker v-model="dateRange" value-format="YYYY-MM-DD" type="daterange" range-separator="-" :start-placeholder="$t('om.start_date')" :end-placeholder="$t('om.end_date')"></el-date-picker>
       </el-form-item>
-      <el-form-item>
+      <el-form-item :label="$t('om.operation')">
         <el-button type="primary" icon="Search" @click="handleQuery">{{ $t('om.search') }}</el-button>
         <el-button icon="Refresh" @click="resetQuery">{{ $t('om.reset') }}</el-button>
       </el-form-item>
@@ -65,7 +65,7 @@
 
     <!-- 添加或修改参数配置对话框 -->
     <el-dialog :title="title" v-model="open" width="500px" append-to-body>
-      <el-form ref="configRef" :model="form" :rules="rules" label-width="80px">
+      <el-form ref="configRef" :model="form" :rules="rules" :label-position="settingsStore.labelPosition" label-width="80px">
         <el-form-item label="参数名称" prop="configName">
           <el-input v-model="form.configName" placeholder="请输入参数名称" />
         </el-form-item>
@@ -96,8 +96,10 @@
 
 <script setup name="Config">
 import { addConfig, delConfig, getConfig, listConfig, refreshCache, updateConfig } from '@/api/system/config';
+import useSettingsStore from '@/store/modules/settings';
 
 const { proxy } = getCurrentInstance();
+const settingsStore = useSettingsStore();
 const { sys_yes_no } = proxy.useDict('sys_yes_no');
 
 const configList = ref([]);

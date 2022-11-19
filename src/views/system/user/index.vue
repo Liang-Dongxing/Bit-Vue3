@@ -12,7 +12,7 @@
       </el-col>
       <!--用户数据-->
       <el-col :span="20" :xs="24" :sm="24" :md="24" :lg="18" :xl="20">
-        <el-form :model="queryParams" ref="queryRef" :inline="true" v-show="showSearch" class="om-table-header">
+        <el-form :model="queryParams" ref="queryRef" :inline="true" v-show="showSearch" :label-position="settingsStore.labelPosition" class="om-table-header">
           <el-form-item :label="$t('om.user.user_name')" prop="userName">
             <el-input v-model="queryParams.userName" :placeholder="$t('om.fuzzy_query')" clearable @keyup.enter="handleQuery" />
           </el-form-item>
@@ -27,7 +27,7 @@
           <el-form-item :label="$t('om.creation_time')">
             <el-date-picker v-model="dateRange" value-format="YYYY-MM-DD" type="daterange" range-separator="-" :start-placeholder="$t('om.start_date')" :end-placeholder="$t('om.end_date')"></el-date-picker>
           </el-form-item>
-          <el-form-item>
+          <el-form-item :label="$t('om.operation')">
             <el-button type="primary" icon="Search" @click="handleQuery">{{ $t('om.search') }}</el-button>
             <el-button icon="Refresh" @click="resetQuery">{{ $t('om.reset') }}</el-button>
           </el-form-item>
@@ -88,7 +88,7 @@
 
     <!-- 添加或修改用户配置对话框 -->
     <el-dialog :title="title" v-model="open" width="600px" append-to-body>
-      <el-form :model="form" :rules="rules" ref="userRef" label-position="top" label-width="160px">
+      <el-form :model="form" :rules="rules" ref="userRef" :label-position="settingsStore.labelPosition" label-width="160px">
         <el-form-item :label="$t('om.user.user_nickname')" prop="nickName">
           <el-input v-model="form.nickName" :placeholder="$t('om.please_enter') + $t('om.user.user_nickname')" maxlength="30" />
         </el-form-item>
@@ -176,8 +176,10 @@
 import { getToken } from '@/utils/auth';
 import { addUser, changeUserStatus, delUser, deptTreeSelect, getUser, listUser, resetUserPwd, updateUser } from '@/api/system/user';
 import AuthRole from '@/views/system/user/authRole';
+import useSettingsStore from '@/store/modules/settings';
 
 const { proxy } = getCurrentInstance();
+const settingsStore = useSettingsStore();
 const { sys_normal_disable, sys_user_sex } = proxy.useDict('sys_normal_disable', 'sys_user_sex');
 
 const userList = ref([]);

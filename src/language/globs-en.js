@@ -80,6 +80,8 @@ export default {
       conf21: 'Medium',
       conf22: 'Right',
       conf23: 'Restore default',
+      conf24: 'Location of form field labels',
+      msg1: 'Please wait while the settings cache is cleared and refreshed...',
     },
     header: {
       conf1: 'Personal center',

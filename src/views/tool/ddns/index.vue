@@ -1,6 +1,6 @@
 <template>
   <div class="om-app-container">
-    <el-form class="om-table-header" :model="queryParams" ref="queryRef" :inline="true" v-show="showSearch">
+    <el-form class="om-table-header" :model="queryParams" :label-position="settingsStore.labelPosition" ref="queryRef" :inline="true" v-show="showSearch">
       <el-form-item label="主机记录" prop="hostRecord">
         <el-input v-model="queryParams.hostRecord" placeholder="请输入主机记录" clearable @keyup.enter="handleQuery" />
       </el-form-item>
@@ -9,7 +9,7 @@
           <el-option v-for="dict in parse_record_type" :key="dict.value" :label="dict.label" :value="dict.value" />
         </el-select>
       </el-form-item>
-      <el-form-item>
+      <el-form-item :label="$t('om.operation')"
         <el-button type="primary" icon="Search" @click="handleQuery">{{ $t('om.search') }}</el-button>
         <el-button icon="Refresh" @click="resetQuery">{{ $t('om.reset') }}</el-button>
       </el-form-item>
@@ -57,7 +57,7 @@
 
     <!-- 添加或修改ddns 解析配置对话框 -->
     <el-dialog :title="title" v-model="open" width="500px" append-to-body>
-      <el-form ref="ddnsRef" :model="form" :rules="rules" label-width="120px">
+      <el-form ref="ddnsRef" :model="form" :rules="rules" :label-position="settingsStore.labelPosition" label-width="120px">
         <el-form-item label="主机记录" prop="hostRecord">
           <el-input v-model="form.hostRecord" placeholder="请输入主机记录" />
         </el-form-item>
@@ -97,8 +97,10 @@
 <script setup name="Ddns">
 import { listDdns, getDdns, delDdns, addDdns, updateDdns } from '@/api/ops/ddns';
 import { listAccess } from '@/api/ops/access';
+import useSettingsStore from '@/store/modules/settings';
 
 const { proxy } = getCurrentInstance();
+const settingsStore = useSettingsStore();
 const { parse_record_type, access_key_type } = proxy.useDict('parse_record_type', 'access_key_type');
 
 const ddnsList = ref([]);

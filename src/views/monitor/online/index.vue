@@ -1,13 +1,13 @@
 <template>
   <div class="om-app-container">
-    <el-form :model="queryParams" ref="queryRef" :inline="true" class="om-table-header" label-width="70px">
+    <el-form :model="queryParams" ref="queryRef" :inline="true" :label-position="settingsStore.labelPosition" class="om-table-header" label-width="70px">
       <el-form-item label="登录地址" prop="ipaddr">
         <el-input v-model="queryParams.ipaddr" placeholder="请输入登录地址" clearable @keyup.enter="handleQuery" />
       </el-form-item>
       <el-form-item label="用户名称" prop="userName">
         <el-input v-model="queryParams.userName" placeholder="请输入用户名称" clearable @keyup.enter="handleQuery" />
       </el-form-item>
-      <el-form-item>
+      <el-form-item :label="$t('om.operation')">
         <el-button type="primary" icon="Search" @click="handleQuery">{{ $t('om.search') }}</el-button>
         <el-button icon="Refresh" @click="resetQuery">{{ $t('om.reset') }}</el-button>
       </el-form-item>
@@ -45,8 +45,10 @@
 
 <script setup name="Online">
 import { forceLogout, list as initData } from '@/api/monitor/online';
+import useSettingsStore from '@/store/modules/settings';
 
 const { proxy } = getCurrentInstance();
+const settingsStore = useSettingsStore();
 
 const onlineList = ref([]);
 const loading = ref(true);

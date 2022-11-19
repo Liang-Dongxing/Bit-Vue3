@@ -1,6 +1,6 @@
 <template>
   <div class="om-app-container">
-    <el-form :model="queryParams" ref="queryRef" :inline="true" v-show="showSearch" class="om-table-header" label-width="70px">
+    <el-form :model="queryParams" ref="queryRef" :inline="true" v-show="showSearch" :label-position="settingsStore.labelPosition" class="om-table-header" label-width="70px">
       <el-form-item label="岗位编码" prop="postCode">
         <el-input v-model="queryParams.postCode" placeholder="请输入岗位编码" clearable @keyup.enter="handleQuery" />
       </el-form-item>
@@ -12,7 +12,7 @@
           <el-option v-for="dict in sys_normal_disable" :key="dict.value" :label="dict.label" :value="dict.value" />
         </el-select>
       </el-form-item>
-      <el-form-item>
+      <el-form-item :label="$t('om.operation')">
         <el-button type="primary" icon="Search" @click="handleQuery">{{ $t('om.search') }}</el-button>
         <el-button icon="Refresh" @click="resetQuery">{{ $t('om.reset') }}</el-button>
       </el-form-item>
@@ -60,7 +60,7 @@
 
     <!-- 添加或修改岗位对话框 -->
     <el-dialog :title="title" v-model="open" width="500px" append-to-body>
-      <el-form ref="postRef" :model="form" :rules="rules" label-width="80px">
+      <el-form ref="postRef" :model="form" :rules="rules" :label-position="settingsStore.labelPosition" label-width="80px">
         <el-form-item label="岗位名称" prop="postName">
           <el-input v-model="form.postName" placeholder="请输入岗位名称" />
         </el-form-item>
@@ -91,8 +91,10 @@
 
 <script setup name="Post">
 import { addPost, delPost, getPost, listPost, updatePost } from '@/api/system/post';
+import useSettingsStore from '@/store/modules/settings';
 
 const { proxy } = getCurrentInstance();
+const settingsStore = useSettingsStore();
 const { sys_normal_disable } = proxy.useDict('sys_normal_disable');
 
 const postList = ref([]);

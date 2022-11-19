@@ -1,5 +1,5 @@
 <template>
-  <el-form ref="userRef" :model="user" :rules="rules" label-width="80px">
+  <el-form ref="userRef" :model="user" :rules="rules" :label-position="settingsStore.labelPosition" label-width="80px">
     <el-form-item label="用户昵称" prop="nickName">
       <el-input v-model="user.nickName" maxlength="30" />
     </el-form-item>
@@ -24,6 +24,7 @@
 
 <script setup>
 import { updateUserProfile } from '@/api/system/user';
+import useSettingsStore from '@/store/modules/settings';
 
 const props = defineProps({
   user: {
@@ -32,6 +33,7 @@ const props = defineProps({
 });
 
 const { proxy } = getCurrentInstance();
+const settingsStore = useSettingsStore();
 
 const rules = ref({
   nickName: [{ required: true, message: '用户昵称不能为空', trigger: 'blur' }],

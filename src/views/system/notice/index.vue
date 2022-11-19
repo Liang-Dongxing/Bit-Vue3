@@ -1,6 +1,6 @@
 <template>
   <div class="om-app-container">
-    <el-form :model="queryParams" ref="queryRef" :inline="true" v-show="showSearch" class="om-table-header" label-width="70px">
+    <el-form :model="queryParams" ref="queryRef" :inline="true" v-show="showSearch" :label-position="settingsStore.labelPosition" class="om-table-header" label-width="70px">
       <el-form-item label="公告标题" prop="noticeTitle">
         <el-input v-model="queryParams.noticeTitle" placeholder="请输入公告标题" clearable @keyup.enter="handleQuery" />
       </el-form-item>
@@ -12,7 +12,7 @@
           <el-option v-for="dict in sys_notice_type" :key="dict.value" :label="dict.label" :value="dict.value" />
         </el-select>
       </el-form-item>
-      <el-form-item>
+      <el-form-item :label="$t('om.operation')">
         <el-button type="primary" icon="Search" @click="handleQuery">{{ $t('om.search') }}</el-button>
         <el-button icon="Refresh" @click="resetQuery">{{ $t('om.reset') }}</el-button>
       </el-form-item>
@@ -63,33 +63,23 @@
 
     <!-- 添加或修改公告对话框 -->
     <el-dialog :title="title" v-model="open" width="780px" append-to-body>
-      <el-form ref="noticeRef" :model="form" :rules="rules" label-width="80px">
-        <el-row>
-          <el-col :span="12">
-            <el-form-item label="公告标题" prop="noticeTitle">
-              <el-input v-model="form.noticeTitle" placeholder="请输入公告标题" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="公告类型" prop="noticeType">
-              <el-select v-model="form.noticeType" placeholder="请选择">
-                <el-option v-for="dict in sys_notice_type" :key="dict.value" :label="dict.label" :value="dict.value"></el-option>
-              </el-select>
-            </el-form-item>
-          </el-col>
-          <el-col :span="24">
-            <el-form-item :label="$t('om.status')">
-              <el-radio-group v-model="form.status">
-                <el-radio v-for="dict in sys_notice_status" :key="dict.value" :label="dict.value">{{ dict.label }}</el-radio>
-              </el-radio-group>
-            </el-form-item>
-          </el-col>
-          <el-col :span="24">
-            <el-form-item label="内容">
-              <el-input :rows="6" type="textarea" placeholder="请输入内容" v-model="form.noticeContent" />
-            </el-form-item>
-          </el-col>
-        </el-row>
+      <el-form ref="noticeRef" :model="form" :rules="rules" :label-position="settingsStore.labelPosition" label-width="80px">
+        <el-form-item label="公告标题" prop="noticeTitle">
+          <el-input v-model="form.noticeTitle" placeholder="请输入公告标题" />
+        </el-form-item>
+        <el-form-item label="公告类型" prop="noticeType">
+          <el-select v-model="form.noticeType" placeholder="请选择">
+            <el-option v-for="dict in sys_notice_type" :key="dict.value" :label="dict.label" :value="dict.value"></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item :label="$t('om.status')">
+          <el-radio-group v-model="form.status">
+            <el-radio v-for="dict in sys_notice_status" :key="dict.value" :label="dict.value">{{ dict.label }}</el-radio>
+          </el-radio-group>
+        </el-form-item>
+        <el-form-item label="内容">
+          <el-input :rows="6" type="textarea" placeholder="请输入内容" v-model="form.noticeContent" />
+        </el-form-item>
       </el-form>
       <template #footer>
         <div class="dialog-footer">
@@ -103,8 +93,10 @@
 
 <script setup name="Notice">
 import { addNotice, delNotice, getNotice, listNotice, updateNotice } from '@/api/system/notice';
+import useSettingsStore from '@/store/modules/settings';
 
 const { proxy } = getCurrentInstance();
+const settingsStore = useSettingsStore();
 const { sys_notice_status, sys_notice_type } = proxy.useDict('sys_notice_status', 'sys_notice_type');
 
 const noticeList = ref([]);

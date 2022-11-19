@@ -22,6 +22,13 @@
               <el-option v-for="item in languageArray" :key="item" :label="item.name" :value="item.value" />
             </el-select>
           </el-form-item>
+          <el-form-item :label="$t('om.setting.conf24')">
+            <el-select v-model="labelPosition">
+              <el-option label="上" value="top" />
+              <el-option label="左" value="left" />
+              <el-option label="右" value="right" />
+            </el-select>
+          </el-form-item>
           <el-form-item :label="$t('om.setting.conf6')">
             <el-switch v-model="watermark" />
           </el-form-item>
@@ -203,9 +210,15 @@ const themeChange = (val) => {
   theme.value = val;
   handleThemeStyle(val, isDark.value);
 };
-
+/**切换表单域标签的位置 */
+const labelPosition = computed({
+  get: () => storeSettings.value.labelPosition,
+  set: (val) => {
+    settingsStore.changeSetting({ key: 'labelPosition', value: val });
+  },
+});
 const resetSetting = () => {
-  proxy.$modal.loading('正在清除设置缓存并刷新，请稍候...');
+  proxy.$modal.loading(proxy.$t('om.setting.msg1'));
   localStorage.removeItem('layout-setting');
   setTimeout('window.location.reload()', 1000);
 };

@@ -1,6 +1,6 @@
 <template>
   <div class="om-app-container">
-    <el-form :model="queryParams" ref="queryRef" :inline="true" v-show="showSearch" class="om-table-header" label-width="70px">
+    <el-form :model="queryParams" ref="queryRef" :inline="true" v-show="showSearch" :label-position="settingsStore.labelPosition" class="om-table-header" label-width="70px">
       <el-form-item label="表名称" prop="tableName">
         <el-input v-model="queryParams.tableName" placeholder="请输入表名称" clearable @keyup.enter="handleQuery" />
       </el-form-item>
@@ -10,7 +10,7 @@
       <el-form-item :label="$t('om.creation_time')" style="width: 308px">
         <el-date-picker v-model="dateRange" value-format="YYYY-MM-DD" type="daterange" range-separator="-" :start-placeholder="$t('om.start_date')" :end-placeholder="$t('om.end_date')"></el-date-picker>
       </el-form-item>
-      <el-form-item>
+      <el-form-item :label="$t('om.operation')">
         <el-button type="primary" icon="Search" @click="handleQuery">{{ $t('om.search') }}</el-button>
         <el-button icon="Refresh" @click="resetQuery">{{ $t('om.reset') }}</el-button>
       </el-form-item>
@@ -75,9 +75,11 @@
 <script setup name="Gen">
 import { delTable, genCode, listTable, previewTable, synchDb } from '@/api/tool/gen';
 import router from '@/router';
+import useSettingsStore from '@/store/modules/settings';
 
 const route = useRoute();
 const { proxy } = getCurrentInstance();
+const settingsStore = useSettingsStore();
 
 const tableList = ref([]);
 const loading = ref(true);

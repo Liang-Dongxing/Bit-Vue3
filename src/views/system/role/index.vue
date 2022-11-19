@@ -1,6 +1,6 @@
 <template>
   <div class="om-app-container">
-    <el-form :model="queryParams" ref="queryRef" v-show="showSearch" :inline="true" class="om-table-header" label-width="70px">
+    <el-form :model="queryParams" ref="queryRef" v-show="showSearch" :label-position="settingsStore.labelPosition" :inline="true" class="om-table-header" label-width="70px">
       <el-form-item label="角色名称" prop="roleName">
         <el-input v-model="queryParams.roleName" placeholder="请输入角色名称" clearable style="width: 240px" @keyup.enter="handleQuery" />
       </el-form-item>
@@ -15,7 +15,7 @@
       <el-form-item :label="$t('om.creation_time')" style="width: 308px">
         <el-date-picker v-model="dateRange" value-format="YYYY-MM-DD" type="daterange" range-separator="-" :start-placeholder="$t('om.start_date')" :end-placeholder="$t('om.end_date')"></el-date-picker>
       </el-form-item>
-      <el-form-item>
+      <el-form-item :label="$t('om.operation')">
         <el-button type="primary" icon="Search" @click="handleQuery">{{ $t('om.search') }}</el-button>
         <el-button icon="Refresh" @click="resetQuery">{{ $t('om.reset') }}</el-button>
       </el-form-item>
@@ -69,7 +69,7 @@
 
     <!-- 添加或修改角色配置对话框 -->
     <el-dialog :title="title" v-model="open" width="500px" append-to-body>
-      <el-form ref="roleRef" :model="form" :rules="rules" label-width="100px">
+      <el-form ref="roleRef" :model="form" :rules="rules" :label-position="settingsStore.labelPosition" label-width="100px">
         <el-form-item label="角色名称" prop="roleName">
           <el-input v-model="form.roleName" placeholder="请输入角色名称" />
         </el-form-item>
@@ -112,7 +112,7 @@
 
     <!-- 分配角色数据权限对话框 -->
     <el-dialog :title="title" v-model="openDataScope" width="500px" append-to-body>
-      <el-form :model="form" label-width="80px">
+      <el-form :model="form" :label-position="settingsStore.labelPosition" label-width="80px">
         <el-form-item label="角色名称">
           <el-input v-model="form.roleName" :disabled="true" />
         </el-form-item>
@@ -144,9 +144,11 @@
 <script setup name="Role">
 import { addRole, changeRoleStatus, dataScope, delRole, deptTreeSelect, getRole, listRole, updateRole } from '@/api/system/role';
 import { roleMenuTreeselect, treeselect as menuTreeselect } from '@/api/system/menu';
+import useSettingsStore from '@/store/modules/settings';
 
 const router = useRouter();
 const { proxy } = getCurrentInstance();
+const settingsStore = useSettingsStore();
 const { sys_normal_disable } = proxy.useDict('sys_normal_disable');
 
 const roleList = ref([]);

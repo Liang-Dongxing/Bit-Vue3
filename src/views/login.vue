@@ -2,7 +2,7 @@
   <div class="login">
     <kinesis-container>
       <kinesis-element>
-        <el-form ref="loginRef" :model="loginForm" :rules="loginRules" class="login-form">
+        <el-form ref="loginRef" :model="loginForm" :rules="loginRules" :label-position="settingsStore.labelPosition" class="login-form">
           <h3 class="title">{{ appTitle }}</h3>
           <el-form-item prop="username">
             <el-input v-model="loginForm.username" type="text" size="large" auto-complete="off" :placeholder="$t('om.login.username')">
@@ -60,6 +60,7 @@ const userStore = useUserStore();
 const router = useRouter();
 const { proxy } = getCurrentInstance();
 const appTitle = useSettingsStore().appTitle;
+const settingsStore = useSettingsStore();
 
 const loginForm = ref({
   username: 'admin',

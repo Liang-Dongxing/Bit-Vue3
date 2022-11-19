@@ -80,6 +80,8 @@ export default {
       conf21: '中',
       conf22: '右',
       conf23: '恢复默认',
+      conf24: '表单域标签的位置',
+      msg1: '正在清除设置缓存并刷新，请稍候...',
     },
     header: {
       conf1: '个人中心',

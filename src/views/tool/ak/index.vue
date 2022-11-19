@@ -1,6 +1,6 @@
 <template>
   <div class="om-app-container">
-    <el-form class="om-table-header" :model="queryParams" ref="queryRef" :inline="true" v-show="showSearch">
+    <el-form class="om-table-header" :model="queryParams" :label-position="settingsStore.labelPosition" ref="queryRef" :inline="true" v-show="showSearch">
       <el-form-item label="AccessKey ID" prop="accessKeyId">
         <el-input v-model="queryParams.accessKeyId" placeholder="请输入AccessKey ID" clearable @keyup.enter="handleQuery" />
       </el-form-item>
@@ -9,7 +9,7 @@
           <el-option v-for="dict in access_key_type" :key="dict.value" :label="dict.label" :value="dict.value" />
         </el-select>
       </el-form-item>
-      <el-form-item>
+      <el-form-item :label="$t('om.operation')">
         <el-button type="primary" icon="Search" @click="handleQuery">{{ $t('om.search') }}</el-button>
         <el-button icon="Refresh" @click="resetQuery">{{ $t('om.reset') }}</el-button>
       </el-form-item>
@@ -51,7 +51,7 @@
 
     <!-- 添加或修改第三方AccessKey管理对话框 -->
     <el-dialog :title="title" v-model="open" width="500px" append-to-body>
-      <el-form ref="accessRef" :model="form" :rules="rules" label-width="160px">
+      <el-form ref="accessRef" :model="form" :rules="rules" :label-position="settingsStore.labelPosition" label-width="160px">
         <el-form-item label="AccessKey ID" prop="accessKeyId">
           <el-input v-model="form.accessKeyId" placeholder="请输入AccessKey ID" />
         </el-form-item>
@@ -76,8 +76,10 @@
 
 <script setup name="Access">
 import { listAccess, getAccess, delAccess, addAccess, updateAccess } from '@/api/ops/access';
+import useSettingsStore from '@/store/modules/settings';
 
 const { proxy } = getCurrentInstance();
+const settingsStore = useSettingsStore();
 const { access_key_type } = proxy.useDict('access_key_type');
 
 const accessList = ref([]);

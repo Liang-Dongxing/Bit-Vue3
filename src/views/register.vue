@@ -1,6 +1,6 @@
 <template>
   <div class="register">
-    <el-form ref="registerRef" :model="registerForm" :rules="registerRules" class="register-form">
+    <el-form ref="registerRef" :model="registerForm" :rules="registerRules" :label-position="settingsStore.labelPosition" class="register-form">
       <h3 class="title">{{ appTitle }}</h3>
       <el-form-item prop="username">
         <el-input v-model="registerForm.username" type="text" size="large" auto-complete="off" :placeholder="$t('om.login.username')">
@@ -57,6 +57,7 @@ import useSettingsStore from '@/store/modules/settings';
 
 const router = useRouter();
 const { proxy } = getCurrentInstance();
+const settingsStore = useSettingsStore();
 const appTitle = useSettingsStore().appTitle;
 
 const registerForm = ref({

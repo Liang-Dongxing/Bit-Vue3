@@ -2,19 +2,13 @@
   <el-dialog title="分配角色" v-model="open" :destroy-on-close="true" :draggable="true">
     <template #default>
       <h4 class="form-header h4">基本信息</h4>
-      <el-form :model="form" label-width="80px">
-        <el-row>
-          <el-col :span="8" :offset="2">
-            <el-form-item label="用户昵称" prop="nickName">
-              <el-input v-model="form.nickName" disabled />
-            </el-form-item>
-          </el-col>
-          <el-col :span="8" :offset="2">
-            <el-form-item label="登录账号" prop="userName">
-              <el-input v-model="form.userName" disabled />
-            </el-form-item>
-          </el-col>
-        </el-row>
+      <el-form :model="form" :label-position="settingsStore.labelPosition" label-width="80px">
+        <el-form-item label="用户昵称" prop="nickName">
+          <el-input v-model="form.nickName" disabled />
+        </el-form-item>
+        <el-form-item label="登录账号" prop="userName">
+          <el-input v-model="form.userName" disabled />
+        </el-form-item>
       </el-form>
 
       <h4 class="form-header h4">角色信息</h4>
@@ -48,8 +42,10 @@
 
 <script setup name="AuthRole">
 import { getAuthRole, updateAuthRole } from '@/api/system/user';
+import useSettingsStore from '@/store/modules/settings';
 
 const { proxy } = getCurrentInstance();
+const settingsStore = useSettingsStore();
 
 const loading = ref(true);
 const open = ref(false);

@@ -1,5 +1,5 @@
 <template>
-  <el-form ref="pwdRef" :model="user" :rules="rules" label-width="80px">
+  <el-form ref="pwdRef" :model="user" :rules="rules" :label-position="settingsStore.labelPosition" label-width="80px">
     <el-form-item label="旧密码" prop="oldPassword">
       <el-input v-model="user.oldPassword" placeholder="请输入旧密码" type="password" show-password />
     </el-form-item>
@@ -18,8 +18,10 @@
 
 <script setup>
 import { updateUserPwd } from '@/api/system/user';
+import useSettingsStore from '@/store/modules/settings';
 
 const { proxy } = getCurrentInstance();
+const settingsStore = useSettingsStore();
 
 const user = reactive({
   oldPassword: undefined,
