@@ -6,6 +6,7 @@ import { blobValidate, tansParams } from '@/utils/bit';
 import cache from '@/plugins/cache';
 import { saveAs } from 'file-saver';
 import useUserStore from '@/store/modules/user';
+import { i18n } from '@/language';
 
 let downloadLoadingInstance;
 // 是否显示重新登录
@@ -46,7 +47,7 @@ service.interceptors.request.use(
         const s_time = sessionObj.time; // 请求时间
         const interval = 1000; // 间隔时间(ms)，小于此时间视为重复提交
         if (s_data === requestObj.data && requestObj.time - s_time < interval && s_url === requestObj.url) {
-          const message = '数据正在处理，请勿重复提交';
+          const message = i18n.global.t('om.message.api6');
           console.warn(`[${s_url}]: ` + message);
           return Promise.reject(new Error(message));
         } else {
@@ -76,25 +77,29 @@ service.interceptors.response.use(
     if (code === 401) {
       if (!isRelogin.show) {
         isRelogin.show = true;
-        ElMessageBox.confirm('登录状态已过期，您可以继续留在该页面，或者重新登录', '系统提示', { confirmButtonText: '重新登录', cancelButtonText: '取消', type: 'warning' }).then(() => {
-          isRelogin.show = false;
-          useUserStore().logOut().then(() => {
-            location.href = '/index';
+        ElMessageBox.confirm(i18n.global.t('om.message.api1'), i18n.global.t('om.system_prompt'), { confirmButtonText: i18n.global.t('om.login_again'), cancelButtonText: i18n.global.t('om.cancel'), type: 'warning' })
+          .then(() => {
+            isRelogin.show = false;
+            useUserStore()
+              .logOut()
+              .then(() => {
+                location.href = '/index';
+              });
           })
-      }).catch(() => {
-        isRelogin.show = false;
-      });
-    }
-      return Promise.reject('无效的会话，或者会话已过期，请重新登录。')
+          .catch(() => {
+            isRelogin.show = false;
+          });
+      }
+      return Promise.reject(i18n.global.t('om.message.api2'));
     } else if (code === 500) {
-      ElMessage({ message: msg, type: 'error' })
-      return Promise.reject(new Error(msg))
+      ElMessage({ message: msg, type: 'error' });
+      return Promise.reject(new Error(msg));
     } else if (code === 601) {
-      ElMessage({ message: msg, type: 'warning' })
-      return Promise.reject(new Error(msg))
+      ElMessage({ message: msg, type: 'warning' });
+      return Promise.reject(new Error(msg));
     } else if (code !== 200) {
-      ElNotification.error({ title: msg })
-      return Promise.reject('error')
+      ElNotification.error({ title: msg });
+      return Promise.reject('error');
     } else {
       return Promise.resolve(res.data);
     }
@@ -102,21 +107,21 @@ service.interceptors.response.use(
   (error) => {
     console.log('err' + error);
     let { message } = error;
-    if (message == "Network Error") {
-      message = "后端接口连接异常";
-    } else if (message.includes("timeout")) {
-      message = "系统接口请求超时";
-    } else if (message.includes("Request failed with status code")) {
-      message = "系统接口" + message.substr(message.length - 3) + "异常";
+    if (message == 'Network Error') {
+      message = i18n.global.t('om.message.api3');
+    } else if (message.includes('timeout')) {
+      message = i18n.global.t('om.message.api4');
+    } else if (message.includes('Request failed with status code')) {
+      message = i18n.global.t('om.message.api5', { field: message.substr(message.length - 3) });
     }
-    ElMessage({ message: message, type: 'error', duration: 5 * 1000 })
-    return Promise.reject(error)
-  }
-)
+    ElMessage({ message: message, type: 'error', duration: 5 * 1000 });
+    return Promise.reject(error);
+  },
+);
 
 // 通用下载方法
 export function download(url, params, filename, config) {
-  downloadLoadingInstance = ElLoading.service({ text: '正在下载数据，请稍候', background: 'rgba(0, 0, 0, 0.7)' });
+  downloadLoadingInstance = ElLoading.service({ text: i18n.global.t('om.message.download'), background: 'rgba(0, 0, 0, 0.7)' });
   return service
     .post(url, params, {
       transformRequest: [
@@ -143,7 +148,7 @@ export function download(url, params, filename, config) {
     })
     .catch((r) => {
       console.error(r);
-      ElMessage.error('下载文件出现错误，请联系管理员！');
+      ElMessage.error(i18n.global.t('om.message.download_error'));
       downloadLoadingInstance.close();
     });
 }
