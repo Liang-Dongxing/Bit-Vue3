@@ -1,7 +1,9 @@
 import { defineConfig, loadEnv } from 'vite';
-import path from 'path';
+import { resolve, dirname } from 'node:path';
+import { fileURLToPath } from 'url';
 import createVitePlugins from './vite/plugins';
 import { createHtmlPlugin } from 'vite-plugin-html';
+import vueI18n from '@intlify/vite-plugin-vue-i18n';
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode, command }) => {
@@ -13,6 +15,9 @@ export default defineConfig(({ mode, command }) => {
     base: VITE_APP_ENV === 'production' ? '/' : '/',
     hmr: true,
     plugins: [
+      vueI18n({
+        include: resolve(dirname(fileURLToPath(import.meta.url)), './path/to/src/locales/**'),
+      }),
       createVitePlugins(env, command === 'build'),
       createHtmlPlugin({
         inject: {
@@ -26,9 +31,10 @@ export default defineConfig(({ mode, command }) => {
       // https://cn.vitejs.dev/config/#resolve-alias
       alias: {
         // 设置路径
-        '~': path.resolve(__dirname, './'),
+        '~': resolve(__dirname, './'),
         // 设置别名
-        '@': path.resolve(__dirname, './src'),
+        '@': resolve(__dirname, './src'),
+        '@vue-i18n': 'vue-i18n/dist/vue-i18n.runtime.esm-bundler.js',
       },
       // https://cn.vitejs.dev/config/#resolve-extensions
       extensions: ['.mjs', '.js', '.ts', '.jsx', '.tsx', '.json', '.vue'],

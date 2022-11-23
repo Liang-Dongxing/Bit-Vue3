@@ -1,5 +1,7 @@
 import { createApp } from 'vue';
 
+import 'default-passive-events';
+
 import ElementPlus from 'element-plus';
 
 import '@/assets/styles/index.scss'; // global css
