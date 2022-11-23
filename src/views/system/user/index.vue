@@ -13,7 +13,7 @@
       <!--用户数据-->
       <el-col :span="20" :xs="24" :sm="24" :md="24" :lg="18" :xl="20">
         <el-form :model="queryParams" ref="queryRef" :inline="true" v-show="showSearch" :label-position="settingsStore.labelPosition" class="om-table-header">
-          <el-form-item :label="$t('om.user.user_name')" prop="userName">
+          <el-form-item :label="$t('om.user.name')" prop="userName">
             <el-input v-model="queryParams.userName" :placeholder="$t('om.fuzzy_query')" clearable @keyup.enter="handleQuery" />
           </el-form-item>
           <el-form-item :label="$t('om.user.mobile_phone_number')" prop="phonenumber">
@@ -51,8 +51,8 @@
         <el-table v-loading="loading" :data="userList" @selection-change="handleSelectionChange">
           <el-table-column type="selection" width="50" align="center" />
           <el-table-column :label="$t('om.no')" align="center" key="userId" prop="userId" v-if="columns[0].visible" width="120" />
-          <el-table-column :label="$t('om.user.user_name')" align="center" key="userName" prop="userName" v-if="columns[1].visible" :show-overflow-tooltip="true" />
-          <el-table-column :label="$t('om.user.user_nickname')" align="center" key="nickName" prop="nickName" v-if="columns[2].visible" :show-overflow-tooltip="true" />
+          <el-table-column :label="$t('om.user.name')" align="center" key="userName" prop="userName" v-if="columns[1].visible" :show-overflow-tooltip="true" />
+          <el-table-column :label="$t('om.user.nickname')" align="center" key="nickName" prop="nickName" v-if="columns[2].visible" :show-overflow-tooltip="true" />
           <el-table-column :label="$t('om.user.department')" align="center" key="deptName" prop="dept.deptName" v-if="columns[3].visible" :show-overflow-tooltip="true" />
           <el-table-column :label="$t('om.user.mobile_phone_number')" align="center" key="phonenumber" prop="phonenumber" v-if="columns[4].visible" width="120" />
           <el-table-column :label="$t('om.status')" align="center" key="status" v-if="columns[5].visible">
@@ -89,8 +89,8 @@
     <!-- 添加或修改用户配置对话框 -->
     <el-dialog :title="title" v-model="open" width="600px" append-to-body>
       <el-form :model="form" :rules="rules" ref="userRef" :label-position="settingsStore.labelPosition" label-width="160px">
-        <el-form-item :label="$t('om.user.user_nickname')" prop="nickName">
-          <el-input v-model="form.nickName" :placeholder="$t('om.please_enter') + $t('om.user.user_nickname')" maxlength="30" />
+        <el-form-item :label="$t('om.user.nickname')" prop="nickName">
+          <el-input v-model="form.nickName" :placeholder="$t('om.please_enter') + $t('om.user.nickname')" maxlength="30" />
         </el-form-item>
         <el-form-item :label="$t('om.user.department')" prop="deptId">
           <el-tree-select v-model="form.deptId" :data="deptOptions" :props="{ value: 'id', label: 'label', children: 'children' }" value-key="id" :placeholder="$t('om.select')" check-strictly />
@@ -101,13 +101,13 @@
         <el-form-item :label="$t('om.user.email')" prop="email">
           <el-input v-model="form.email" :placeholder="$t('om.please_enter') + $t('om.user.email')" maxlength="50" />
         </el-form-item>
-        <el-form-item v-if="form.userId === undefined" :label="$t('om.user.user_name')" prop="userName">
-          <el-input v-model="form.userName" :placeholder="$t('om.please_enter') + $t('om.user.user_name')" maxlength="30" />
+        <el-form-item v-if="form.userId === undefined" :label="$t('om.user.name')" prop="userName">
+          <el-input v-model="form.userName" :placeholder="$t('om.please_enter') + $t('om.user.name')" maxlength="30" />
         </el-form-item>
-        <el-form-item v-if="form.userId === undefined" :label="$t('om.user.user_password')" prop="password">
-          <el-input v-model="form.password" :placeholder="$t('om.please_enter') + $t('om.user.user_password')" type="password" maxlength="20" show-password />
+        <el-form-item v-if="form.userId === undefined" :label="$t('om.user.password')" prop="password">
+          <el-input v-model="form.password" :placeholder="$t('om.please_enter') + $t('om.user.password')" type="password" maxlength="20" show-password />
         </el-form-item>
-        <el-form-item :label="$t('om.user.user_gender')">
+        <el-form-item :label="$t('om.user.gender')">
           <el-select v-model="form.sex" :placeholder="$t('om.select')">
             <el-option v-for="dict in sys_user_sex" :key="dict.value" :label="dict.label" :value="dict.value"></el-option>
           </el-select>
@@ -216,9 +216,9 @@ const upload = reactive({
 });
 // 列显隐信息
 const columns = ref([
-  { key: 0, label: proxy.$t('om.user.user_number'), visible: true },
-  { key: 1, label: proxy.$t('om.user.user_name'), visible: true },
-  { key: 2, label: proxy.$t('om.user.user_nickname'), visible: true },
+  { key: 0, label: proxy.$t('om.user.number'), visible: true },
+  { key: 1, label: proxy.$t('om.user.name'), visible: true },
+  { key: 2, label: proxy.$t('om.user.nickname'), visible: true },
   { key: 3, label: proxy.$t('om.user.department'), visible: true },
   { key: 4, label: proxy.$t('om.user.mobile_phone_number'), visible: true },
   { key: 5, label: proxy.$t('om.status'), visible: true },
@@ -389,7 +389,7 @@ function handleSelectionChange(selection) {
 
 /** 导入按钮操作 */
 function handleImport() {
-  upload.title = proxy.$t('om.user.import_user');
+  upload.title = proxy.$t('om.user.import');
   upload.open = true;
 }
 
@@ -448,7 +448,7 @@ function handleAdd() {
     postOptions.value = response.posts;
     roleOptions.value = response.roles;
     open.value = true;
-    title.value = proxy.$t('om.user.add_user');
+    title.value = proxy.$t('om.user.add');
     form.value.password = initPassword.value;
   });
 }
@@ -464,7 +464,7 @@ function handleUpdate(row) {
     form.value.postIds = response.postIds;
     form.value.roleIds = response.roleIds;
     open.value = true;
-    title.value = proxy.$t('om.user.edit_user');
+    title.value = proxy.$t('om.user.edit');
     form.password = '';
   });
 }

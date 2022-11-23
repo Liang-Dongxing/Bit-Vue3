@@ -34,8 +34,8 @@
           </el-form-item>
           <el-form-item :label="$t('om.setting.conf7')">
             <el-checkbox-group v-model="watermarkContent">
-              <el-checkbox label="name">{{ $t('om.user.user_name') }}</el-checkbox>
-              <el-checkbox label="nickName">{{ $t('om.user.user_nickname') }}</el-checkbox>
+              <el-checkbox label="name">{{ $t('om.user.name') }}</el-checkbox>
+              <el-checkbox label="nickName">{{ $t('om.user.nickname') }}</el-checkbox>
               <el-checkbox label="deptName">{{ $t('om.user.department') }}</el-checkbox>
               <el-checkbox label="phonenumber">{{ $t('om.user.mobile_phone_number') }}</el-checkbox>
               <el-checkbox label="email">{{ $t('om.user.email') }}</el-checkbox>

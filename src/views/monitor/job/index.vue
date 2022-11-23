@@ -282,7 +282,7 @@ function handleCommand(command, row) {
 }
 // 任务状态修改
 function handleStatusChange(row) {
-  let text = row.status === '0' ? '启用' : '停用';
+  let text = row.status === '0' ? proxy.$t('om.enabled') : proxy.$t('om.deactivation');
   proxy.$modal
     .confirm('确认要"' + text + '""' + row.jobName + '"任务吗?')
     .then(function () {
@@ -374,7 +374,7 @@ function handleDelete(row) {
     })
     .then(() => {
       getList();
-      proxy.$modal.msgSuccess('删除成功');
+      proxy.$modal.msgSuccess(proxy.$t('om.message.delete'));
     })
     .catch(() => {});
 }

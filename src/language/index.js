@@ -1,5 +1,5 @@
 import useLanguageStore from '@/store/modules/language';
-import { createI18n } from 'vue-i18n';
+import { createI18n } from '@vue-i18n';
 
 /*
  * 默认只引入 element-plus 的中英文语言包

@@ -78,7 +78,7 @@
           </el-radio-group>
         </el-form-item>
         <el-form-item label="内容">
-          <el-input :rows="6" type="textarea" placeholder="请输入内容" v-model="form.noticeContent" />
+          <el-input :rows="6" type="textarea" :placeholder="$t('om.please_enter')" v-model="form.noticeContent" />
         </el-form-item>
       </el-form>
       <template #footer>
@@ -213,7 +213,7 @@ function handleDelete(row) {
     })
     .then(() => {
       getList();
-      proxy.$modal.msgSuccess('删除成功');
+      proxy.$modal.msgSuccess(proxy.$t('om.message.delete'));
     })
     .catch(() => {});
 }

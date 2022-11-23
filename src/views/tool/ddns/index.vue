@@ -62,7 +62,7 @@
           <el-input v-model="form.hostRecord" placeholder="请输入主机记录" />
         </el-form-item>
         <el-form-item label="域名" prop="domain">
-          <el-input v-model="form.domain" placeholder="请输入内容" />
+          <el-input v-model="form.domain" :placeholder="$t('om.please_enter')" />
         </el-form-item>
         <el-form-item label="解析记录类型" prop="parseRecordType">
           <el-select v-model="form.parseRecordType" placeholder="请选择解析记录类型">
@@ -81,7 +81,7 @@
           </el-select>
         </el-form-item>
         <el-form-item label="备注" prop="remark">
-          <el-input v-model="form.remark" type="textarea" placeholder="请输入内容" />
+          <el-input v-model="form.remark" type="textarea" :placeholder="$t('om.please_enter')" />
         </el-form-item>
       </el-form>
       <template #footer>
@@ -243,7 +243,7 @@ function handleDelete(row) {
     })
     .then(() => {
       getList();
-      proxy.$modal.msgSuccess('删除成功');
+      proxy.$modal.msgSuccess(proxy.$t('om.message.delete'));
     })
     .catch(() => {});
 }
