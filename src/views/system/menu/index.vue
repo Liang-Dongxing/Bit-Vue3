@@ -74,7 +74,7 @@
         <el-form-item v-if="form.menuType != 'F'" label="菜单图标" prop="icon">
           <el-popover placement="bottom-start" :width="740" trigger="click" @show="showSelectIcon">
             <template #reference>
-              <el-input v-model="form.icon" placeholder="点击选择图标" @click="showSelectIcon" v-click-outside="hideSelectIcon">
+              <el-input v-model="form.icon" placeholder="点击选择图标" @blur="showSelectIcon" v-click-outside="hideSelectIcon">
                 <template #prefix>
                   <svg-icon v-if="form.icon && form.icon.indexOf('--i') === 1" :icon-class="form.icon" class="el-input__icon" style="height: 32px; width: 16px" />
                   <icon-park v-if="form.icon" :type="form.icon" :size="16" theme="filled" />

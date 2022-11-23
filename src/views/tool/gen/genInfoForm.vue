@@ -171,7 +171,7 @@ import { listMenu } from '@/api/system/menu';
 import useSettingsStore from '@/store/modules/settings';
 
 const subColumns = ref([]);
-const menuOptions = ref({});
+const menuOptions = ref([]);
 const { proxy } = getCurrentInstance();
 const settingsStore = useSettingsStore();
 
