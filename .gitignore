@@ -19,5 +19,6 @@ selenium-debug.log
 *.sln
 *.local
 
+.eslintrc-auto-import.json
 package-lock.json
 yarn.lock
