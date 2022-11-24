@@ -37,7 +37,7 @@
 
     <el-table ref="operlogRef" v-loading="loading" :data="operlogList" @selection-change="handleSelectionChange" :default-sort="defaultSort" @sort-change="handleSortChange">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column :label="$t('om.no')" align="center" prop="operId" width="120" />
+      <el-table-column :label="$t('om.id')" align="center" prop="operId" width="120" />
       <el-table-column label="系统模块" align="center" prop="title" />
       <el-table-column label="操作类型" align="center" prop="businessType">
         <template #default="scope">

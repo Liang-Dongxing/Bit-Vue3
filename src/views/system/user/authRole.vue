@@ -1,27 +1,20 @@
 <template>
-  <el-dialog title="分配角色" v-model="open" :destroy-on-close="true" :draggable="true">
+  <el-dialog :title="$t('om.assign_roles')" v-model="open" :destroy-on-close="true" :draggable="true">
     <template #default>
-      <h4 class="form-header h4">基本信息</h4>
       <el-form :model="form" :label-position="settingsStore.labelPosition" label-width="80px">
-        <el-form-item label="用户昵称" prop="nickName">
+        <el-form-item :label="$t('om.user.nickname')" prop="nickName">
           <el-input v-model="form.nickName" disabled />
         </el-form-item>
-        <el-form-item label="登录账号" prop="userName">
+        <el-form-item :label="$t('om.user.name')" prop="userName">
           <el-input v-model="form.userName" disabled />
         </el-form-item>
       </el-form>
 
-      <h4 class="form-header h4">角色信息</h4>
       <el-table v-loading="loading" :row-key="getRowKey" @row-click="clickRow" ref="roleRef" @selection-change="handleSelectionChange" :data="roles.slice((pageNum - 1) * pageSize, pageNum * pageSize)">
-        <el-table-column label="序号" width="120" type="index" align="center">
-          <template #default="scope">
-            <span>{{ (pageNum - 1) * pageSize + scope.$index + 1 }}</span>
-          </template>
-        </el-table-column>
         <el-table-column type="selection" :reserve-selection="true" width="55"></el-table-column>
-        <el-table-column :label="$t('om.no')" align="center" prop="roleId" />
-        <el-table-column label="角色名称" align="center" prop="roleName" />
-        <el-table-column label="权限字符" align="center" prop="roleKey" />
+        <el-table-column :label="$t('om.id')" align="center" prop="roleId" />
+        <el-table-column :label="$t('om.role.name')" align="center" prop="roleName" />
+        <el-table-column :label="$t('om.role.key')" align="center" prop="roleKey" />
         <el-table-column :label="$t('om.creation_time')" align="center" prop="createTime" width="180">
           <template #default="scope">
             <span>{{ parseTime(scope.row.createTime) }}</span>
@@ -33,8 +26,8 @@
     </template>
     <template #footer>
       <div class="dialog-footer">
-        <el-button type="primary" @click="submitForm()">提交</el-button>
-        <el-button @click="close()">返回</el-button>
+        <el-button type="primary" @click="submitForm()">{{ $t('om.save') }}</el-button>
+        <el-button @click="close()">{{ $t('om.cancel') }}</el-button>
       </div>
     </template>
   </el-dialog>
@@ -94,7 +87,7 @@ function submitForm() {
   const userId = form.value.userId;
   const rIds = roleIds.value.join(',');
   updateAuthRole({ userId: userId, roleIds: rIds }).then((response) => {
-    proxy.$modal.msgSuccess('授权成功');
+    proxy.$modal.msgSuccess(proxy.$t('om.message.authorization'));
     close();
   });
 }

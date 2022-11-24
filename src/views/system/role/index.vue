@@ -33,7 +33,7 @@
     <!-- 表格数据 -->
     <el-table v-loading="loading" :data="roleList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column :label="$t('om.no')" align="center" prop="roleId" width="120" />
+      <el-table-column :label="$t('om.id')" align="center" prop="roleId" width="120" />
       <el-table-column :label="$t('om.role.name')" align="center" prop="roleName" :show-overflow-tooltip="true" />
       <el-table-column :label="$t('om.role.key')" align="center" prop="roleKey" :show-overflow-tooltip="true" width="250" />
       <el-table-column :label="$t('om.role.sort')" align="center" prop="roleSort" width="100" />

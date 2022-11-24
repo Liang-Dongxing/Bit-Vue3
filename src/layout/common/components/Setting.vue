@@ -37,7 +37,7 @@
               <el-checkbox label="name">{{ $t('om.user.name') }}</el-checkbox>
               <el-checkbox label="nickName">{{ $t('om.user.nickname') }}</el-checkbox>
               <el-checkbox label="deptName">{{ $t('om.user.department') }}</el-checkbox>
-              <el-checkbox label="phonenumber">{{ $t('om.user.mobile_phone_number') }}</el-checkbox>
+              <el-checkbox label="phonenumber">{{ $t('om.user.mobile') }}</el-checkbox>
               <el-checkbox label="email">{{ $t('om.user.email') }}</el-checkbox>
             </el-checkbox-group>
           </el-form-item>

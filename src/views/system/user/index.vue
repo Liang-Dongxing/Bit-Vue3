@@ -16,7 +16,7 @@
           <el-form-item :label="$t('om.user.name')" prop="userName">
             <el-input v-model="queryParams.userName" :placeholder="$t('om.fuzzy_query')" clearable @keyup.enter="handleQuery" />
           </el-form-item>
-          <el-form-item :label="$t('om.user.mobile_phone_number')" prop="phonenumber">
+          <el-form-item :label="$t('om.user.mobile')" prop="phonenumber">
             <el-input v-model="queryParams.phonenumber" :placeholder="$t('om.fuzzy_query')" clearable @keyup.enter="handleQuery" />
           </el-form-item>
           <el-form-item :label="$t('om.status')" prop="status">
@@ -50,11 +50,11 @@
 
         <el-table v-loading="loading" :data="userList" @selection-change="handleSelectionChange">
           <el-table-column type="selection" width="50" align="center" />
-          <el-table-column :label="$t('om.no')" align="center" key="userId" prop="userId" v-if="columns[0].visible" width="120" />
+          <el-table-column :label="$t('om.id')" align="center" key="userId" prop="userId" v-if="columns[0].visible" width="120" />
           <el-table-column :label="$t('om.user.name')" align="center" key="userName" prop="userName" v-if="columns[1].visible" :show-overflow-tooltip="true" />
           <el-table-column :label="$t('om.user.nickname')" align="center" key="nickName" prop="nickName" v-if="columns[2].visible" :show-overflow-tooltip="true" />
           <el-table-column :label="$t('om.user.department')" align="center" key="deptName" prop="dept.deptName" v-if="columns[3].visible" :show-overflow-tooltip="true" />
-          <el-table-column :label="$t('om.user.mobile_phone_number')" align="center" key="phonenumber" prop="phonenumber" v-if="columns[4].visible" width="120" />
+          <el-table-column :label="$t('om.user.mobile')" align="center" key="phonenumber" prop="phonenumber" v-if="columns[4].visible" width="120" />
           <el-table-column :label="$t('om.status')" align="center" key="status" v-if="columns[5].visible">
             <template #default="scope">
               <el-switch v-model="scope.row.status" active-value="0" inactive-value="1" @change="handleStatusChange(scope.row)"></el-switch>
@@ -95,8 +95,8 @@
         <el-form-item :label="$t('om.user.department')" prop="deptId">
           <el-tree-select v-model="form.deptId" :data="deptOptions" :props="{ value: 'id', label: 'label', children: 'children' }" value-key="id" :placeholder="$t('om.select')" check-strictly />
         </el-form-item>
-        <el-form-item :label="$t('om.user.mobile_phone_number')" prop="phonenumber">
-          <el-input v-model="form.phonenumber" :placeholder="$t('om.please_enter') + $t('om.user.mobile_phone_number')" maxlength="11" />
+        <el-form-item :label="$t('om.user.mobile')" prop="phonenumber">
+          <el-input v-model="form.phonenumber" :placeholder="$t('om.please_enter') + $t('om.user.mobile')" maxlength="11" />
         </el-form-item>
         <el-form-item :label="$t('om.user.email')" prop="email">
           <el-input v-model="form.email" :placeholder="$t('om.please_enter') + $t('om.user.email')" maxlength="50" />
@@ -220,7 +220,7 @@ const columns = ref([
   { key: 1, label: proxy.$t('om.user.name'), visible: true },
   { key: 2, label: proxy.$t('om.user.nickname'), visible: true },
   { key: 3, label: proxy.$t('om.user.department'), visible: true },
-  { key: 4, label: proxy.$t('om.user.mobile_phone_number'), visible: true },
+  { key: 4, label: proxy.$t('om.user.mobile'), visible: true },
   { key: 5, label: proxy.$t('om.status'), visible: true },
   { key: 6, label: proxy.$t('om.creation_time'), visible: true },
 ]);
@@ -310,7 +310,7 @@ function handleDelete(row) {
     })
     .then(() => {
       getList();
-      proxy.$modal.msgSuccess(proxy.$t('om.mssage.delete_success'));
+      proxy.$modal.msgSuccess(proxy.$t('om.mssage.delete'));
     })
     .catch(() => {});
 }
