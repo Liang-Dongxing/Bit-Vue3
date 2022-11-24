@@ -192,6 +192,7 @@ export default {
       msg3: 'Cancellation of authorization succeeded',
       msg4: 'Do you want to uncheck the user authorization data item?',
       msg5: 'Are you sure you want to cancel the user "{field1}" role?',
+      msg6: 'Please select the user to assign',
     },
   },
 };
