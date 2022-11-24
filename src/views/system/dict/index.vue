@@ -197,13 +197,13 @@ function submitForm() {
     if (valid) {
       if (form.value.dictId != undefined) {
         updateType(form.value).then((response) => {
-          proxy.$modal.msgSuccess('修改成功');
+          proxy.$modal.msgSuccess(proxy.$t('om.message.edit'));
           open.value = false;
           getList();
         });
       } else {
         addType(form.value).then((response) => {
-          proxy.$modal.msgSuccess('新增成功');
+          proxy.$modal.msgSuccess(proxy.$t('om.message.add'));
           open.value = false;
           getList();
         });

@@ -189,13 +189,13 @@ function submitForm() {
     if (valid) {
       if (form.value.postId != undefined) {
         updatePost(form.value).then((response) => {
-          proxy.$modal.msgSuccess('修改成功');
+          proxy.$modal.msgSuccess(proxy.$t('om.message.edit'));
           open.value = false;
           getList();
         });
       } else {
         addPost(form.value).then((response) => {
-          proxy.$modal.msgSuccess('新增成功');
+          proxy.$modal.msgSuccess(proxy.$t('om.message.add'));
           open.value = false;
           getList();
         });

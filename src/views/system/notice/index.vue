@@ -1,14 +1,14 @@
 <template>
   <div class="om-app-container">
     <el-form :model="queryParams" ref="queryRef" :inline="true" v-show="showSearch" :label-position="settingsStore.labelPosition" class="om-table-header" label-width="70px">
-      <el-form-item label="公告标题" prop="noticeTitle">
-        <el-input v-model="queryParams.noticeTitle" placeholder="请输入公告标题" clearable @keyup.enter="handleQuery" />
+      <el-form-item :label="$t('om.notice.title')" prop="noticeTitle">
+        <el-input v-model="queryParams.noticeTitle" :placeholder="$t('om.fuzzy_query')" clearable @keyup.enter="handleQuery" />
       </el-form-item>
-      <el-form-item label="操作人员" prop="createBy">
-        <el-input v-model="queryParams.createBy" placeholder="请输入操作人员" clearable @keyup.enter="handleQuery" />
+      <el-form-item :label="$t('om.notice.create')" prop="createBy">
+        <el-input v-model="queryParams.createBy" :placeholder="$t('om.fuzzy_query')" clearable @keyup.enter="handleQuery" />
       </el-form-item>
-      <el-form-item label="类型" prop="noticeType">
-        <el-select v-model="queryParams.noticeType" placeholder="公告类型" clearable>
+      <el-form-item :label="$t('om.notice.type')" prop="noticeType">
+        <el-select v-model="queryParams.noticeType" :placeholder="$t('om.select')" clearable>
           <el-option v-for="dict in sys_notice_type" :key="dict.value" :label="dict.label" :value="dict.value" />
         </el-select>
       </el-form-item>
@@ -29,9 +29,9 @@
 
     <el-table v-loading="loading" :data="noticeList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="序号" align="center" prop="noticeId" width="120" />
-      <el-table-column label="公告标题" align="center" prop="noticeTitle" :show-overflow-tooltip="true" />
-      <el-table-column label="公告类型" align="center" prop="noticeType" width="100">
+      <el-table-column :label="$t('om.id')" align="center" prop="noticeId" width="120" />
+      <el-table-column :label="$t('om.notice.title')" align="center" prop="noticeTitle" :show-overflow-tooltip="true" />
+      <el-table-column :label="$t('om.notice.type')" align="center" prop="noticeType" width="180">
         <template #default="scope">
           <dict-tag :options="sys_notice_type" :value="scope.row.noticeType" />
         </template>
@@ -41,8 +41,8 @@
           <dict-tag :options="sys_notice_status" :value="scope.row.status" />
         </template>
       </el-table-column>
-      <el-table-column label="创建者" align="center" prop="createBy" width="100" />
-      <el-table-column :label="$t('om.creation_time')" align="center" prop="createTime" width="100">
+      <el-table-column :label="$t('om.notice.create')" align="center" prop="createBy" width="100" />
+      <el-table-column :label="$t('om.creation_time')" align="center" prop="createTime" width="180">
         <template #default="scope">
           <span>{{ parseTime(scope.row.createTime, '{y}-{m}-{d}') }}</span>
         </template>
@@ -64,11 +64,11 @@
     <!-- 添加或修改公告对话框 -->
     <el-dialog :title="title" v-model="open" width="780px" append-to-body>
       <el-form ref="noticeRef" :model="form" :rules="rules" :label-position="settingsStore.labelPosition" label-width="80px">
-        <el-form-item label="公告标题" prop="noticeTitle">
-          <el-input v-model="form.noticeTitle" placeholder="请输入公告标题" />
+        <el-form-item :label="$t('om.notice.title')" prop="noticeTitle">
+          <el-input v-model="form.noticeTitle" :placeholder="$t('om.fuzzy_query')" />
         </el-form-item>
-        <el-form-item label="公告类型" prop="noticeType">
-          <el-select v-model="form.noticeType" placeholder="请选择">
+        <el-form-item :label="$t('om.notice.type')" prop="noticeType">
+          <el-select v-model="form.noticeType" :placeholder="$t('om.select')">
             <el-option v-for="dict in sys_notice_type" :key="dict.value" :label="dict.label" :value="dict.value"></el-option>
           </el-select>
         </el-form-item>
@@ -77,14 +77,14 @@
             <el-radio v-for="dict in sys_notice_status" :key="dict.value" :label="dict.value">{{ dict.label }}</el-radio>
           </el-radio-group>
         </el-form-item>
-        <el-form-item label="内容">
+        <el-form-item :label="$t('om.notice.content')">
           <el-input :rows="6" type="textarea" :placeholder="$t('om.please_enter')" v-model="form.noticeContent" />
         </el-form-item>
       </el-form>
       <template #footer>
         <div class="dialog-footer">
-          <el-button type="primary" @click="submitForm">确 定</el-button>
-          <el-button @click="cancel">取 消</el-button>
+          <el-button type="primary" @click="submitForm">{{ $t('om.save') }}</el-button>
+          <el-button @click="cancel">{{ $t('om.cancel') }}</el-button>
         </div>
       </template>
     </el-dialog>
@@ -119,8 +119,8 @@ const data = reactive({
     status: undefined,
   },
   rules: {
-    noticeTitle: [{ required: true, message: '公告标题不能为空', trigger: 'blur' }],
-    noticeType: [{ required: true, message: '公告类型不能为空', trigger: 'change' }],
+    noticeTitle: [{ required: true, message: proxy.$t('om.notice.rules1'), trigger: 'blur' }],
+    noticeType: [{ required: true, message: proxy.$t('om.notice.rules2'), trigger: 'change' }],
   },
 });
 
@@ -171,7 +171,7 @@ function handleSelectionChange(selection) {
 function handleAdd() {
   reset();
   open.value = true;
-  title.value = '添加公告';
+  title.value = proxy.$t('om.notice.add');
 }
 /**修改按钮操作 */
 function handleUpdate(row) {
@@ -180,7 +180,7 @@ function handleUpdate(row) {
   getNotice(noticeId).then((response) => {
     form.value = response.data;
     open.value = true;
-    title.value = '修改公告';
+    title.value = proxy.$t('om.notice.edit');
   });
 }
 /** 提交按钮 */
@@ -189,13 +189,13 @@ function submitForm() {
     if (valid) {
       if (form.value.noticeId != undefined) {
         updateNotice(form.value).then((response) => {
-          proxy.$modal.msgSuccess('修改成功');
+          proxy.$modal.msgSuccess(proxy.$t('om.message.edit'));
           open.value = false;
           getList();
         });
       } else {
         addNotice(form.value).then((response) => {
-          proxy.$modal.msgSuccess('新增成功');
+          proxy.$modal.msgSuccess(proxy.$t('om.message.add'));
           open.value = false;
           getList();
         });
@@ -207,7 +207,7 @@ function submitForm() {
 function handleDelete(row) {
   const noticeIds = row.noticeId || ids.value;
   proxy.$modal
-    .confirm('是否确认删除公告编号为"' + noticeIds + '"的数据项？')
+    .confirm(proxy.$t('om.notice.msg1', { field1: noticeIds }))
     .then(function () {
       return delNotice(noticeIds);
     })

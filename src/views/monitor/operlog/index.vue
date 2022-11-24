@@ -4,10 +4,10 @@
       <el-form-item label="系统模块" prop="title">
         <el-input v-model="queryParams.title" placeholder="请输入系统模块" clearable style="width: 240px" @keyup.enter="handleQuery" />
       </el-form-item>
-      <el-form-item label="操作人员" prop="operName">
+      <el-form-item :label="$t('om.notice.create')" prop="operName">
         <el-input v-model="queryParams.operName" placeholder="请输入操作人员" clearable style="width: 240px" @keyup.enter="handleQuery" />
       </el-form-item>
-      <el-form-item label="类型" prop="businessType">
+      <el-form-item :label="$t('om.notice.type')" prop="businessType">
         <el-select v-model="queryParams.businessType" placeholder="操作类型" clearable style="width: 240px">
           <el-option v-for="dict in sys_oper_type" :key="dict.value" :label="dict.label" :value="dict.value" />
         </el-select>
@@ -45,7 +45,7 @@
         </template>
       </el-table-column>
       <el-table-column label="请求方式" align="center" prop="requestMethod" />
-      <el-table-column label="操作人员" align="center" prop="operName" :show-overflow-tooltip="true" sortable="custom" :sort-orders="['descending', 'ascending']" width="100" />
+      <el-table-column :label="$t('om.notice.create')" align="center" prop="operName" :show-overflow-tooltip="true" sortable="custom" :sort-orders="['descending', 'ascending']" width="100" />
       <el-table-column label="主机" align="center" prop="operIp" width="130" :show-overflow-tooltip="true" />
       <el-table-column label="操作状态" align="center" prop="status">
         <template #default="scope">

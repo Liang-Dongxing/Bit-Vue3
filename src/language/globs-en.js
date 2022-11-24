@@ -194,5 +194,16 @@ export default {
       msg5: 'Are you sure you want to cancel the user "{field1}" role?',
       msg6: 'Please select the user to assign',
     },
+    notice: {
+      title: 'Announcement title',
+      create: 'Operators',
+      type: 'Announcement type',
+      content: 'Content',
+      add: 'Add announcement',
+      edit: 'Edit announcement',
+      rules1: 'Announcement title cannot be empty',
+      rules2: 'Announcement type cannot be empty',
+      msg1: 'Are you sure to delete the data item with announcement number "{field1}?',
+    },
   },
 };

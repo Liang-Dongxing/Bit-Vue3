@@ -244,14 +244,14 @@ function submitForm() {
       if (form.value.dictCode != undefined) {
         updateData(form.value).then((response) => {
           useDictStore().removeDict(queryParams.value.dictType);
-          proxy.$modal.msgSuccess('修改成功');
+          proxy.$modal.msgSuccess(proxy.$t('om.message.edit'));
           open.value = false;
           getList();
         });
       } else {
         addData(form.value).then((response) => {
           useDictStore().removeDict(queryParams.value.dictType);
-          proxy.$modal.msgSuccess('新增成功');
+          proxy.$modal.msgSuccess(proxy.$t('om.message.add'));
           open.value = false;
           getList();
         });

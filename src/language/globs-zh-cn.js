@@ -197,5 +197,16 @@ export default {
       msg5: '确认要取消该用户"{field1}"角色吗？',
       msg6: '请选择要分配的用户',
     },
+    notice: {
+      title: '公告标题',
+      create: '操作人员',
+      type: '公告类型',
+      content: '内容',
+      add: '添加公告',
+      edit: '修改公告',
+      rules1: '公告标题不能为空',
+      rules2: '公告类型不能为空',
+      msg1: '是否确认删除公告编号为"{field1}"的数据项？',
+    },
   },
 };
