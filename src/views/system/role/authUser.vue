@@ -1,11 +1,11 @@
 <template>
   <div class="om-app-container">
     <el-form :model="queryParams" ref="queryRef" v-show="showSearch" :label-position="settingsStore.labelPosition" :inline="true" class="om-table-header" label-width="70px">
-      <el-form-item label="用户名称" prop="userName">
-        <el-input v-model="queryParams.userName" placeholder="请输入用户名称" clearable style="width: 240px" @keyup.enter="handleQuery" />
+      <el-form-item :label="$t('om.user.name')" prop="userName">
+        <el-input v-model="queryParams.userName" :placeholder="$t('om.please_enter') + $t('om.user.name')" clearable style="width: 240px" @keyup.enter="handleQuery" />
       </el-form-item>
-      <el-form-item label="手机号码" prop="phonenumber">
-        <el-input v-model="queryParams.phonenumber" placeholder="请输入手机号码" clearable style="width: 240px" @keyup.enter="handleQuery" />
+      <el-form-item :label="$t('om.user.mobile')" prop="phonenumber">
+        <el-input v-model="queryParams.phonenumber" :placeholder="$t('om.please_enter') + $t('om.user.mobile')" clearable style="width: 240px" @keyup.enter="handleQuery" />
       </el-form-item>
       <el-form-item :label="$t('om.operation')">
         <el-button type="primary" icon="Search" @click="handleQuery">{{ $t('om.search') }}</el-button>
@@ -15,19 +15,19 @@
 
     <el-row justify="space-between" class="om-table-header">
       <el-col :span="21" :xs="24" :sm="18" :md="18" :lg="18" :xl="21">
-        <el-button type="primary" icon="Plus" @click="openSelectUser" v-hasPermi="['system:role:add']">添加用户</el-button>
-        <el-button type="danger" icon="CircleClose" :disabled="multiple" @click="cancelAuthUserAll" v-hasPermi="['system:role:remove']">批量取消授权</el-button>
-        <el-button type="warning" icon="Close" @click="handleClose">关闭</el-button>
+        <el-button type="primary" icon="Plus" @click="openSelectUser" v-hasPermi="['system:role:add']">{{ $t('om.user.add') }}</el-button>
+        <el-button type="danger" icon="CircleClose" :disabled="multiple" @click="cancelAuthUserAll" v-hasPermi="['system:role:remove']">{{ $t('om.role.permissions4') }}</el-button>
+        <el-button type="warning" icon="Close" @click="handleClose">{{ $t('om.close') }}</el-button>
       </el-col>
       <right-toolbar v-model:showSearch="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
     <el-table v-loading="loading" :data="userList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="用户名称" prop="userName" :show-overflow-tooltip="true" />
-      <el-table-column label="用户昵称" prop="nickName" :show-overflow-tooltip="true" />
-      <el-table-column label="邮箱" prop="email" :show-overflow-tooltip="true" />
-      <el-table-column label="手机" prop="phonenumber" :show-overflow-tooltip="true" />
+      <el-table-column :label="$t('om.user.name')" prop="userName" :show-overflow-tooltip="true" />
+      <el-table-column :label="$t('om.user.nickname')" prop="nickName" :show-overflow-tooltip="true" />
+      <el-table-column :label="$t('om.user.email')" prop="email" :show-overflow-tooltip="true" />
+      <el-table-column :label="$t('om.user.mobile')" prop="phonenumber" :show-overflow-tooltip="true" />
       <el-table-column :label="$t('om.status')" align="center" prop="status">
         <template #default="scope">
           <dict-tag :options="sys_normal_disable" :value="scope.row.status" />
@@ -40,7 +40,7 @@
       </el-table-column>
       <el-table-column :label="$t('om.operation')" align="center" class-name="om-table-operation" width="150">
         <template #default="scope">
-          <el-button type="danger" icon="CircleClose" @click="cancelAuthUser(scope.row)" v-hasPermi="['system:role:remove']">取消授权</el-button>
+          <el-button type="danger" icon="CircleClose" @click="cancelAuthUser(scope.row)" v-hasPermi="['system:role:remove']">{{ $t('om.role.permissions5') }}</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -53,6 +53,7 @@
 <script setup name="AuthUser">
 import { allocatedUserList, authUserCancel, authUserCancelAll } from '@/api/system/role';
 import useSettingsStore from '@/store/modules/settings';
+import SelectUser from '@/views/system/role/selectUser';
 
 const route = useRoute();
 const { proxy } = getCurrentInstance();
@@ -110,13 +111,13 @@ function openSelectUser() {
 /** 取消授权按钮操作 */
 function cancelAuthUser(row) {
   proxy.$modal
-    .confirm('确认要取消该用户"' + row.userName + '"角色吗？')
+    .confirm(proxy.$t('om.role.msg5', { field1: row.userName }))
     .then(function () {
       return authUserCancel({ userId: row.userId, roleId: queryParams.roleId });
     })
     .then(() => {
       getList();
-      proxy.$modal.msgSuccess('取消授权成功');
+      proxy.$modal.msgSuccess(proxy.$t('om.role.msg3'));
     })
     .catch(() => {});
 }
@@ -125,13 +126,13 @@ function cancelAuthUserAll(row) {
   const roleId = queryParams.roleId;
   const uIds = userIds.value.join(',');
   proxy.$modal
-    .confirm('是否取消选中用户授权数据项?')
+    .confirm(proxy.$t('om.role.msg4'))
     .then(function () {
       return authUserCancelAll({ roleId: roleId, userIds: uIds });
     })
     .then(() => {
       getList();
-      proxy.$modal.msgSuccess('取消授权成功');
+      proxy.$modal.msgSuccess(proxy.$t('om.role.msg3'));
     })
     .catch(() => {});
 }

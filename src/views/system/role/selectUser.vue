@@ -1,12 +1,12 @@
 <template>
   <!-- 授权用户 -->
-  <el-dialog title="选择用户" v-model="visible" width="800px" top="5vh" append-to-body>
+  <el-dialog :title="$t('om.role.select_user')" v-model="visible" width="800px" top="5vh" append-to-body>
     <el-form :model="queryParams" :label-position="settingsStore.labelPosition" ref="queryRef" :inline="true">
-      <el-form-item label="用户名称" prop="userName">
-        <el-input v-model="queryParams.userName" placeholder="请输入用户名称" clearable @keyup.enter="handleQuery" />
+      <el-form-item :label="$t('om.user.name')" prop="userName">
+        <el-input v-model="queryParams.userName" :placeholder="$t('om.please_enter') + $t('om.user.name')" clearable @keyup.enter="handleQuery" />
       </el-form-item>
-      <el-form-item label="手机号码" prop="phonenumber">
-        <el-input v-model="queryParams.phonenumber" placeholder="请输入手机号码" clearable @keyup.enter="handleQuery" />
+      <el-form-item :label="$t('om.user.mobile')" prop="phonenumber">
+        <el-input v-model="queryParams.phonenumber" :placeholder="$t('om.please_enter') + $t('om.user.mobile')" clearable @keyup.enter="handleQuery" />
       </el-form-item>
       <el-form-item :label="$t('om.operation')">
         <el-button type="primary" icon="Search" @click="handleQuery">{{ $t('om.search') }}</el-button>
@@ -16,10 +16,10 @@
     <el-row>
       <el-table @row-click="clickRow" ref="refTable" :data="userList" @selection-change="handleSelectionChange" height="260px">
         <el-table-column type="selection" width="55"></el-table-column>
-        <el-table-column label="用户名称" prop="userName" :show-overflow-tooltip="true" />
-        <el-table-column label="用户昵称" prop="nickName" :show-overflow-tooltip="true" />
-        <el-table-column label="邮箱" prop="email" :show-overflow-tooltip="true" />
-        <el-table-column label="手机" prop="phonenumber" :show-overflow-tooltip="true" />
+        <el-table-column :label="$t('om.user.name')" prop="userName" :show-overflow-tooltip="true" />
+        <el-table-column :label="$t('om.user.nickname')" prop="nickName" :show-overflow-tooltip="true" width="130"/>
+        <el-table-column :label="$t('om.user.email')" prop="email" :show-overflow-tooltip="true" />
+        <el-table-column :label="$t('om.user.mobile')" prop="phonenumber" :show-overflow-tooltip="true" />
         <el-table-column :label="$t('om.status')" align="center" prop="status">
           <template #default="scope">
             <dict-tag :options="sys_normal_disable" :value="scope.row.status" />
@@ -35,8 +35,8 @@
     </el-row>
     <template #footer>
       <div class="dialog-footer">
-        <el-button type="primary" @click="handleSelectUser">确 定</el-button>
-        <el-button @click="visible = false">取 消</el-button>
+        <el-button type="primary" @click="handleSelectUser">{{ $t('om.save') }}</el-button>
+        <el-button @click="visible = false">{{ $t('om.cancel') }}</el-button>
       </div>
     </template>
   </el-dialog>
@@ -106,7 +106,7 @@ function handleSelectUser() {
   const roleId = queryParams.roleId;
   const uIds = userIds.value.join(',');
   if (uIds == '') {
-    proxy.$modal.msgError('请选择要分配的用户');
+    proxy.$modal.msgError(proxy.$t('om.role.msg6'));
     return;
   }
   authUserSelectAll({ roleId: roleId, userIds: uIds }).then((res) => {
