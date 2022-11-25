@@ -50,11 +50,11 @@
 
         <el-table v-loading="loading" :data="userList" @selection-change="handleSelectionChange">
           <el-table-column type="selection" width="50" align="center" />
-          <el-table-column :label="$t('om.id')" align="center" key="userId" prop="userId" v-if="columns[0].visible" width="120" />
+          <el-table-column :label="$t('om.id')" align="center" key="userId" prop="userId" v-if="columns[0].visible" />
           <el-table-column :label="$t('om.user.name')" align="center" key="userName" prop="userName" v-if="columns[1].visible" :show-overflow-tooltip="true" />
-          <el-table-column :label="$t('om.user.nickname')" align="center" key="nickName" prop="nickName" v-if="columns[2].visible" :show-overflow-tooltip="true" />
-          <el-table-column :label="$t('om.user.department')" align="center" key="deptName" prop="dept.deptName" v-if="columns[3].visible" :show-overflow-tooltip="true" />
-          <el-table-column :label="$t('om.user.mobile')" align="center" key="phonenumber" prop="phonenumber" v-if="columns[4].visible" width="120" />
+          <el-table-column :label="$t('om.user.nickname')" align="center" key="nickName" prop="nickName" v-if="columns[2].visible" :show-overflow-tooltip="true" width="130" />
+          <el-table-column :label="$t('om.user.department')" align="center" key="deptName" prop="dept.deptName" v-if="columns[3].visible" :show-overflow-tooltip="true" width="110" />
+          <el-table-column :label="$t('om.user.mobile')" align="center" key="phonenumber" prop="phonenumber" v-if="columns[4].visible" width="110" />
           <el-table-column :label="$t('om.status')" align="center" key="status" v-if="columns[5].visible">
             <template #default="scope">
               <el-switch v-model="scope.row.status" active-value="0" inactive-value="1" @change="handleStatusChange(scope.row)"></el-switch>
@@ -216,7 +216,7 @@ const upload = reactive({
 });
 // 列显隐信息
 const columns = ref([
-  { key: 0, label: proxy.$t('om.user.number'), visible: true },
+  { key: 0, label: proxy.$t('om.id'), visible: true },
   { key: 1, label: proxy.$t('om.user.name'), visible: true },
   { key: 2, label: proxy.$t('om.user.nickname'), visible: true },
   { key: 3, label: proxy.$t('om.user.department'), visible: true },
@@ -304,9 +304,9 @@ function resetQuery() {
 function handleDelete(row) {
   const userIds = row.userId || ids.value;
   proxy.$modal
-    .confirm(proxy.$t('om.user.msg5', { field: userIds }))
+    .confirm(proxy.$t('om.message.del_msg', { field: userIds }))
     .then(function () {
-      return delUser(userIds);
+      return delUser(ruserIds);
     })
     .then(() => {
       getList();

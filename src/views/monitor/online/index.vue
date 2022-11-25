@@ -1,31 +1,38 @@
 <template>
   <div class="om-app-container">
-    <el-form :model="queryParams" ref="queryRef" :inline="true" :label-position="settingsStore.labelPosition" class="om-table-header" label-width="70px">
-      <el-form-item label="登录地址" prop="ipaddr">
-        <el-input v-model="queryParams.ipaddr" placeholder="请输入登录地址" clearable @keyup.enter="handleQuery" />
+    <el-form :model="queryParams" ref="queryRef" :inline="true" v-show="showSearch" :label-position="settingsStore.labelPosition" class="om-table-header" label-width="70px">
+      <el-form-item :label="$t('om.online.ipaddr')" prop="ipaddr">
+        <el-input v-model="queryParams.ipaddr" :placeholder="$t('om.fuzzy_query')" clearable @keyup.enter="handleQuery" />
       </el-form-item>
-      <el-form-item  :label="$t('om.user.name')" prop="userName">
-        <el-input v-model="queryParams.userName" :placeholder="$t('om.please_enter') + $t('om.user.name')" clearable @keyup.enter="handleQuery" />
+      <el-form-item :label="$t('om.user.name')" prop="userName">
+        <el-input v-model="queryParams.userName" :placeholder="$t('om.fuzzy_query')" clearable @keyup.enter="handleQuery" />
       </el-form-item>
       <el-form-item :label="$t('om.operation')">
         <el-button type="primary" icon="Search" @click="handleQuery">{{ $t('om.search') }}</el-button>
         <el-button icon="Refresh" @click="resetQuery">{{ $t('om.reset') }}</el-button>
       </el-form-item>
     </el-form>
+
+    <el-row justify="space-between" class="om-table-header">
+      <el-col :span="21" :xs="24" :sm="18" :md="18" :lg="18" :xl="21">
+      </el-col>
+      <right-toolbar v-model:showSearch="showSearch" @queryTable="getList"></right-toolbar>
+    </el-row>
+
     <el-table v-loading="loading" :data="onlineList.slice((pageNum - 1) * pageSize, pageNum * pageSize)" style="width: 100%">
-      <el-table-column label="序号" width="120" type="index" align="center">
+      <el-table-column :label="$t('om.id')" width="120" type="index" align="center">
         <template #default="scope">
           <span>{{ (pageNum - 1) * pageSize + scope.$index + 1 }}</span>
         </template>
       </el-table-column>
       <el-table-column :label="$t('om.id')" align="center" prop="tokenId" :show-overflow-tooltip="true" />
-      <el-table-column label="登录名称" align="center" prop="userName" :show-overflow-tooltip="true" />
-      <el-table-column label="所属部门" align="center" prop="deptName" :show-overflow-tooltip="true" />
-      <el-table-column label="主机" align="center" prop="ipaddr" :show-overflow-tooltip="true" />
-      <el-table-column label="登录地点" align="center" prop="loginLocation" :show-overflow-tooltip="true" />
-      <el-table-column label="操作系统" align="center" prop="os" :show-overflow-tooltip="true" />
-      <el-table-column label="浏览器" align="center" prop="browser" :show-overflow-tooltip="true" />
-      <el-table-column label="登录时间" align="center" prop="loginTime" width="180">
+      <el-table-column :label="$t('om.online.userName')" align="center" prop="userName" :show-overflow-tooltip="true" />
+      <el-table-column :label="$t('om.online.deptName')" align="center" prop="deptName" :show-overflow-tooltip="true" />
+      <el-table-column :label="$t('om.online.ipaddr')" align="center" prop="ipaddr" :show-overflow-tooltip="true" />
+      <el-table-column :label="$t('om.online.loginLocation')" align="center" prop="loginLocation" :show-overflow-tooltip="true" />
+      <el-table-column :label="$t('om.online.os')" align="center" prop="os" :show-overflow-tooltip="true" />
+      <el-table-column :label="$t('om.online.browser')" align="center" prop="browser" :show-overflow-tooltip="true" />
+      <el-table-column :label="$t('om.online.loginTime')" align="center" prop="loginTime" width="180">
         <template #default="scope">
           <span>{{ parseTime(scope.row.loginTime) }}</span>
         </template>
@@ -55,6 +62,7 @@ const loading = ref(true);
 const total = ref(0);
 const pageNum = ref(1);
 const pageSize = ref(10);
+const showSearch = ref(false);
 
 const queryParams = ref({
   ipaddr: undefined,
@@ -83,7 +91,7 @@ function resetQuery() {
 /** 强退按钮操作 */
 function handleForceLogout(row) {
   proxy.$modal
-    .confirm('是否确认强退名称为"' + row.userName + '"的用户?')
+    .confirm(proxy.$t('om.online.msg1', { field: row.userName }))
     .then(function () {
       return forceLogout(row.tokenId);
     })

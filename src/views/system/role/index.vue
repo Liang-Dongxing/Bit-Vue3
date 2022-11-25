@@ -226,7 +226,7 @@ function resetQuery() {
 function handleDelete(row) {
   const roleIds = row.roleId || ids.value;
   proxy.$modal
-    .confirm(proxy.$t('om.role.msg1', { field: roleIds }))
+    .confirm(proxy.$t('om.message.del_msg', { field: roleIds }))
     .then(function () {
       return delRole(roleIds);
     })

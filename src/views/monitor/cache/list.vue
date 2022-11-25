@@ -1,19 +1,19 @@
 <template>
   <div class="om-app-container">
-    <el-row>
+    <el-row :gutter="10">
       <el-col :span="8">
-        <el-card style="height: calc(100vh - 125px)">
+        <el-card>
           <template #header>
-            <span>缓存列表</span>
-            <el-button style="float: right; padding: 3px 0" icon="Refresh" @click="refreshCacheNames()"></el-button>
+            <div class="card-header">
+              <span>{{ $t('om.cache.list.header1') }}</span>
+              <el-button icon="Refresh" @click="refreshCacheNames()"></el-button>
+            </div>
           </template>
           <el-table v-loading="loading" :data="cacheNames" :height="tableHeight" highlight-current-row @row-click="getCacheKeys" style="width: 100%">
-            <el-table-column label="序号" width="120" type="index"></el-table-column>
-
-            <el-table-column label="缓存名称" align="center" prop="cacheName" :show-overflow-tooltip="true" :formatter="nameFormatter"></el-table-column>
-
-            <el-table-column label="备注" align="center" prop="remark" :show-overflow-tooltip="true" />
-            <el-table-column :label="$t('om.operation')" width="150" align="center" class-name="om-table-operation">
+            <el-table-column :label="$t('om.id')" type="index" width="40"></el-table-column>
+            <el-table-column :label="$t('om.cache.list.label1')" align="center" prop="cacheName" :show-overflow-tooltip="true" :formatter="nameFormatter"></el-table-column>
+            <el-table-column :label="$t('om.remarks')" align="center" prop="remark" :show-overflow-tooltip="true" width="90" />
+            <el-table-column :label="$t('om.operation')" width="100" align="center" class-name="om-table-operation">
               <template #default="scope">
                 <el-button type="danger" icon="Delete" @click="handleClearCacheName(scope.row)"></el-button>
               </template>
@@ -23,15 +23,17 @@
       </el-col>
 
       <el-col :span="8">
-        <el-card style="height: calc(100vh - 125px)">
+        <el-card>
           <template #header>
-            <span>键名列表</span>
-            <el-button style="float: right; padding: 3px 0" icon="Refresh" @click="refreshCacheKeys()"></el-button>
+            <div class="card-header">
+              <span>{{ $t('om.cache.list.header2') }}</span>
+              <el-button icon="Refresh" @click="refreshCacheKeys()"></el-button>
+            </div>
           </template>
           <el-table v-loading="subLoading" :data="cacheKeys" :height="tableHeight" highlight-current-row @row-click="handleCacheValue" style="width: 100%">
-            <el-table-column label="序号" width="120" type="index"></el-table-column>
-            <el-table-column label="缓存键名" align="center" :show-overflow-tooltip="true" :formatter="keyFormatter"></el-table-column>
-            <el-table-column :label="$t('om.operation')" width="150" align="center" class-name="om-table-operation">
+            <el-table-column :label="$t('om.id')" width="40" type="index"></el-table-column>
+            <el-table-column :label="$t('om.cache.list.label2')" align="center" :show-overflow-tooltip="true" :formatter="keyFormatter"></el-table-column>
+            <el-table-column :label="$t('om.operation')" width="100" align="center" class-name="om-table-operation">
               <template #default="scope">
                 <el-button type="danger" icon="Delete" @click="handleClearCacheKey(scope.row)"></el-button>
               </template>
@@ -41,20 +43,22 @@
       </el-col>
 
       <el-col :span="8">
-        <el-card :bordered="false" style="height: calc(100vh - 125px)">
+        <el-card :bordered="false">
           <template #header>
-            <span>缓存内容</span>
-            <el-button style="float: right; padding: 3px 0" icon="Refresh" @click="handleClearCacheAll()">清理全部</el-button>
+            <div class="card-header">
+              <span>{{ $t('om.cache.list.header3') }}</span>
+              <el-button icon="Delete" type="danger" @click="handleClearCacheAll()">{{ $t('om.cache.list.button1') }}</el-button>
+            </div>
           </template>
           <el-form :model="cacheForm" :label-position="settingsStore.labelPosition">
-            <el-form-item label="缓存名称:" prop="cacheName">
+            <el-form-item :label="$t('om.cache.list.label1')" prop="cacheName">
               <el-input v-model="cacheForm.cacheName" :read-only="true" />
             </el-form-item>
-            <el-form-item label="缓存键名:" prop="cacheKey">
+            <el-form-item :label="$t('om.cache.list.label2')" prop="cacheKey">
               <el-input v-model="cacheForm.cacheKey" :read-only="true" />
             </el-form-item>
-            <el-form-item label="缓存内容:" prop="cacheValue">
-              <el-input v-model="cacheForm.cacheValue" type="textarea" :rows="8" :read-only="true" />
+            <el-form-item :label="$t('om.cache.list.label3')" prop="cacheValue">
+              <el-input v-model="cacheForm.cacheValue" type="textarea" :autosize="{ minRows: 2, maxRows: 20 }" :read-only="true" />
             </el-form-item>
           </el-form>
         </el-card>
@@ -90,13 +94,13 @@ function getCacheNames() {
 /** 刷新缓存名称列表 */
 function refreshCacheNames() {
   getCacheNames();
-  proxy.$modal.msgSuccess('刷新缓存列表成功');
+  proxy.$modal.msgSuccess(proxy.$t('om.cache.list.msg1'));
 }
 
 /** 清理指定名称缓存 */
 function handleClearCacheName(row) {
   clearCacheName(row.cacheName).then((response) => {
-    proxy.$modal.msgSuccess('清理缓存名称[' + nowCacheName.value + ']成功');
+    proxy.$modal.msgSuccess(proxy.$t('om.cache.list.msg2', { field: nowCacheName.value }));
     getCacheKeys();
   });
 }
@@ -118,13 +122,13 @@ function getCacheKeys(row) {
 /** 刷新缓存键名列表 */
 function refreshCacheKeys() {
   getCacheKeys();
-  proxy.$modal.msgSuccess('刷新键名列表成功');
+  proxy.$modal.msgSuccess(proxy.$t('om.cache.list.msg3'));
 }
 
 /** 清理指定键名缓存 */
 function handleClearCacheKey(cacheKey) {
   clearCacheKey(cacheKey).then((response) => {
-    proxy.$modal.msgSuccess('清理缓存键名[' + cacheKey + ']成功');
+    proxy.$modal.msgSuccess(proxy.$t('om.cache.list.msg4', { field: cacheKey }));
     getCacheKeys();
   });
 }
@@ -149,9 +153,24 @@ function handleCacheValue(cacheKey) {
 /** 清理全部缓存 */
 function handleClearCacheAll() {
   clearCacheAll().then((response) => {
-    proxy.$modal.msgSuccess('清理全部缓存成功');
+    proxy.$modal.msgSuccess(proxy.$t('om.cache.list.msg5'));
   });
 }
 
 getCacheNames();
 </script>
+
+<style lang="scss" scoped>
+.om-app-container {
+  padding: 20px;
+
+  .el-card {
+    height: calc(100vh - 200px);
+  }
+  .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+}
+</style>

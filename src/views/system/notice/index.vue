@@ -207,7 +207,7 @@ function submitForm() {
 function handleDelete(row) {
   const noticeIds = row.noticeId || ids.value;
   proxy.$modal
-    .confirm(proxy.$t('om.notice.msg1', { field1: noticeIds }))
+    .confirm(proxy.$t('om.message.del_msg', { field: noticeIds }))
     .then(function () {
       return delNotice(noticeIds);
     })

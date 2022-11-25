@@ -2,14 +2,15 @@
   <div class="om-app-container">
     <el-form class="om-table-header" :model="queryParams" :label-position="settingsStore.labelPosition" ref="queryRef" :inline="true" v-show="showSearch">
       <el-form-item label="主机记录" prop="hostRecord">
-        <el-input v-model="queryParams.hostRecord" placeholder="请输入主机记录" clearable @keyup.enter="handleQuery" />
+        <el-input v-model="queryParams.hostRecord" :placeholder="$t('om.fuzzy_query')" clearable @keyup.enter="handleQuery" />
       </el-form-item>
       <el-form-item label="解析记录类型" prop="parseRecordType">
-        <el-select v-model="queryParams.parseRecordType" placeholder="请选择解析记录类型" clearable>
+        <el-select v-model="queryParams.parseRecordType" :placeholder="$t('om.select')" clearable>
           <el-option v-for="dict in parse_record_type" :key="dict.value" :label="dict.label" :value="dict.value" />
         </el-select>
       </el-form-item>
-      <el-form-item :label="$t('om.operation')"
+      <el-form-item
+:label="$t('om.operation')"
         <el-button type="primary" icon="Search" @click="handleQuery">{{ $t('om.search') }}</el-button>
         <el-button icon="Refresh" @click="resetQuery">{{ $t('om.reset') }}</el-button>
       </el-form-item>
@@ -40,7 +41,7 @@
       </el-table-column>
       <el-table-column label="记录值" align="center" prop="recordTheValue" />
       <el-table-column label="Access ID" align="center" prop="accessId" />
-      <el-table-column label="备注" align="center" prop="remark" />
+      <el-table-column :label="$t('om.remarks')" align="center" prop="remark" />
       <el-table-column :label="$t('om.operation')" align="center" class-name="om-table-operation">
         <template #default="scope">
           <el-tooltip :content="$t('om.edit')" placement="top">
@@ -59,13 +60,13 @@
     <el-dialog :title="title" v-model="open" width="500px" append-to-body>
       <el-form ref="ddnsRef" :model="form" :rules="rules" :label-position="settingsStore.labelPosition" label-width="120px">
         <el-form-item label="主机记录" prop="hostRecord">
-          <el-input v-model="form.hostRecord" placeholder="请输入主机记录" />
+          <el-input v-model="form.hostRecord" :placeholder="$t('om.fuzzy_query')" />
         </el-form-item>
         <el-form-item label="域名" prop="domain">
           <el-input v-model="form.domain" :placeholder="$t('om.please_enter')" />
         </el-form-item>
         <el-form-item label="解析记录类型" prop="parseRecordType">
-          <el-select v-model="form.parseRecordType" placeholder="请选择解析记录类型">
+          <el-select v-model="form.parseRecordType" :placeholder="$t('om.select')">
             <el-option v-for="dict in parse_record_type" :key="dict.value" :label="dict.label" :value="dict.value"></el-option>
           </el-select>
         </el-form-item>
@@ -80,14 +81,14 @@
             </el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="备注" prop="remark">
+        <el-form-item :label="$t('om.remarks')" prop="remark">
           <el-input v-model="form.remark" type="textarea" :placeholder="$t('om.please_enter')" />
         </el-form-item>
       </el-form>
       <template #footer>
         <div class="dialog-footer">
-          <el-button type="primary" @click="submitForm">确 定</el-button>
-          <el-button @click="cancel">取 消</el-button>
+          <el-button type="primary" @click="submitForm">{{ $t('om.save') }}</el-button>
+          <el-button @click="cancel">{{ $t('om.cancel') }}</el-button>
         </div>
       </template>
     </el-dialog>
@@ -237,7 +238,7 @@ function submitForm() {
 function handleDelete(row) {
   const _ddnsIds = row.ddnsId || ids.value;
   proxy.$modal
-    .confirm('是否确认删除ddns 解析配置编号为"' + _ddnsIds + '"的数据项？')
+    .confirm(proxy.$t('om.message.del_msg', { field: _ddnsIds }))
     .then(function () {
       return delDdns(_ddnsIds);
     })

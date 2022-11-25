@@ -1,11 +1,11 @@
 <template>
   <div class="om-app-container">
     <el-form :model="queryParams" ref="queryRef" :inline="true" v-show="showSearch" :label-position="settingsStore.labelPosition" class="om-table-header" label-width="70px">
-      <el-form-item label="菜单名称" prop="menuName">
-        <el-input v-model="queryParams.menuName" placeholder="请输入菜单名称" clearable @keyup.enter="handleQuery" />
+      <el-form-item :label="$t('om.menu.name')" prop="menuName">
+        <el-input v-model="queryParams.menuName" :placeholder="$t('om.fuzzy_query')" clearable @keyup.enter="handleQuery" />
       </el-form-item>
       <el-form-item :label="$t('om.status')" prop="status">
-        <el-select v-model="queryParams.status" placeholder="菜单状态" clearable>
+        <el-select v-model="queryParams.status" :placeholder="$t('om.select')" clearable>
           <el-option v-for="dict in sys_normal_disable" :key="dict.value" :label="dict.label" :value="dict.value" />
         </el-select>
       </el-form-item>
@@ -24,15 +24,15 @@
     </el-row>
 
     <el-table v-if="refreshTable" v-loading="loading" :data="menuList" row-key="menuId" :default-expand-all="isExpandAll" :tree-props="{ children: 'children', hasChildren: 'hasChildren' }">
-      <el-table-column prop="menuName" label="菜单名称" :show-overflow-tooltip="true" width="560"></el-table-column>
-      <el-table-column prop="icon" label="图标" align="center" width="100">
+      <el-table-column prop="menuName" :label="$t('om.menu.name')" :show-overflow-tooltip="true"></el-table-column>
+      <el-table-column prop="icon" :label="$t('om.menu.icon')" align="center" width="100">
         <template #default="scope">
           <icon-park v-if="scope.row && scope.row.icon !== '#'" :type="scope.row.icon" theme="filled" />
         </template>
       </el-table-column>
-      <el-table-column prop="orderNum" label="排序" width="60"></el-table-column>
-      <el-table-column prop="perms" label="权限标识" :show-overflow-tooltip="true"></el-table-column>
-      <el-table-column prop="component" label="组件路径" :show-overflow-tooltip="true"></el-table-column>
+      <el-table-column prop="orderNum" :label="$t('om.sort')" width="100"></el-table-column>
+      <el-table-column prop="perms" :label="$t('om.menu.perms')" :show-overflow-tooltip="true" width="200"></el-table-column>
+      <el-table-column prop="component" :label="$t('om.menu.component')" :show-overflow-tooltip="true" width="140"></el-table-column>
       <el-table-column prop="status" :label="$t('om.status')" width="80">
         <template #default="scope">
           <dict-tag :options="sys_normal_disable" :value="scope.row.status" />
@@ -61,20 +61,20 @@
     <!-- 添加或修改菜单对话框 -->
     <el-dialog :title="title" v-model="open" width="680px" append-to-body>
       <el-form ref="menuRef" :model="form" :rules="rules" :label-position="settingsStore.labelPosition" label-width="100px">
-        <el-form-item label="上级菜单">
-          <el-tree-select v-model="form.parentId" :data="menuOptions" :props="{ value: 'menuId', label: 'menuName', children: 'children' }" value-key="menuId" placeholder="选择上级菜单" check-strictly />
+        <el-form-item :label="$t('om.menu.parent')">
+          <el-tree-select v-model="form.parentId" :data="menuOptions" :props="{ value: 'menuId', label: 'menuName', children: 'children' }" value-key="menuId" :placeholder="$t('om.menu.select_parent')" check-strictly />
         </el-form-item>
-        <el-form-item label="菜单类型" prop="menuType">
+        <el-form-item :label="$t('om.menu.type')" prop="menuType">
           <el-radio-group v-model="form.menuType">
-            <el-radio label="M">目录</el-radio>
-            <el-radio label="C">菜单</el-radio>
-            <el-radio label="F">按钮</el-radio>
+            <el-radio label="M">{{ $t('om.menu.directory') }}</el-radio>
+            <el-radio label="C">{{ $t('om.menu.menu') }}</el-radio>
+            <el-radio label="F">{{ $t('om.menu.button') }}</el-radio>
           </el-radio-group>
         </el-form-item>
-        <el-form-item v-if="form.menuType != 'F'" label="菜单图标" prop="icon">
+        <el-form-item v-if="form.menuType != 'F'" :label="$t('om.menu.icon')" prop="icon">
           <el-popover placement="bottom-start" :width="740" trigger="click" @show="showSelectIcon">
             <template #reference>
-              <el-input v-model="form.icon" placeholder="点击选择图标" @blur="showSelectIcon" v-click-outside="hideSelectIcon">
+              <el-input v-model="form.icon" :placeholder="$t('om.menu.click_icon')" @blur="showSelectIcon" v-click-outside="hideSelectIcon">
                 <template #prefix>
                   <svg-icon v-if="form.icon && form.icon.indexOf('--i') === 1" :icon-class="form.icon" class="el-input__icon" style="height: 32px; width: 16px" />
                   <icon-park v-if="form.icon" :type="form.icon" :size="16" theme="filled" />
@@ -84,19 +84,19 @@
             <icon-select ref="iconSelectRef" @selected="selected" />
           </el-popover>
         </el-form-item>
-        <el-form-item label="菜单名称" prop="menuName">
-          <el-input v-model="form.menuName" placeholder="请输入菜单名称" />
+        <el-form-item :label="$t('om.menu.name')" prop="menuName">
+          <el-input v-model="form.menuName" :placeholder="$t('om.fuzzy_query')" />
         </el-form-item>
-        <el-form-item label="显示排序" prop="orderNum">
+        <el-form-item :label="$t('om.sort')" prop="orderNum">
           <el-input-number v-model="form.orderNum" controls-position="right" :min="0" />
         </el-form-item>
         <el-form-item v-if="form.menuType != 'F'">
           <template #label>
             <span>
-              <el-tooltip content="选择是外链则路由地址需要以`http(s)://`开头" placement="top">
+              <el-tooltip :content="$t('om.menu.msg1')" placement="top">
                 <el-icon><question-filled /></el-icon>
               </el-tooltip>
-              是否外链
+              {{ $t('om.menu.label1') }}
             </span>
           </template>
           <el-radio-group v-model="form.isFrame">
@@ -107,68 +107,72 @@
         <el-form-item v-if="form.menuType != 'F'" prop="path">
           <template #label>
             <span>
-              <el-tooltip content="访问的路由地址，如：`user`，如外网地址需内链访问则以`http(s)://`开头" placement="top">
+              <el-tooltip :content="$t('om.menu.msg2')" placement="top">
                 <el-icon><question-filled /></el-icon>
               </el-tooltip>
-              路由地址
+              {{ $t('om.menu.label2') }}
             </span>
           </template>
-          <el-input v-model="form.path" placeholder="请输入路由地址" />
+          <el-input v-model="form.path" :placeholder="$t('om.fuzzy_query')" />
         </el-form-item>
         <el-form-item v-if="form.menuType == 'C'" prop="component">
           <template #label>
             <span>
-              <el-tooltip content="访问的组件路径，如：`system/user/index`，默认在`views`目录下" placement="top">
+              <el-tooltip :content="$t('om.menu.msg3')" placement="top">
                 <el-icon><question-filled /></el-icon>
               </el-tooltip>
-              组件路径
+              {{ $t('om.menu.label3') }}
             </span>
           </template>
-          <el-input v-model="form.component" placeholder="请输入组件路径" />
+          <el-input v-model="form.component" :placeholder="$t('om.fuzzy_query')" />
         </el-form-item>
         <el-form-item v-if="form.menuType != 'M'">
-          <el-input v-model="form.perms" placeholder="请输入权限标识" maxlength="100" />
+          <el-input v-model="form.perms" :placeholder="$t('om.fuzzy_query')" maxlength="100" />
           <template #label>
             <span>
-              <el-tooltip content="控制器中定义的权限字符，如：@PreAuthorize(`@ss.hasPermi('system:user:list')`)" placement="top">
+              <el-tooltip :content="$t('om.menu.msg4')" placement="top">
                 <el-icon><question-filled /></el-icon>
               </el-tooltip>
-              权限字符
+              {{ $t('om.menu.label4') }}
             </span>
           </template>
         </el-form-item>
         <el-form-item v-if="form.menuType == 'C'">
-          <el-input v-model="form.query" placeholder="请输入路由参数" maxlength="255" />
+          <el-input v-model="form.query" :placeholder="$t('om.fuzzy_query')" maxlength="255" />
           <template #label>
             <span>
-              <el-tooltip content='访问路由的默认传递参数，如：`{"id": 1, "name": "ry"}`' placement="top">
+              <el-tooltip :content="$t('om.menu.msg5')" placement="top">
                 <el-icon><question-filled /></el-icon>
               </el-tooltip>
-              路由参数
+              {{ $t('om.menu.label5') }}
             </span>
           </template>
         </el-form-item>
         <el-form-item v-if="form.menuType == 'C'">
           <template #label>
             <span>
-              <el-tooltip content="选择是则会被`keep-alive`缓存，需要匹配组件的`name`和地址保持一致" placement="top">
+              <el-tooltip :content="$t('om.menu.msg6')" placement="top">
                 <el-icon><question-filled /></el-icon>
               </el-tooltip>
-              是否缓存
+              {{ $t('om.menu.label6') }}
             </span>
           </template>
           <el-radio-group v-model="form.isCache">
-            <el-radio label="0">缓存</el-radio>
-            <el-radio label="1">不缓存</el-radio>
+            <el-radio label="0">
+              {{ $t('om.menu.label7') }}
+            </el-radio>
+            <el-radio label="1">
+              {{ $t('om.menu.label8') }}
+            </el-radio>
           </el-radio-group>
         </el-form-item>
         <el-form-item v-if="form.menuType != 'F'">
           <template #label>
             <span>
-              <el-tooltip content="选择隐藏则路由将不会出现在侧边栏，但仍然可以访问" placement="top">
+              <el-tooltip :content="$t('om.menu.msg7')" placement="top">
                 <el-icon><question-filled /></el-icon>
               </el-tooltip>
-              显示状态
+              {{ $t('om.menu.label9') }}
             </span>
           </template>
           <el-radio-group v-model="form.visible">
@@ -178,10 +182,10 @@
         <el-form-item v-if="form.menuType != 'F'">
           <template #label>
             <span>
-              <el-tooltip content="选择停用则路由将不会出现在侧边栏，也不能被访问" placement="top">
+              <el-tooltip :content="$t('om.menu.msg8')" placement="top">
                 <el-icon><question-filled /></el-icon>
               </el-tooltip>
-              菜单状态
+              {{ $t('om.menu.label10') }}
             </span>
           </template>
           <el-radio-group v-model="form.status">
@@ -191,8 +195,8 @@
       </el-form>
       <template #footer>
         <div class="dialog-footer">
-          <el-button type="primary" @click="submitForm">确 定</el-button>
-          <el-button @click="cancel">取 消</el-button>
+          <el-button type="primary" @click="submitForm">{{ $t('om.save') }}</el-button>
+          <el-button @click="cancel">{{ $t('om.cancel') }}</el-button>
         </div>
       </template>
     </el-dialog>
@@ -228,9 +232,9 @@ const data = reactive({
     visible: undefined,
   },
   rules: {
-    menuName: [{ required: true, message: '菜单名称不能为空', trigger: 'blur' }],
-    orderNum: [{ required: true, message: '菜单顺序不能为空', trigger: 'blur' }],
-    path: [{ required: true, message: '路由地址不能为空', trigger: 'blur' }],
+    menuName: [{ required: true, message: proxy.$t('om.menu.rules1'), trigger: 'blur' }],
+    orderNum: [{ required: true, message: proxy.$t('om.menu.rules2'), trigger: 'blur' }],
+    path: [{ required: true, message: proxy.$t('om.menu.rules3'), trigger: 'blur' }],
   },
 });
 
@@ -248,7 +252,7 @@ function getList() {
 function getTreeselect() {
   menuOptions.value = [];
   listMenu().then((response) => {
-    const menu = { menuId: 0, menuName: '主类目', children: [] };
+    const menu = { menuId: 0, menuName: proxy.$t('om.menu.label11'), children: [] };
     menu.children = proxy.handleTree(response.data, 'menuId');
     menuOptions.value.push(menu);
   });
@@ -311,7 +315,7 @@ function handleAdd(row) {
     form.value.parentId = 0;
   }
   open.value = true;
-  title.value = '添加菜单';
+  title.value = proxy.$t('om.menu.add');
 }
 /** 展开/折叠操作 */
 function toggleExpandAll() {
@@ -328,7 +332,7 @@ async function handleUpdate(row) {
   getMenu(row.menuId).then((response) => {
     form.value = response.data;
     open.value = true;
-    title.value = '修改菜单';
+    title.value = proxy.$t('om.menu.edit');
   });
 }
 /** 提交按钮 */
@@ -353,10 +357,11 @@ function submitForm() {
 }
 /** 删除按钮操作 */
 function handleDelete(row) {
+  const menuIds = row.menuId;
   proxy.$modal
-    .confirm('是否确认删除名称为"' + row.menuName + '"的数据项?')
+    .confirm(proxy.$t('om.message.del_msg', { field: menuIds }))
     .then(function () {
-      return delMenu(row.menuId);
+      return delMenu(menuIds);
     })
     .then(() => {
       getList();

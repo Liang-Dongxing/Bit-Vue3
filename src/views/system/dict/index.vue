@@ -1,19 +1,19 @@
 <template>
   <div class="om-app-container">
     <el-form :model="queryParams" ref="queryRef" :inline="true" v-show="showSearch" :label-position="settingsStore.labelPosition" class="om-table-header" label-width="70px">
-      <el-form-item label="字典名称" prop="dictName">
-        <el-input v-model="queryParams.dictName" placeholder="请输入字典名称" clearable style="width: 240px" @keyup.enter="handleQuery" />
+      <el-form-item :label="$t('om.dict.name')" prop="dictName">
+        <el-input v-model="queryParams.dictName" :placeholder="$t('om.fuzzy_query')" clearable style="width: 240px" @keyup.enter="handleQuery" />
       </el-form-item>
-      <el-form-item label="字典类型" prop="dictType">
-        <el-input v-model="queryParams.dictType" placeholder="请输入字典类型" clearable style="width: 240px" @keyup.enter="handleQuery" />
+      <el-form-item :label="$t('om.dict.type')" prop="dictType">
+        <el-input v-model="queryParams.dictType" :placeholder="$t('om.fuzzy_query')" clearable style="width: 240px" @keyup.enter="handleQuery" />
       </el-form-item>
       <el-form-item :label="$t('om.status')" prop="status">
-        <el-select v-model="queryParams.status" placeholder="字典状态" clearable style="width: 240px">
+        <el-select v-model="queryParams.status" :placeholder="$t('om.select')" clearable style="width: 240px">
           <el-option v-for="dict in sys_normal_disable" :key="dict.value" :label="dict.label" :value="dict.value" />
         </el-select>
       </el-form-item>
       <el-form-item :label="$t('om.creation_time')" style="width: 308px">
-        <el-date-picker v-model="dateRange" value-format="YYYY-MM-DD" type="daterange" range-separator="-" :start-placeholder="$t('om.start_date')" :end-placeholder="$t('om.end_date')"></el-date-picker>
+        <el-date-picker v-model="dateRange" value-format="YYYY-MM-D D" type="daterange" range-separator="-" :start-placeholder="$t('om.start_date')" :end-placeholder="$t('om.end_date')"></el-date-picker>
       </el-form-item>
       <el-form-item :label="$t('om.operation')">
         <el-button type="primary" icon="Search" @click="handleQuery">{{ $t('om.search') }}</el-button>
@@ -35,15 +35,15 @@
     <el-table v-loading="loading" :data="typeList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column :label="$t('om.id')" align="center" prop="dictId" width="120" />
-      <el-table-column label="字典名称" align="center" prop="dictName" :show-overflow-tooltip="true" />
-      <el-table-column label="字典类型" align="center" :show-overflow-tooltip="true">
+      <el-table-column :label="$t('om.dict.name')" align="center" prop="dictName" :show-overflow-tooltip="true" />
+      <el-table-column :label="$t('om.dict.type')" align="center" :show-overflow-tooltip="true">
         <template #default="scope">
           <el-link :href="'/system/dict-data/index/' + scope.row.dictId" type="primary" class="link-type">
             <span>{{ scope.row.dictType }}</span>
           </el-link>
         </template>
       </el-table-column>
-      <el-table-column label="备注" align="center" prop="remark" :show-overflow-tooltip="true" />
+      <el-table-column :label="$t('om.remarks')" align="center" prop="remark" :show-overflow-tooltip="true" />
       <el-table-column :label="$t('om.status')" align="center" prop="status" width="100">
         <template #default="scope">
           <dict-tag :options="sys_normal_disable" :value="scope.row.status" />
@@ -71,25 +71,25 @@
     <!-- 添加或修改参数配置对话框 -->
     <el-dialog :title="title" v-model="open" width="500px" append-to-body>
       <el-form ref="dictRef" :model="form" :rules="rules" :label-position="settingsStore.labelPosition" label-width="80px">
-        <el-form-item label="字典名称" prop="dictName">
-          <el-input v-model="form.dictName" placeholder="请输入字典名称" />
+        <el-form-item :label="$t('om.dict.name')" prop="dictName">
+          <el-input v-model="form.dictName" :placeholder="$t('om.fuzzy_query')" />
         </el-form-item>
-        <el-form-item label="字典类型" prop="dictType">
-          <el-input v-model="form.dictType" placeholder="请输入字典类型" />
+        <el-form-item :label="$t('om.dict.type')" prop="dictType">
+          <el-input v-model="form.dictType" :placeholder="$t('om.fuzzy_query')" />
         </el-form-item>
         <el-form-item :label="$t('om.status')" prop="status">
           <el-radio-group v-model="form.status">
             <el-radio v-for="dict in sys_normal_disable" :key="dict.value" :label="dict.value">{{ dict.label }}</el-radio>
           </el-radio-group>
         </el-form-item>
-        <el-form-item label="备注" prop="remark">
+        <el-form-item :label="$t('om.remarks')" prop="remark">
           <el-input v-model="form.remark" type="textarea" :placeholder="$t('om.please_enter')"></el-input>
         </el-form-item>
       </el-form>
       <template #footer>
         <div class="dialog-footer">
-          <el-button type="primary" @click="submitForm">确 定</el-button>
-          <el-button @click="cancel">取 消</el-button>
+          <el-button type="primary" @click="submitForm">{{ $t('om.save') }}</el-button>
+          <el-button @click="cancel">{{ $t('om.cancel') }}</el-button>
         </div>
       </template>
     </el-dialog>
@@ -126,8 +126,8 @@ const data = reactive({
     status: undefined,
   },
   rules: {
-    dictName: [{ required: true, message: '字典名称不能为空', trigger: 'blur' }],
-    dictType: [{ required: true, message: '字典类型不能为空', trigger: 'blur' }],
+    dictName: [{ required: true, message: proxy.$t('om.dict.rules1'), trigger: 'blur' }],
+    dictType: [{ required: true, message: proxy.$t('om.dict.rules2'), trigger: 'blur' }],
   },
 });
 
@@ -173,7 +173,7 @@ function resetQuery() {
 function handleAdd() {
   reset();
   open.value = true;
-  title.value = '添加字典类型';
+  title.value = proxy.$t('om.dict.add1');
 }
 /** 多选框选中数据 */
 function handleSelectionChange(selection) {
@@ -188,7 +188,7 @@ function handleUpdate(row) {
   getType(dictId).then((response) => {
     form.value = response.data;
     open.value = true;
-    title.value = '修改字典类型';
+    title.value = proxy.$t('om.dict.edit1');
   });
 }
 /** 提交按钮 */
@@ -215,7 +215,7 @@ function submitForm() {
 function handleDelete(row) {
   const dictIds = row.dictId || ids.value;
   proxy.$modal
-    .confirm('是否确认删除字典编号为"' + dictIds + '"的数据项？')
+    .confirm(proxy.$t('om.message.del_msg', { field: dictIds }))
     .then(function () {
       return delType(dictIds);
     })
@@ -238,7 +238,7 @@ function handleExport() {
 /** 刷新缓存按钮操作 */
 function handleRefreshCache() {
   refreshCache().then(() => {
-    proxy.$modal.msgSuccess('刷新成功');
+    proxy.$modal.msgSuccess(proxy.$t('om.refresh_successful'));
     useDictStore().cleanDict();
   });
 }

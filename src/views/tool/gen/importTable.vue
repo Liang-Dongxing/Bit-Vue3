@@ -3,10 +3,10 @@
   <el-dialog title="导入表" v-model="visible" width="800px" top="5vh" append-to-body>
     <el-form :model="queryParams" ref="queryRef" :inline="true">
       <el-form-item label="表名称" prop="tableName">
-        <el-input v-model="queryParams.tableName" placeholder="请输入表名称" clearable @keyup.enter="handleQuery" />
+        <el-input v-model="queryParams.tableName" :placeholder="$t('om.fuzzy_query')" clearable @keyup.enter="handleQuery" />
       </el-form-item>
       <el-form-item label="表描述" prop="tableComment">
-        <el-input v-model="queryParams.tableComment" placeholder="请输入表描述" clearable @keyup.enter="handleQuery" />
+        <el-input v-model="queryParams.tableComment" :placeholder="$t('om.fuzzy_query')" clearable @keyup.enter="handleQuery" />
       </el-form-item>
       <el-form-item>
         <el-button type="primary" icon="Search" @click="handleQuery">{{ $t('om.search') }}</el-button>
@@ -25,8 +25,8 @@
     </el-row>
     <template #footer>
       <div class="dialog-footer">
-        <el-button type="primary" @click="handleImportTable">确 定</el-button>
-        <el-button @click="visible = false">取 消</el-button>
+        <el-button type="primary" @click="handleImportTable">{{ $t('om.save') }}</el-button>
+        <el-button @click="visible = false">{{ $t('om.cancel') }}</el-button>
       </div>
     </template>
   </el-dialog>

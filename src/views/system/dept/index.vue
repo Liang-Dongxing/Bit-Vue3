@@ -1,11 +1,11 @@
 <template>
   <div class="om-app-container">
     <el-form :model="queryParams" ref="queryRef" :inline="true" v-show="showSearch" :label-position="settingsStore.labelPosition" class="om-table-header" label-width="70px">
-      <el-form-item label="部门名称" prop="deptName">
-        <el-input v-model="queryParams.deptName" placeholder="请输入部门名称" clearable @keyup.enter="handleQuery" />
+      <el-form-item :label="$t('om.dept.name')" prop="deptName">
+        <el-input v-model="queryParams.deptName" :placeholder="$t('om.fuzzy_query')" clearable @keyup.enter="handleQuery" />
       </el-form-item>
       <el-form-item :label="$t('om.status')" prop="status">
-        <el-select v-model="queryParams.status" placeholder="部门状态" clearable>
+        <el-select v-model="queryParams.status" :placeholder="$t('om.select')" clearable>
           <el-option v-for="dict in sys_normal_disable" :key="dict.value" :label="dict.label" :value="dict.value" />
         </el-select>
       </el-form-item>
@@ -18,14 +18,14 @@
     <el-row justify="space-between" class="om-table-header">
       <el-col :span="21" :xs="24" :sm="18" :md="18" :lg="18" :xl="21">
         <el-button type="primary" icon="Plus" @click="handleAdd" v-hasPermi="['system:dept:add']">{{ $t('om.add') }}</el-button>
-        <el-button type="info" icon="Sort" @click="toggleExpandAll">展开/折叠</el-button>
+        <el-button type="info" icon="Sort" @click="toggleExpandAll">{{ $t('om.expand_and_fold') }}</el-button>
       </el-col>
       <right-toolbar v-model:showSearch="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
     <el-table v-if="refreshTable" v-loading="loading" :data="deptList" row-key="deptId" :default-expand-all="isExpandAll" :tree-props="{ children: 'children', hasChildren: 'hasChildren' }">
-      <el-table-column prop="deptName" label="部门名称"></el-table-column>
-      <el-table-column prop="orderNum" label="排序" align="center" width="80"></el-table-column>
+      <el-table-column prop="deptName" :label="$t('om.dept.name')"></el-table-column>
+      <el-table-column prop="orderNum" :label="$t('om.sort')" align="center" width="80"></el-table-column>
       <el-table-column prop="status" :label="$t('om.status')" width="100">
         <template #default="scope">
           <dict-tag :options="sys_normal_disable" :value="scope.row.status" />
@@ -54,25 +54,25 @@
     <!-- 添加或修改部门对话框 -->
     <el-dialog :title="title" v-model="open" width="600px" append-to-body>
       <el-form ref="deptRef" :model="form" :rules="rules" :label-position="settingsStore.labelPosition" label-width="80px">
-        <el-form-item v-if="form.parentId !== 0" label="上级部门" prop="parentId">
-          <el-tree-select v-model="form.parentId" :data="deptOptions" :props="{ value: 'deptId', label: 'deptName', children: 'children' }" value-key="deptId" placeholder="选择上级部门" check-strictly />
+        <el-form-item v-if="form.parentId !== 0" :label="$t('om.dept.parent')" prop="parentId">
+          <el-tree-select v-model="form.parentId" :data="deptOptions" :props="{ value: 'deptId', label: 'deptName', children: 'children' }" value-key="deptId" :placeholder="$t('om.select')" check-strictly />
         </el-form-item>
-        <el-form-item label="部门名称" prop="deptName">
-          <el-input v-model="form.deptName" placeholder="请输入部门名称" />
+        <el-form-item :label="$t('om.dept.name')" prop="deptName">
+          <el-input v-model="form.deptName" :placeholder="$t('om.fuzzy_query')" />
         </el-form-item>
-        <el-form-item label="显示排序" prop="orderNum">
+        <el-form-item :label="$t('om.sort')" prop="orderNum">
           <el-input-number v-model="form.orderNum" controls-position="right" :min="0" />
         </el-form-item>
-        <el-form-item label="负责人" prop="leader">
-          <el-input v-model="form.leader" placeholder="请输入负责人" maxlength="20" />
+        <el-form-item :label="$t('om.dept.leader')" prop="leader">
+          <el-input v-model="form.leader" :placeholder="$t('om.fuzzy_query')" maxlength="20" />
         </el-form-item>
-        <el-form-item label="联系电话" prop="phone">
-          <el-input v-model="form.phone" placeholder="请输入联系电话" maxlength="11" />
+        <el-form-item :label="$t('om.dept.phone')" prop="phone">
+          <el-input v-model="form.phone" :placeholder="$t('om.fuzzy_query')" maxlength="11" />
         </el-form-item>
         <el-form-item :label="$t('om.user.email')" prop="email">
-          <el-input v-model="form.email" placeholder="请输入邮箱" maxlength="50" />
+          <el-input v-model="form.email" :placeholder="$t('om.fuzzy_query')" maxlength="50" />
         </el-form-item>
-        <el-form-item label="部门状态">
+        <el-form-item :label="$t('om.status')">
           <el-radio-group v-model="form.status">
             <el-radio v-for="dict in sys_normal_disable" :key="dict.value" :label="dict.value">{{ dict.label }}</el-radio>
           </el-radio-group>
@@ -80,8 +80,8 @@
       </el-form>
       <template #footer>
         <div class="dialog-footer">
-          <el-button type="primary" @click="submitForm">确 定</el-button>
-          <el-button @click="cancel">取 消</el-button>
+          <el-button type="primary" @click="submitForm">{{ $t('om.save') }}</el-button>
+          <el-button @click="cancel">{{ $t('om.cancel') }}</el-button>
         </div>
       </template>
     </el-dialog>
@@ -112,11 +112,11 @@ const data = reactive({
     status: undefined,
   },
   rules: {
-    parentId: [{ required: true, message: '上级部门不能为空', trigger: 'blur' }],
-    deptName: [{ required: true, message: '部门名称不能为空', trigger: 'blur' }],
-    orderNum: [{ required: true, message: '显示排序不能为空', trigger: 'blur' }],
-    email: [{ type: 'email', message: '请输入正确的邮箱地址', trigger: ['blur', 'change'] }],
-    phone: [{ pattern: /^1[3|4|5|6|7|8|9][0-9]\d{8}$/, message: '请输入正确的手机号码', trigger: 'blur' }],
+    parentId: [{ required: true, message: proxy.$t('om.dept.rules1'), trigger: 'blur' }],
+    deptName: [{ required: true, message: proxy.$t('om.dept.rules2'), trigger: 'blur' }],
+    orderNum: [{ required: true, message: proxy.$t('om.dept.rules3'), trigger: 'blur' }],
+    email: [{ type: 'email', message: proxy.$t('om.dept.rules4'), trigger: ['blur', 'change'] }],
+    phone: [{ pattern: /^1[3|4|5|6|7|8|9][0-9]\d{8}$/, message: proxy.$t('om.dept.rules5'), trigger: 'blur' }],
   },
 });
 
@@ -168,7 +168,7 @@ function handleAdd(row) {
     form.value.parentId = row.deptId;
   }
   open.value = true;
-  title.value = '添加部门';
+  title.value = proxy.$t('om.dept.add');
 }
 /** 展开/折叠操作 */
 function toggleExpandAll() {
@@ -187,7 +187,7 @@ function handleUpdate(row) {
   getDept(row.deptId).then((response) => {
     form.value = response.data;
     open.value = true;
-    title.value = '修改部门';
+    title.value = proxy.$t('om.dept.edit');
   });
 }
 /** 提交按钮 */
@@ -212,10 +212,11 @@ function submitForm() {
 }
 /** 删除按钮操作 */
 function handleDelete(row) {
+  const deptIds = row.deptId;
   proxy.$modal
-    .confirm('是否确认删除名称为"' + row.deptName + '"的数据项?')
+    .confirm(proxy.$t('om.message.del_msg', { field: deptIds }))
     .then(function () {
-      return delDept(row.deptId);
+      return delDept(deptIds);
     })
     .then(() => {
       getList();

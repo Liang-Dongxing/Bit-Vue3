@@ -51,7 +51,7 @@
           <el-icon><question-filled /></el-icon>
         </el-tooltip>
       </template>
-      <tree-select v-model:value="info.parentMenuId" :options="menuOptions" :obj-map="{ value: 'menuId', label: 'menuName', children: 'children' }" placeholder="请选择系统菜单" />
+      <tree-select v-model:value="info.parentMenuId" :options="menuOptions" :obj-map="{ value: 'menuId', label: 'menuName', children: 'children' }" :placeholder="$t('om.select')" />
     </el-form-item>
     <el-form-item prop="genType">
       <template #label>
@@ -98,7 +98,7 @@
                 <el-icon><question-filled /></el-icon>
               </el-tooltip>
             </template>
-            <el-select v-model="info.treeCode" placeholder="请选择">
+            <el-select v-model="info.treeCode" :placeholder="$t('om.select')">
               <el-option v-for="(column, index) in info.columns" :key="index" :label="column.columnName + '：' + column.columnComment" :value="column.columnName"></el-option>
             </el-select>
           </el-form-item>
@@ -111,7 +111,7 @@
                 <el-icon><question-filled /></el-icon>
               </el-tooltip>
             </template>
-            <el-select v-model="info.treeParentCode" placeholder="请选择">
+            <el-select v-model="info.treeParentCode" :placeholder="$t('om.select')">
               <el-option v-for="(column, index) in info.columns" :key="index" :label="column.columnName + '：' + column.columnComment" :value="column.columnName"></el-option>
             </el-select>
           </el-form-item>
@@ -124,7 +124,7 @@
                 <el-icon><question-filled /></el-icon>
               </el-tooltip>
             </template>
-            <el-select v-model="info.treeName" placeholder="请选择">
+            <el-select v-model="info.treeName" :placeholder="$t('om.select')">
               <el-option v-for="(column, index) in info.columns" :key="index" :label="column.columnName + '：' + column.columnComment" :value="column.columnName"></el-option>
             </el-select>
           </el-form-item>
@@ -143,7 +143,7 @@
                 <el-icon><question-filled /></el-icon>
               </el-tooltip>
             </template>
-            <el-select v-model="info.subTableName" placeholder="请选择" @change="subSelectChange">
+            <el-select v-model="info.subTableName" :placeholder="$t('om.select')" @change="subSelectChange">
               <el-option v-for="(table, index) in tables" :key="index" :label="table.tableName + '：' + table.tableComment" :value="table.tableName"></el-option>
             </el-select>
           </el-form-item>
@@ -156,7 +156,7 @@
                 <el-icon><question-filled /></el-icon>
               </el-tooltip>
             </template>
-            <el-select v-model="info.subTableFkName" placeholder="请选择">
+            <el-select v-model="info.subTableFkName" :placeholder="$t('om.select')">
               <el-option v-for="(column, index) in subColumns" :key="index" :label="column.columnName + '：' + column.columnComment" :value="column.columnName"></el-option>
             </el-select>
           </el-form-item>

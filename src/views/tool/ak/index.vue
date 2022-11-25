@@ -2,7 +2,7 @@
   <div class="om-app-container">
     <el-form class="om-table-header" :model="queryParams" :label-position="settingsStore.labelPosition" ref="queryRef" :inline="true" v-show="showSearch">
       <el-form-item label="AccessKey ID" prop="accessKeyId">
-        <el-input v-model="queryParams.accessKeyId" placeholder="请输入AccessKey ID" clearable @keyup.enter="handleQuery" />
+        <el-input v-model="queryParams.accessKeyId" :placeholder="$t('om.please_enter')" clearable @keyup.enter="handleQuery" />
       </el-form-item>
       <el-form-item label="AccessKey 平台" prop="accessKeyType">
         <el-select v-model="queryParams.accessKeyType" placeholder="请选择AccessKey 平台" clearable>
@@ -53,7 +53,7 @@
     <el-dialog :title="title" v-model="open" width="500px" append-to-body>
       <el-form ref="accessRef" :model="form" :rules="rules" :label-position="settingsStore.labelPosition" label-width="160px">
         <el-form-item label="AccessKey ID" prop="accessKeyId">
-          <el-input v-model="form.accessKeyId" placeholder="请输入AccessKey ID" />
+          <el-input v-model="form.accessKeyId" :placeholder="$t('om.please_enter')" />
         </el-form-item>
         <el-form-item label="AccessKey Secret" prop="accessKeySecret">
           <el-input v-model="form.accessKeySecret" placeholder="请输入AccessKey Secret" />
@@ -66,8 +66,8 @@
       </el-form>
       <template #footer>
         <div class="dialog-footer">
-          <el-button type="primary" @click="submitForm">确 定</el-button>
-          <el-button @click="cancel">取 消</el-button>
+          <el-button type="primary" @click="submitForm">{{ $t('om.save') }}</el-button>
+          <el-button @click="cancel">{{ $t('om.cancel') }}</el-button>
         </div>
       </template>
     </el-dialog>
@@ -202,7 +202,7 @@ function submitForm() {
 function handleDelete(row) {
   const _accessIds = row.accessId || ids.value;
   proxy.$modal
-    .confirm('是否确认删除第三方AccessKey管理编号为"' + _accessIds + '"的数据项？')
+    .confirm(proxy.$t('om.message.del_msg', { field: _accessIds }))
     .then(function () {
       return delAccess(_accessIds);
     })

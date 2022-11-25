@@ -2,10 +2,10 @@
   <div class="om-app-container">
     <el-form :model="queryParams" ref="queryRef" :inline="true" v-show="showSearch" :label-position="settingsStore.labelPosition" class="om-table-header" label-width="70px">
       <el-form-item label="表名称" prop="tableName">
-        <el-input v-model="queryParams.tableName" placeholder="请输入表名称" clearable @keyup.enter="handleQuery" />
+        <el-input v-model="queryParams.tableName" :placeholder="$t('om.fuzzy_query')" clearable @keyup.enter="handleQuery" />
       </el-form-item>
       <el-form-item label="表描述" prop="tableComment">
-        <el-input v-model="queryParams.tableComment" placeholder="请输入表描述" clearable @keyup.enter="handleQuery" />
+        <el-input v-model="queryParams.tableComment" :placeholder="$t('om.fuzzy_query')" clearable @keyup.enter="handleQuery" />
       </el-form-item>
       <el-form-item :label="$t('om.creation_time')" style="width: 308px">
         <el-date-picker v-model="dateRange" value-format="YYYY-MM-DD" type="daterange" range-separator="-" :start-placeholder="$t('om.start_date')" :end-placeholder="$t('om.end_date')"></el-date-picker>
@@ -146,7 +146,7 @@ function handleGenTable(row) {
       proxy.$modal.msgSuccess('成功生成到自定义路径：' + row.genPath);
     });
   } else {
-    proxy.$download.zip("/tool/gen/batchGenCode?tables=" + tbNames, "bit.zip");
+    proxy.$download.zip('/tool/gen/batchGenCode?tables=' + tbNames, 'bit.zip');
   }
 }
 /** 同步数据库操作 */
@@ -200,7 +200,7 @@ function handleEditTable(row) {
 function handleDelete(row) {
   const tableIds = row.tableId || ids.value;
   proxy.$modal
-    .confirm('是否确认删除表编号为"' + tableIds + '"的数据项？')
+    .confirm(proxy.$t('om.message.del_msg', { field: tableIds }))
     .then(function () {
       return delTable(tableIds);
     })
