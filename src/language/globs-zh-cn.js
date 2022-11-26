@@ -443,7 +443,7 @@ export default {
         osArch: '系统架构',
       },
       jvm: {
-        title: 'Java virtual machine information',
+        title: 'Java 虚拟机信息',
         name: 'Java名称',
         version: 'Java版本',
         startTime: '启动时间',
