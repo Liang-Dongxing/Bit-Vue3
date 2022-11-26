@@ -21,12 +21,7 @@ import { download } from '@/utils/request';
 import { addDateRange, handleTree, parseTime, resetForm, selectDictLabel, selectDictLabels } from '@/utils/bit';
 import * as echarts from 'echarts';
 
-// 注册指令
-import tab from '@/plugins/tab';
-import auth from '@/plugins/auth';
-import cache from '@/plugins/cache';
-import modal from '@/plugins/modal';
-
+import plugins from '@/plugins';
 // 动画库
 import * as VueKinesis from 'vue-kinesis';
 
@@ -41,16 +36,8 @@ export default function component(app) {
   app.config.globalProperties.selectDictLabel = selectDictLabel;
   app.config.globalProperties.selectDictLabels = selectDictLabels;
   app.config.globalProperties.$echarts = echarts;
-  // 页签操作
-  app.config.globalProperties.$tab = tab;
-  // 认证对象
-  app.config.globalProperties.$auth = auth;
-  // 缓存对象
-  app.config.globalProperties.$cache = cache;
-  // 模态框对象
-  app.config.globalProperties.$modal = modal;
-  // 下载文件
-  app.config.globalProperties.$download = download;
+
+  app.use(plugins);
 
   // 全局组件挂载
   app.component('DictTag', DictTag);

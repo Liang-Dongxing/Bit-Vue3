@@ -32,6 +32,13 @@
     .el-breadcrumb + .om-app-container {
       margin-top: 10px;
     }
+
+    .om-app-container-footer{
+      padding: 13px 15px;
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-end;
+    }
   }
 }
 

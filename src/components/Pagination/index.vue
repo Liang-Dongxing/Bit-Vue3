@@ -87,6 +87,7 @@ function handleCurrentChange(val) {
 .pagination-container {
   padding: 13px 15px;
   display: flex;
-  flex-direction: row-reverse;
+  flex-direction: row;
+  justify-content: flex-end;
 }
 </style>
