@@ -45,7 +45,9 @@
     <el-row :gutter="20">
       <el-col :span="24" class="card-box">
         <el-card>
-          <template #header><span>Java虚拟机信息</span></template>
+          <template #header>
+            <span>{{ $t('om.server.jvm.title') }}</span>
+          </template>
           <el-descriptions :column="2" border>
             <el-descriptions-item :label="$t('om.server.mem.total')" v-if="server.jvm">{{ server.jvm.total }}G</el-descriptions-item>
             <el-descriptions-item :label="$t('om.server.mem.used')" v-if="server.jvm">{{ server.jvm.used }}G</el-descriptions-item>
@@ -66,7 +68,9 @@
     <el-row :gutter="20">
       <el-col :span="24" class="card-box">
         <el-card>
-          <template #header><span>磁盘状态</span></template>
+          <template #header>
+            <span>{{ $t('om.server.sysFiles.title') }}</span>
+          </template>
           <el-table :data="server.sysFiles">
             <el-table-column :label="$t('om.server.sysFiles.dirName')" prop="dirName" />
             <el-table-column :label="$t('om.server.sysFiles.sysTypeName')" prop="sysTypeName" />

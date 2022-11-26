@@ -1,15 +1,15 @@
 <template>
   <el-form ref="basicInfoForm" :model="info" :rules="rules" :label-position="settingsStore.labelPosition" label-width="150px">
-    <el-form-item label="表名称" prop="tableName">
+    <el-form-item :label="$t('om.gen.basicInfoForm.tableName')" prop="tableName">
       <el-input :placeholder="$t('om.fuzzy_query')" v-model="info.tableName" />
     </el-form-item>
-    <el-form-item label="表描述" prop="tableComment">
+    <el-form-item :label="$t('om.gen.basicInfoForm.tableComment')" prop="tableComment">
       <el-input :placeholder="$t('om.please_enter')" v-model="info.tableComment" />
     </el-form-item>
-    <el-form-item label="实体类名称" prop="className">
+    <el-form-item :label="$t('om.gen.basicInfoForm.className')" prop="className">
       <el-input :placeholder="$t('om.please_enter')" v-model="info.className" />
     </el-form-item>
-    <el-form-item label="作者" prop="functionAuthor">
+    <el-form-item :label="$t('om.gen.basicInfoForm.functionAuthor')" prop="functionAuthor">
       <el-input :placeholder="$t('om.please_enter')" v-model="info.functionAuthor" />
     </el-form-item>
     <el-form-item :label="$t('om.remarks')" prop="remark">

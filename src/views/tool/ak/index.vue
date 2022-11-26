@@ -4,8 +4,8 @@
       <el-form-item label="AccessKey ID" prop="accessKeyId">
         <el-input v-model="queryParams.accessKeyId" :placeholder="$t('om.please_enter')" clearable @keyup.enter="handleQuery" />
       </el-form-item>
-      <el-form-item label="AccessKey 平台" prop="accessKeyType">
-        <el-select v-model="queryParams.accessKeyType" placeholder="请选择AccessKey 平台" clearable>
+      <el-form-item :label="$t('om.ak.accessKeyType')" prop="accessKeyType">
+        <el-select v-model="queryParams.accessKeyType" :placeholder="$t('om.select')" clearable>
           <el-option v-for="dict in access_key_type" :key="dict.value" :label="dict.label" :value="dict.value" />
         </el-select>
       </el-form-item>
@@ -30,7 +30,7 @@
       <el-table-column label="Access ID" align="center" prop="accessId" width="100" />
       <el-table-column label="AccessKey ID" align="center" prop="accessKeyId" width="300" />
       <el-table-column label="AccessKey Secret" align="center" prop="accessKeySecret" :show-overflow-tooltip="true" />
-      <el-table-column label="AccessKey 平台" align="center" prop="accessKeyType" width="140">
+      <el-table-column :label="$t('om.ak.accessKeyType')" align="center" prop="accessKeyType" width="160">
         <template #default="scope">
           <dict-tag :options="access_key_type" :value="scope.row.accessKeyType" />
         </template>
@@ -56,10 +56,10 @@
           <el-input v-model="form.accessKeyId" :placeholder="$t('om.please_enter')" />
         </el-form-item>
         <el-form-item label="AccessKey Secret" prop="accessKeySecret">
-          <el-input v-model="form.accessKeySecret" placeholder="请输入AccessKey Secret" />
+          <el-input v-model="form.accessKeySecret" :placeholder="$t('om.please_enter')" />
         </el-form-item>
-        <el-form-item label="AccessKey 平台" prop="accessKeyType">
-          <el-select v-model="form.accessKeyType" placeholder="请选择AccessKey 平台">
+        <el-form-item :label="$t('om.ak.accessKeyType')" prop="accessKeyType">
+          <el-select v-model="form.accessKeyType" :placeholder="$t('om.select')">
             <el-option v-for="dict in access_key_type" :key="dict.value" :label="dict.label" :value="dict.value"></el-option>
           </el-select>
         </el-form-item>
@@ -101,9 +101,9 @@ const data = reactive({
     accessKeyType: null,
   },
   rules: {
-    accessKeySecret: [{ required: true, message: 'AccessKey Secret不能为空', trigger: 'blur' }],
-    accessKeyId: [{ required: true, message: 'AccessKey ID不能为空', trigger: 'blur' }],
-    accessKeyType: [{ required: true, message: 'AccessKey 平台不能为空', trigger: 'change' }],
+    accessKeySecret: [{ required: true, message: proxy.$t('om.ak.rules1'), trigger: 'blur' }],
+    accessKeyId: [{ required: true, message: proxy.$t('om.ak.rules2'), trigger: 'blur' }],
+    accessKeyType: [{ required: true, message: proxy.$t('om.ak.rules3'), trigger: 'change' }],
   },
 });
 
@@ -163,7 +163,7 @@ function handleSelectionChange(selection) {
 function handleAdd() {
   reset();
   open.value = true;
-  title.value = '添加第三方AccessKey管理';
+  title.value = proxy.$t('om.ak.add');
 }
 
 /** 修改按钮操作 */
@@ -173,7 +173,7 @@ function handleUpdate(row) {
   getAccess(_accessId).then((response) => {
     form.value = response.data;
     open.value = true;
-    title.value = '修改第三方AccessKey管理';
+    title.value = proxy.$t('om.ak.edit');
   });
 }
 

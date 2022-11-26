@@ -1,10 +1,10 @@
 <template>
   <div class="om-app-container">
     <el-form :model="queryParams" ref="queryRef" :inline="true" v-show="showSearch" :label-position="settingsStore.labelPosition" class="om-table-header" label-width="70px">
-      <el-form-item label="表名称" prop="tableName">
+      <el-form-item :label="$t('om.gen.tableName')" prop="tableName">
         <el-input v-model="queryParams.tableName" :placeholder="$t('om.fuzzy_query')" clearable @keyup.enter="handleQuery" />
       </el-form-item>
-      <el-form-item label="表描述" prop="tableComment">
+      <el-form-item :label="$t('om.gen.tableComment')" prop="tableComment">
         <el-input v-model="queryParams.tableComment" :placeholder="$t('om.fuzzy_query')" clearable @keyup.enter="handleQuery" />
       </el-form-item>
       <el-form-item :label="$t('om.creation_time')" style="width: 308px">
@@ -28,31 +28,31 @@
 
     <el-table v-loading="loading" :data="tableList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" align="center" width="55"></el-table-column>
-      <el-table-column label="序号" type="index" width="120" align="center">
+      <el-table-column :label="$t('om.id')" type="index" width="120" align="center">
         <template #default="scope">
           <span>{{ (queryParams.pageNum - 1) * queryParams.pageSize + scope.$index + 1 }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="表名称" align="center" prop="tableName" :show-overflow-tooltip="true" />
-      <el-table-column label="表描述" align="center" prop="tableComment" :show-overflow-tooltip="true" />
-      <el-table-column label="实体" align="center" prop="className" :show-overflow-tooltip="true" />
+      <el-table-column :label="$t('om.gen.tableName')" align="center" prop="tableName" :show-overflow-tooltip="true" />
+      <el-table-column :label="$t('om.gen.tableComment')" align="center" prop="tableComment" :show-overflow-tooltip="true" />
+      <el-table-column :label="$t('om.gen.className')" align="center" prop="className" :show-overflow-tooltip="true" />
       <el-table-column :label="$t('om.creation_time')" align="center" prop="createTime" width="180" />
-      <el-table-column label="更新时间" align="center" prop="updateTime" width="180" />
+      <el-table-column :label="$t('om.update_time')" align="center" prop="updateTime" width="180" />
       <el-table-column :label="$t('om.operation')" align="center" width="330" class-name="om-table-operation">
         <template #default="scope">
-          <el-tooltip content="预览" placement="top">
+          <el-tooltip :content="$t('om.preview')" placement="top">
             <el-button icon="View" @click="handlePreview(scope.row)" v-hasPermi="['tool:gen:preview']"></el-button>
           </el-tooltip>
-          <el-tooltip content="编辑" placement="top">
+          <el-tooltip :content="$t('om.edit')" placement="top">
             <el-button type="success" icon="Edit" @click="handleEditTable(scope.row)" v-hasPermi="['tool:gen:edit']"></el-button>
           </el-tooltip>
           <el-tooltip :content="$t('om.delete')" placement="top">
             <el-button type="danger" icon="Delete" @click="handleDelete(scope.row)" v-hasPermi="['tool:gen:remove']"></el-button>
           </el-tooltip>
-          <el-tooltip content="同步" placement="top">
+          <el-tooltip :content="$t('om.sync')" placement="top">
             <el-button icon="Refresh" @click="handleSynchDb(scope.row)" v-hasPermi="['tool:gen:edit']"></el-button>
           </el-tooltip>
-          <el-tooltip content="生成代码" placement="top">
+          <el-tooltip :content="$t('om.gen.code')" placement="top">
             <el-button icon="Download" @click="handleGenTable(scope.row)" v-hasPermi="['tool:gen:code']"></el-button>
           </el-tooltip>
         </template>
@@ -63,7 +63,7 @@
     <el-dialog :title="preview.title" v-model="preview.open" width="80%" top="5vh" append-to-body class="scrollbar">
       <el-tabs v-model="preview.activeName">
         <el-tab-pane v-for="(value, key) in preview.data" :label="key.substring(key.lastIndexOf('/') + 1, key.indexOf('.vm'))" :name="key.substring(key.lastIndexOf('/') + 1, key.indexOf('.vm'))" :key="value">
-          <el-link :underline="false" icon="DocumentCopy" v-copyText="value" v-copyText:callback="copyTextSuccess" style="float: right">&nbsp;复制</el-link>
+          <el-link :underline="false" icon="DocumentCopy" v-copyText="value" v-copyText:callback="copyTextSuccess" style="float: right">&nbsp;{{ $t('om.copy') }}</el-link>
           <pre>{{ value }}</pre>
         </el-tab-pane>
       </el-tabs>
@@ -76,6 +76,7 @@
 import { delTable, genCode, listTable, previewTable, synchDb } from '@/api/tool/gen';
 import router from '@/router';
 import useSettingsStore from '@/store/modules/settings';
+import ImportTable from '@/views/tool/gen/importTable';
 
 const route = useRoute();
 const { proxy } = getCurrentInstance();
@@ -101,7 +102,7 @@ const data = reactive({
   },
   preview: {
     open: false,
-    title: '代码预览',
+    title: proxy.$t('om.gen.code_preview'),
     data: {},
     activeName: 'domain.java',
   },
@@ -138,12 +139,12 @@ function handleQuery() {
 function handleGenTable(row) {
   const tbNames = row.tableName || tableNames.value;
   if (tbNames == '') {
-    proxy.$modal.msgError('请选择要生成的数据');
+    proxy.$modal.msgError(proxy.$t('om.gen.msg1'));
     return;
   }
   if (row.genType === '1') {
     genCode(row.tableName).then((response) => {
-      proxy.$modal.msgSuccess('成功生成到自定义路径：' + row.genPath);
+      proxy.$modal.msgSuccess(proxy.$t('om.gen.msg2', { field: row.genPath }));
     });
   } else {
     proxy.$download.zip('/tool/gen/batchGenCode?tables=' + tbNames, 'bit.zip');
@@ -153,12 +154,12 @@ function handleGenTable(row) {
 function handleSynchDb(row) {
   const tableName = row.tableName;
   proxy.$modal
-    .confirm('确认要强制同步"' + tableName + '"表结构吗？')
+    .confirm(proxy.$t('om.gen.msg3', { field: tableName }))
     .then(function () {
       return synchDb(tableName);
     })
     .then(() => {
-      proxy.$modal.msgSuccess('同步成功');
+      proxy.$modal.msgSuccess(proxy.$t('om.sync') + proxy.$t('om.success'));
     })
     .catch(() => {});
 }
@@ -182,7 +183,7 @@ function handlePreview(row) {
 }
 /** 复制代码成功 */
 function copyTextSuccess() {
-  proxy.$modal.msgSuccess('复制成功');
+  proxy.$modal.msgSuccess(proxy.$t('om.message.copy'));
 }
 // 多选框选中数据
 function handleSelectionChange(selection) {

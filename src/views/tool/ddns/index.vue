@@ -1,16 +1,15 @@
 <template>
   <div class="om-app-container">
     <el-form class="om-table-header" :model="queryParams" :label-position="settingsStore.labelPosition" ref="queryRef" :inline="true" v-show="showSearch">
-      <el-form-item label="主机记录" prop="hostRecord">
+      <el-form-item :label="$t('om.ddns.hostRecord')" prop="hostRecord">
         <el-input v-model="queryParams.hostRecord" :placeholder="$t('om.fuzzy_query')" clearable @keyup.enter="handleQuery" />
       </el-form-item>
-      <el-form-item label="解析记录类型" prop="parseRecordType">
+      <el-form-item :label="$t('om.ddns.parseRecordType')" prop="parseRecordType">
         <el-select v-model="queryParams.parseRecordType" :placeholder="$t('om.select')" clearable>
           <el-option v-for="dict in parse_record_type" :key="dict.value" :label="dict.label" :value="dict.value" />
         </el-select>
       </el-form-item>
-      <el-form-item
-:label="$t('om.operation')"
+      <el-form-item :label="$t('om.operation')">
         <el-button type="primary" icon="Search" @click="handleQuery">{{ $t('om.search') }}</el-button>
         <el-button icon="Refresh" @click="resetQuery">{{ $t('om.reset') }}</el-button>
       </el-form-item>
@@ -32,14 +31,14 @@
     <el-table v-loading="loading" :data="ddnsList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="ddns ID" align="center" prop="ddnsId" />
-      <el-table-column label="主机记录" align="center" prop="hostRecord" />
-      <el-table-column label="域名" align="center" prop="domain" />
-      <el-table-column label="解析记录类型" align="center" prop="parseRecordType">
+      <el-table-column :label="$t('om.ddns.hostRecord')" align="center" prop="hostRecord" />
+      <el-table-column :label="$t('om.ddns.domain')" align="center" prop="domain" />
+      <el-table-column :label="$t('om.ddns.parseRecordType')" align="center" prop="parseRecordType">
         <template #default="scope">
           <dict-tag :options="parse_record_type" :value="scope.row.parseRecordType" />
         </template>
       </el-table-column>
-      <el-table-column label="记录值" align="center" prop="recordTheValue" />
+      <el-table-column :label="$t('om.ddns.recordTheValue')" align="center" prop="recordTheValue" />
       <el-table-column label="Access ID" align="center" prop="accessId" />
       <el-table-column :label="$t('om.remarks')" align="center" prop="remark" />
       <el-table-column :label="$t('om.operation')" align="center" class-name="om-table-operation">
@@ -59,19 +58,19 @@
     <!-- 添加或修改ddns 解析配置对话框 -->
     <el-dialog :title="title" v-model="open" width="500px" append-to-body>
       <el-form ref="ddnsRef" :model="form" :rules="rules" :label-position="settingsStore.labelPosition" label-width="120px">
-        <el-form-item label="主机记录" prop="hostRecord">
-          <el-input v-model="form.hostRecord" :placeholder="$t('om.fuzzy_query')" />
+        <el-form-item :label="$t('om.ddns.hostRecord')" prop="hostRecord">
+          <el-input v-model="form.hostRecord" :placeholder="$t('om.please_enter')" />
         </el-form-item>
-        <el-form-item label="域名" prop="domain">
+        <el-form-item :label="$t('om.ddns.domain')" prop="domain">
           <el-input v-model="form.domain" :placeholder="$t('om.please_enter')" />
         </el-form-item>
-        <el-form-item label="解析记录类型" prop="parseRecordType">
+        <el-form-item :label="$t('om.ddns.parseRecordType')" prop="parseRecordType">
           <el-select v-model="form.parseRecordType" :placeholder="$t('om.select')">
             <el-option v-for="dict in parse_record_type" :key="dict.value" :label="dict.label" :value="dict.value"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="Access Id" prop="accessId">
-          <el-select v-model="form.accessId" placeholder="Access Id">
+        <el-form-item label="Access ID" prop="accessId">
+          <el-select v-model="form.accessId" :placeholder="$t('om.select')">
             <el-option v-for="access in accessList" :key="access.accessId" :label="access.accessId" :value="access.accessId">
               <span class="accessList">{{ access.accessId }}</span>
               <span class="accessList">{{ access.accessKeyId }}</span>
@@ -127,10 +126,10 @@ const data = reactive({
     accessId: null,
   },
   rules: {
-    domain: [{ required: true, message: '域名不能为空', trigger: 'blur' }],
-    hostRecord: [{ required: true, message: '主机记录不能为空', trigger: 'blur' }],
-    parseRecordType: [{ required: true, message: '解析记录类型不能为空', trigger: 'change' }],
-    accessId: [{ required: true, message: 'Access ID不能为空', trigger: 'change' }],
+    domain: [{ required: true, message: proxy.$t('om.ddns.rules1'), trigger: 'blur' }],
+    hostRecord: [{ required: true, message: proxy.$t('om.ddns.rules2'), trigger: 'blur' }],
+    parseRecordType: [{ required: true, message: proxy.$t('om.ddns.rules3'), trigger: 'change' }],
+    accessId: [{ required: true, message: proxy.$t('om.ddns.rules4'), trigger: 'change' }],
   },
 });
 
@@ -199,7 +198,7 @@ function handleSelectionChange(selection) {
 function handleAdd() {
   reset();
   open.value = true;
-  title.value = '添加ddns 解析配置';
+  title.value = proxy.$t('om.ddns.add');
 }
 
 /** 修改按钮操作 */
@@ -209,7 +208,7 @@ function handleUpdate(row) {
   getDdns(_ddnsId).then((response) => {
     form.value = response.data;
     open.value = true;
-    title.value = '修改ddns 解析配置';
+    title.value = proxy.$t('om.ddns.edit');
   });
 }
 
