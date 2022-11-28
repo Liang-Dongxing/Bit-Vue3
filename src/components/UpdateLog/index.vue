@@ -6,6 +6,13 @@
       </div>
     </template>
     <el-collapse accordion>
+      <el-collapse-item title="v1.1.0 - 2022-10-30">
+        <ol>
+          <li>实现中文英文语言切换</li>
+          <li>表单域标签的位置配置</li>
+          <li>其他细节优化</li>
+        </ol>
+      </el-collapse-item>
       <el-collapse-item title="v1.0.0 - 2022-10-30">
         <ol>
           <li>重构若依的动态菜单</li>
