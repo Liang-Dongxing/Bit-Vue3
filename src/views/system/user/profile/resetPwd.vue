@@ -53,7 +53,7 @@ function submit() {
   proxy.$refs.pwdRef.validate((valid) => {
     if (valid) {
       updateUserPwd(user.oldPassword, user.newPassword).then((response) => {
-        proxy.$modal.msgSuccess(proxy.$t('om.mssage.edit'));
+        proxy.$modal.msgSuccess(proxy.$t('om.message.edit'));
       });
     }
   });

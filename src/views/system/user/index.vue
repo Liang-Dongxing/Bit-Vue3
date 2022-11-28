@@ -310,7 +310,7 @@ function handleDelete(row) {
     })
     .then(() => {
       getList();
-      proxy.$modal.msgSuccess(proxy.$t('om.mssage.delete'));
+      proxy.$modal.msgSuccess(proxy.$t('om.message.delete'));
     })
     .catch(() => {});
 }
