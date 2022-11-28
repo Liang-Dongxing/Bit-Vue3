@@ -1,6 +1,5 @@
-
 #app {
-  .watermark{
+  .watermark {
     height: 100%;
   }
   .el-main {
@@ -24,7 +23,7 @@
           }
         }
       }
-      .card-box{
+      .card-box {
         padding-top: 10px;
       }
     }
@@ -33,7 +32,7 @@
       margin-top: 10px;
     }
 
-    .om-app-container-footer{
+    .om-app-container-footer {
       padding: 13px 15px;
       display: flex;
       flex-direction: row;
@@ -63,7 +62,7 @@
 }
 
 .router-link.is-underline:hover:after {
-  content: "";
+  content: '';
   position: absolute;
   left: 0;
   right: 0;

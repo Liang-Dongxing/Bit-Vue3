@@ -28,12 +28,12 @@ const state = reactive({
   arrowAxis: 10,
 });
 const contextmenuItems = ref([
-  { name: 'refresh', icon: 'refresh', label: '重新加载', disabled: false },
-  { name: 'close', icon: 'close', label: '关闭标签', disabled: false },
-  { name: 'closeLeft', icon: 'close', label: '关闭左侧标签', disabled: false },
-  { name: 'closeRight', icon: 'close', label: '关闭右侧标签', disabled: false },
-  { name: 'closeOther', icon: 'close', label: '关闭其他标签', disabled: false },
-  { name: 'closeAll', icon: 'close', label: '关闭全部标签', disabled: false },
+  { name: 'refresh', icon: 'refresh', label: proxy.$t('om.layout.ContextMenu1'), disabled: false },
+  { name: 'close', icon: 'close', label: proxy.$t('om.layout.ContextMenu2'), disabled: false },
+  { name: 'closeLeft', icon: 'close', label: proxy.$t('om.layout.ContextMenu3'), disabled: false },
+  { name: 'closeRight', icon: 'close', label: proxy.$t('om.layout.ContextMenu4'), disabled: false },
+  { name: 'closeOther', icon: 'close', label: proxy.$t('om.layout.ContextMenu5'), disabled: false },
+  { name: 'closeAll', icon: 'close', label: proxy.$t('om.layout.ContextMenu6'), disabled: false },
 ]);
 
 const onShowContextmenu = (menu, disabled, axis) => {

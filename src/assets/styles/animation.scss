@@ -1,4 +1,4 @@
-.hvr-rotate-360{
+.hvr-rotate-360 {
   display: inline-block;
   vertical-align: middle;
   -webkit-transform: perspective(1px) translateZ(0);
@@ -9,7 +9,9 @@
   -webkit-transition-property: transform;
   transition-property: transform;
 }
-.hvr-rotate-360:hover, .hvr-rotate-360:focus, .hvr-rotate-360:active {
+.hvr-rotate-360:hover,
+.hvr-rotate-360:focus,
+.hvr-rotate-360:active {
   -webkit-transform: rotate(180deg);
   transform: rotate(180deg);
 }

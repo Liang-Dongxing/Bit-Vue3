@@ -1,5 +1,5 @@
 import { ElLoading, ElMessage, ElMessageBox, ElNotification } from 'element-plus';
-import { i18n } from "@/language"
+import { i18n } from '@/language';
 
 let loadingInstance;
 

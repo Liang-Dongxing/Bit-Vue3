@@ -17,7 +17,7 @@
       <el-table @row-click="clickRow" ref="refTable" :data="userList" @selection-change="handleSelectionChange" height="260px">
         <el-table-column type="selection" width="55"></el-table-column>
         <el-table-column :label="$t('om.user.name')" prop="userName" :show-overflow-tooltip="true" />
-        <el-table-column :label="$t('om.user.nickname')" prop="nickName" :show-overflow-tooltip="true" width="130"/>
+        <el-table-column :label="$t('om.user.nickname')" prop="nickName" :show-overflow-tooltip="true" width="130" />
         <el-table-column :label="$t('om.user.email')" prop="email" :show-overflow-tooltip="true" />
         <el-table-column :label="$t('om.user.mobile')" prop="phonenumber" :show-overflow-tooltip="true" />
         <el-table-column :label="$t('om.status')" align="center" prop="status">

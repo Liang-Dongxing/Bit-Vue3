@@ -1,5 +1,5 @@
 import vue from '@vitejs/plugin-vue';
-import vueJsx from '@vitejs/plugin-vue-jsx'
+import vueJsx from '@vitejs/plugin-vue-jsx';
 import { resolve, dirname } from 'node:path';
 import { fileURLToPath } from 'url';
 import vueI18n from '@intlify/vite-plugin-vue-i18n';

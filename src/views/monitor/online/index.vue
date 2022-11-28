@@ -14,8 +14,7 @@
     </el-form>
 
     <el-row justify="space-between" class="om-table-header">
-      <el-col :span="21" :xs="24" :sm="18" :md="18" :lg="18" :xl="21">
-      </el-col>
+      <el-col :span="21" :xs="24" :sm="18" :md="18" :lg="18" :xl="21"></el-col>
       <right-toolbar v-model:showSearch="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 

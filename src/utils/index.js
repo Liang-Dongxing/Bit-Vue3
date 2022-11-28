@@ -1,4 +1,5 @@
 import { parseTime } from '@/bit';
+import { i18n } from '@/language';
 
 /**
  * 表格时间格式化
@@ -32,14 +33,14 @@ export function formatTime(time, option) {
   const diff = (now - d) / 1000;
 
   if (diff < 30) {
-    return '刚刚';
+    return i18n.global.t('om.utils.formatTime1');
   } else if (diff < 3600) {
     // less 1 hour
-    return Math.ceil(diff / 60) + '分钟前';
+    return Math.ceil(diff / 60) + i18n.global.t('om.utils.formatTime2');
   } else if (diff < 3600 * 24) {
-    return Math.ceil(diff / 3600) + '小时前';
+    return Math.ceil(diff / 3600) + i18n.global.t('om.utils.formatTime3');
   } else if (diff < 3600 * 24 * 2) {
-    return '1天前';
+    return i18n.global.t('om.utils.formatTime4');
   }
   if (option) {
     return parseTime(time, option);
