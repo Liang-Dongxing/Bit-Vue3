@@ -4,7 +4,7 @@
       <!--部门数据-->
       <el-col :span="4" :md="24" :lg="6" :xl="4" class="dept-tree hidden-xs-only hidden-sm-only">
         <div class="head-container">
-          <el-input v-model="deptName" :placeholder="$t('om.please_enter') + $t('om.user.department')" clearable prefix-icon="Search" style="margin-bottom: 20px" />
+          <el-input v-model="deptName" :placeholder="$t('om.please_enter')" clearable prefix-icon="Search" style="margin-bottom: 20px" />
         </div>
         <div class="head-container">
           <el-tree :data="deptOptions" :props="{ label: 'label', children: 'children' }" :expand-on-click-node="false" :filter-node-method="filterNode" ref="deptTreeRef" node-key="id" highlight-current default-expand-all @node-click="handleNodeClick" />
@@ -90,22 +90,22 @@
     <el-dialog :title="title" v-model="open" width="600px" append-to-body>
       <el-form :model="form" :rules="rules" ref="userRef" :label-position="settingsStore.labelPosition" label-width="160px">
         <el-form-item :label="$t('om.user.nickname')" prop="nickName">
-          <el-input v-model="form.nickName" :placeholder="$t('om.please_enter') + $t('om.user.nickname')" maxlength="30" />
+          <el-input v-model="form.nickName" :placeholder="$t('om.please_enter')" maxlength="30" />
         </el-form-item>
         <el-form-item :label="$t('om.user.department')" prop="deptId">
           <el-tree-select v-model="form.deptId" :data="deptOptions" :props="{ value: 'id', label: 'label', children: 'children' }" value-key="id" :placeholder="$t('om.select')" check-strictly />
         </el-form-item>
         <el-form-item :label="$t('om.user.mobile')" prop="phonenumber">
-          <el-input v-model="form.phonenumber" :placeholder="$t('om.please_enter') + $t('om.user.mobile')" maxlength="11" />
+          <el-input v-model="form.phonenumber" :placeholder="$t('om.please_enter')" maxlength="11" />
         </el-form-item>
         <el-form-item :label="$t('om.user.email')" prop="email">
-          <el-input v-model="form.email" :placeholder="$t('om.please_enter') + $t('om.user.email')" maxlength="50" />
+          <el-input v-model="form.email" :placeholder="$t('om.please_enter')" maxlength="50" />
         </el-form-item>
         <el-form-item v-if="form.userId === undefined" :label="$t('om.user.name')" prop="userName">
-          <el-input v-model="form.userName" :placeholder="$t('om.please_enter') + $t('om.user.name')" maxlength="30" />
+          <el-input v-model="form.userName" :placeholder="$t('om.please_enter')" maxlength="30" />
         </el-form-item>
         <el-form-item v-if="form.userId === undefined" :label="$t('om.user.password')" prop="password">
-          <el-input v-model="form.password" :placeholder="$t('om.please_enter') + $t('om.user.password')" type="password" maxlength="20" show-password />
+          <el-input v-model="form.password" :placeholder="$t('om.please_enter')" type="password" maxlength="20" show-password />
         </el-form-item>
         <el-form-item :label="$t('om.user.gender')">
           <el-select v-model="form.sex" :placeholder="$t('om.select')">

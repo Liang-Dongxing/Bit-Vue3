@@ -72,10 +72,10 @@
     <el-dialog :title="title" v-model="open" width="500px" append-to-body>
       <el-form ref="dictRef" :model="form" :rules="rules" :label-position="settingsStore.labelPosition" label-width="80px">
         <el-form-item :label="$t('om.dict.name')" prop="dictName">
-          <el-input v-model="form.dictName" :placeholder="$t('om.fuzzy_query')" />
+          <el-input v-model="form.dictName" :placeholder="$t('om.please_enter')" />
         </el-form-item>
         <el-form-item :label="$t('om.dict.type')" prop="dictType">
-          <el-input v-model="form.dictType" :placeholder="$t('om.fuzzy_query')" />
+          <el-input v-model="form.dictType" :placeholder="$t('om.please_enter')" />
         </el-form-item>
         <el-form-item :label="$t('om.status')" prop="status">
           <el-radio-group v-model="form.status">

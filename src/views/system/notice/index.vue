@@ -65,7 +65,7 @@
     <el-dialog :title="title" v-model="open" width="780px" append-to-body>
       <el-form ref="noticeRef" :model="form" :rules="rules" :label-position="settingsStore.labelPosition" label-width="80px">
         <el-form-item :label="$t('om.notice.title')" prop="noticeTitle">
-          <el-input v-model="form.noticeTitle" :placeholder="$t('om.fuzzy_query')" />
+          <el-input v-model="form.noticeTitle" :placeholder="$t('om.please_enter')" />
         </el-form-item>
         <el-form-item :label="$t('om.notice.type')" prop="noticeType">
           <el-select v-model="form.noticeType" :placeholder="$t('om.select')">

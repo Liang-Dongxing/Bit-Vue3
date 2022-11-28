@@ -1,13 +1,13 @@
 <template>
   <el-form ref="pwdRef" :model="user" :rules="rules" :label-position="settingsStore.labelPosition" label-width="80px">
     <el-form-item :label="$t('om.user.old_password')" prop="oldPassword">
-      <el-input v-model="user.oldPassword" :placeholder="$t('om.please_enter') + $t('om.user.old_password')" type="password" show-password />
+      <el-input v-model="user.oldPassword" :placeholder="$t('om.please_enter')" type="password" show-password />
     </el-form-item>
     <el-form-item :label="$t('om.user.new_password')" prop="newPassword">
-      <el-input v-model="user.newPassword" :placeholder="$t('om.please_enter') + $t('om.user.new_password')" type="password" show-password />
+      <el-input v-model="user.newPassword" :placeholder="$t('om.please_enter')" type="password" show-password />
     </el-form-item>
     <el-form-item :label="$t('om.user.confirm_password')" prop="confirmPassword">
-      <el-input v-model="user.confirmPassword" :placeholder="$t('om.please_enter') + $t('om.user.confirm_password')" type="password" show-password />
+      <el-input v-model="user.confirmPassword" :placeholder="$t('om.please_enter')" type="password" show-password />
     </el-form-item>
     <el-form-item>
       <el-button type="primary" @click="submit">{{ $t('om.save') }}</el-button>

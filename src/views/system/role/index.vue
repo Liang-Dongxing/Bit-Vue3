@@ -71,7 +71,7 @@
     <el-dialog :title="title" v-model="open" width="600px" append-to-body>
       <el-form ref="roleRef" :model="form" :rules="rules" :label-position="settingsStore.labelPosition" label-width="180px">
         <el-form-item :label="$t('om.role.name')" prop="roleName">
-          <el-input v-model="form.roleName" :placeholder="$t('om.please_enter') + $t('om.role.name')" />
+          <el-input v-model="form.roleName" :placeholder="$t('om.please_enter')" />
         </el-form-item>
         <el-form-item prop="roleKey">
           <template #label>
@@ -82,7 +82,7 @@
               {{ $t('om.role.key') }}
             </span>
           </template>
-          <el-input v-model="form.roleKey" :placeholder="$t('om.please_enter') + $t('om.role.key')" />
+          <el-input v-model="form.roleKey" :placeholder="$t('om.please_enter')" />
         </el-form-item>
         <el-form-item :label="$t('om.role.sort')" prop="roleSort">
           <el-input-number v-model="form.roleSort" controls-position="right" :min="0" />

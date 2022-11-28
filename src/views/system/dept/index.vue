@@ -58,19 +58,19 @@
           <el-tree-select v-model="form.parentId" :data="deptOptions" :props="{ value: 'deptId', label: 'deptName', children: 'children' }" value-key="deptId" :placeholder="$t('om.select')" check-strictly />
         </el-form-item>
         <el-form-item :label="$t('om.dept.name')" prop="deptName">
-          <el-input v-model="form.deptName" :placeholder="$t('om.fuzzy_query')" />
+          <el-input v-model="form.deptName" :placeholder="$t('om.please_enter')" />
         </el-form-item>
         <el-form-item :label="$t('om.sort')" prop="orderNum">
           <el-input-number v-model="form.orderNum" controls-position="right" :min="0" />
         </el-form-item>
         <el-form-item :label="$t('om.dept.leader')" prop="leader">
-          <el-input v-model="form.leader" :placeholder="$t('om.fuzzy_query')" maxlength="20" />
+          <el-input v-model="form.leader" :placeholder="$t('om.please_enter')" maxlength="20" />
         </el-form-item>
         <el-form-item :label="$t('om.dept.phone')" prop="phone">
-          <el-input v-model="form.phone" :placeholder="$t('om.fuzzy_query')" maxlength="11" />
+          <el-input v-model="form.phone" :placeholder="$t('om.please_enter')" maxlength="11" />
         </el-form-item>
         <el-form-item :label="$t('om.user.email')" prop="email">
-          <el-input v-model="form.email" :placeholder="$t('om.fuzzy_query')" maxlength="50" />
+          <el-input v-model="form.email" :placeholder="$t('om.please_enter')" maxlength="50" />
         </el-form-item>
         <el-form-item :label="$t('om.status')">
           <el-radio-group v-model="form.status">

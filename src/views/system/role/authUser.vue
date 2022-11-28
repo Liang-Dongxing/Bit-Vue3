@@ -2,10 +2,10 @@
   <div class="om-app-container">
     <el-form :model="queryParams" ref="queryRef" v-show="showSearch" :label-position="settingsStore.labelPosition" :inline="true" class="om-table-header" label-width="70px">
       <el-form-item :label="$t('om.user.name')" prop="userName">
-        <el-input v-model="queryParams.userName" :placeholder="$t('om.please_enter') + $t('om.user.name')" clearable style="width: 240px" @keyup.enter="handleQuery" />
+        <el-input v-model="queryParams.userName" :placeholder="$t('om.please_enter')" clearable style="width: 240px" @keyup.enter="handleQuery" />
       </el-form-item>
       <el-form-item :label="$t('om.user.mobile')" prop="phonenumber">
-        <el-input v-model="queryParams.phonenumber" :placeholder="$t('om.please_enter') + $t('om.user.mobile')" clearable style="width: 240px" @keyup.enter="handleQuery" />
+        <el-input v-model="queryParams.phonenumber" :placeholder="$t('om.please_enter')" clearable style="width: 240px" @keyup.enter="handleQuery" />
       </el-form-item>
       <el-form-item :label="$t('om.operation')">
         <el-button type="primary" icon="Search" @click="handleQuery">{{ $t('om.search') }}</el-button>

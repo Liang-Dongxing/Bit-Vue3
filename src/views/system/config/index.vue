@@ -67,13 +67,13 @@
     <el-dialog :title="title" v-model="open" width="500px" append-to-body>
       <el-form ref="configRef" :model="form" :rules="rules" :label-position="settingsStore.labelPosition" label-width="80px">
         <el-form-item :label="$t('om.config.name')" prop="configName">
-          <el-input v-model="form.configName" :placeholder="$t('om.fuzzy_query')" />
+          <el-input v-model="form.configName" :placeholder="$t('om.please_enter')" />
         </el-form-item>
         <el-form-item :label="$t('om.config.key')" prop="configKey">
-          <el-input v-model="form.configKey" :placeholder="$t('om.fuzzy_query')" />
+          <el-input v-model="form.configKey" :placeholder="$t('om.please_enter')" />
         </el-form-item>
         <el-form-item :label="$t('om.config.value')" prop="configValue">
-          <el-input v-model="form.configValue" :placeholder="$t('om.fuzzy_query')" />
+          <el-input v-model="form.configValue" :placeholder="$t('om.please_enter')" />
         </el-form-item>
         <el-form-item :label="$t('om.config.type')" prop="configType">
           <el-radio-group v-model="form.configType">

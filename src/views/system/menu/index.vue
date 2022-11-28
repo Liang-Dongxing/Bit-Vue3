@@ -76,8 +76,7 @@
             <template #reference>
               <el-input v-model="form.icon" :placeholder="$t('om.menu.click_icon')" @blur="showSelectIcon" v-click-outside="hideSelectIcon">
                 <template #prefix>
-                  <svg-icon v-if="form.icon && form.icon.indexOf('--i') === 1" :icon-class="form.icon" class="el-input__icon" style="height: 32px; width: 16px" />
-                  <icon-park v-if="form.icon" :type="form.icon" :size="16" theme="filled" />
+                  <icon-park :type="form.icon" :key="form.icon" :size="16" theme="filled" />
                 </template>
               </el-input>
             </template>
@@ -85,7 +84,7 @@
           </el-popover>
         </el-form-item>
         <el-form-item :label="$t('om.menu.name')" prop="menuName">
-          <el-input v-model="form.menuName" :placeholder="$t('om.fuzzy_query')" />
+          <el-input v-model="form.menuName" :placeholder="$t('om.please_enter')" />
         </el-form-item>
         <el-form-item :label="$t('om.sort')" prop="orderNum">
           <el-input-number v-model="form.orderNum" controls-position="right" :min="0" />
@@ -113,7 +112,7 @@
               {{ $t('om.menu.label2') }}
             </span>
           </template>
-          <el-input v-model="form.path" :placeholder="$t('om.fuzzy_query')" />
+          <el-input v-model="form.path" :placeholder="$t('om.please_enter')" />
         </el-form-item>
         <el-form-item v-if="form.menuType == 'C'" prop="component">
           <template #label>
@@ -124,10 +123,10 @@
               {{ $t('om.menu.label3') }}
             </span>
           </template>
-          <el-input v-model="form.component" :placeholder="$t('om.fuzzy_query')" />
+          <el-input v-model="form.component" :placeholder="$t('om.please_enter')" />
         </el-form-item>
         <el-form-item v-if="form.menuType != 'M'">
-          <el-input v-model="form.perms" :placeholder="$t('om.fuzzy_query')" maxlength="100" />
+          <el-input v-model="form.perms" :placeholder="$t('om.please_enter')" maxlength="100" />
           <template #label>
             <span>
               <el-tooltip :content="$t('om.menu.msg4')" placement="top">
@@ -138,7 +137,7 @@
           </template>
         </el-form-item>
         <el-form-item v-if="form.menuType == 'C'">
-          <el-input v-model="form.query" :placeholder="$t('om.fuzzy_query')" maxlength="255" />
+          <el-input v-model="form.query" :placeholder="$t('om.please_enter')" maxlength="255" />
           <template #label>
             <span>
               <el-tooltip :content="$t('om.menu.msg5')" placement="top">
@@ -268,7 +267,7 @@ function reset() {
     menuId: undefined,
     parentId: 0,
     menuName: undefined,
-    icon: undefined,
+    icon: 'people',
     menuType: 'M',
     orderNum: undefined,
     isFrame: '1',
@@ -372,3 +371,11 @@ function handleDelete(row) {
 
 getList();
 </script>
+
+<style lang="scss" scoped>
+.i-icon {
+  --el-input-inner-height: calc(var(--el-input-height, 32px) - 2px);
+  line-height: var(--el-input-inner-height);
+  color: var(--el-text-color-primary);
+}
+</style>

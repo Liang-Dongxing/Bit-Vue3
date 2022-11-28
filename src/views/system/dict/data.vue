@@ -70,13 +70,13 @@
           <el-input v-model="form.dictType" :disabled="true" />
         </el-form-item>
         <el-form-item :label="$t('om.dict.label1')" prop="dictLabel">
-          <el-input v-model="form.dictLabel" :placeholder="$t('om.fuzzy_query')" />
+          <el-input v-model="form.dictLabel" :placeholder="$t('om.please_enter')" />
         </el-form-item>
         <el-form-item :label="$t('om.dict.label2')" prop="dictValue">
-          <el-input v-model="form.dictValue" :placeholder="$t('om.fuzzy_query')" />
+          <el-input v-model="form.dictValue" :placeholder="$t('om.please_enter')" />
         </el-form-item>
         <el-form-item :label="$t('om.dict.label3')" prop="cssClass">
-          <el-input v-model="form.cssClass" :placeholder="$t('om.fuzzy_query')" />
+          <el-input v-model="form.cssClass" :placeholder="$t('om.please_enter')" />
         </el-form-item>
         <el-form-item :label="$t('om.sort')" prop="dictSort">
           <el-input-number v-model="form.dictSort" controls-position="right" :min="0" />

@@ -3,10 +3,10 @@
   <el-dialog :title="$t('om.gen.importTable.title')" v-model="visible" width="800px" append-to-body>
     <el-form :model="queryParams" ref="queryRef" :inline="true" :label-position="settingsStore.labelPosition">
       <el-form-item :label="$t('om.gen.importTable.tableName')" prop="tableName">
-        <el-input v-model="queryParams.tableName" :placeholder="$t('om.fuzzy_query')" clearable @keyup.enter="handleQuery" />
+        <el-input v-model="queryParams.tableName" :placeholder="$t('om.please_enter')" clearable @keyup.enter="handleQuery" />
       </el-form-item>
       <el-form-item :label="$t('om.gen.importTable.tableComment')" prop="tableComment">
-        <el-input v-model="queryParams.tableComment" :placeholder="$t('om.fuzzy_query')" clearable @keyup.enter="handleQuery" />
+        <el-input v-model="queryParams.tableComment" :placeholder="$t('om.please_enter')" clearable @keyup.enter="handleQuery" />
       </el-form-item>
       <el-form-item :label="$t('om.operation')">
         <el-button type="primary" icon="Search" @click="handleQuery">{{ $t('om.search') }}</el-button>

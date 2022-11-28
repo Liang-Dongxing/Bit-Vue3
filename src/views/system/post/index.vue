@@ -62,10 +62,10 @@
     <el-dialog :title="title" v-model="open" width="500px" append-to-body>
       <el-form ref="postRef" :model="form" :rules="rules" :label-position="settingsStore.labelPosition" label-width="80px">
         <el-form-item :label="$t('om.post.name')" prop="postName">
-          <el-input v-model="form.postName" :placeholder="$t('om.fuzzy_query')" />
+          <el-input v-model="form.postName" :placeholder="$t('om.please_enter')" />
         </el-form-item>
         <el-form-item :label="$t('om.post.code')" prop="postCode">
-          <el-input v-model="form.postCode" :placeholder="$t('om.fuzzy_query')" />
+          <el-input v-model="form.postCode" :placeholder="$t('om.please_enter')" />
         </el-form-item>
         <el-form-item :label="$t('om.sort')" prop="postSort">
           <el-input-number v-model="form.postSort" controls-position="right" :min="0" />

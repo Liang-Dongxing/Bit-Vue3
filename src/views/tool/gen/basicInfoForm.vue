@@ -1,7 +1,7 @@
 <template>
   <el-form ref="basicInfoForm" :model="info" :rules="rules" :label-position="settingsStore.labelPosition" label-width="150px">
     <el-form-item :label="$t('om.gen.basicInfoForm.tableName')" prop="tableName">
-      <el-input :placeholder="$t('om.fuzzy_query')" v-model="info.tableName" />
+      <el-input :placeholder="$t('om.please_enter')" v-model="info.tableName" />
     </el-form-item>
     <el-form-item :label="$t('om.gen.basicInfoForm.tableComment')" prop="tableComment">
       <el-input :placeholder="$t('om.please_enter')" v-model="info.tableComment" />

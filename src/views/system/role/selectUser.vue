@@ -3,10 +3,10 @@
   <el-dialog :title="$t('om.role.select_user')" v-model="visible" width="800px" top="5vh" append-to-body>
     <el-form :model="queryParams" :label-position="settingsStore.labelPosition" ref="queryRef" :inline="true">
       <el-form-item :label="$t('om.user.name')" prop="userName">
-        <el-input v-model="queryParams.userName" :placeholder="$t('om.please_enter') + $t('om.user.name')" clearable @keyup.enter="handleQuery" />
+        <el-input v-model="queryParams.userName" :placeholder="$t('om.please_enter')" clearable @keyup.enter="handleQuery" />
       </el-form-item>
       <el-form-item :label="$t('om.user.mobile')" prop="phonenumber">
-        <el-input v-model="queryParams.phonenumber" :placeholder="$t('om.please_enter') + $t('om.user.mobile')" clearable @keyup.enter="handleQuery" />
+        <el-input v-model="queryParams.phonenumber" :placeholder="$t('om.please_enter')" clearable @keyup.enter="handleQuery" />
       </el-form-item>
       <el-form-item :label="$t('om.operation')">
         <el-button type="primary" icon="Search" @click="handleQuery">{{ $t('om.search') }}</el-button>
