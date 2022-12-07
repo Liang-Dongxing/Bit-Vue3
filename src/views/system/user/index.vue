@@ -93,7 +93,7 @@
           <el-input v-model="form.nickName" :placeholder="$t('om.please_enter')" maxlength="30" />
         </el-form-item>
         <el-form-item :label="$t('om.user.department')" prop="deptId">
-          <el-tree-select v-model="form.deptId" :data="deptOptions" :props="{ value: 'id', label: 'label', children: 'children' }" value-key="id" :placeholder="$t('om.select')" check-strictly />
+          <el-tree-select v-model="form.deptId" :data="deptOptions" :props="{ value: 'id', label: 'label', children: 'children' }" value-key="id" :placeholder="$t('om.select')" check-strictly :render-after-expand="false" />
         </el-form-item>
         <el-form-item :label="$t('om.user.mobile')" prop="phonenumber">
           <el-input v-model="form.phonenumber" :placeholder="$t('om.please_enter')" maxlength="11" />

@@ -62,7 +62,7 @@
     <el-dialog :title="title" v-model="open" width="680px" append-to-body>
       <el-form ref="menuRef" :model="form" :rules="rules" :label-position="settingsStore.labelPosition" label-width="100px">
         <el-form-item :label="$t('om.menu.parent')">
-          <el-tree-select v-model="form.parentId" :data="menuOptions" :props="{ value: 'menuId', label: 'menuName', children: 'children' }" value-key="menuId" :placeholder="$t('om.menu.select_parent')" check-strictly />
+          <el-tree-select v-model="form.parentId" :data="menuOptions" :props="{ value: 'menuId', label: 'menuName', children: 'children' }" value-key="menuId" :placeholder="$t('om.menu.select_parent')" check-strictly :render-after-expand="false"/>
         </el-form-item>
         <el-form-item :label="$t('om.menu.type')" prop="menuType">
           <el-radio-group v-model="form.menuType">
