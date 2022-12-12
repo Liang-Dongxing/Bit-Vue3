@@ -1,5 +1,7 @@
 import useLanguageStore from '@/store/modules/language';
 import { createI18n } from '@vue-i18n';
+import globsEN from './globs-en';
+import globsZH from './globs-zh-cn';
 
 /*
  * 默认只引入 element-plus 的中英文语言包
@@ -17,21 +19,20 @@ const assignLocale = {
   en: [elementEnLocale],
 };
 
-export async function loadLang(app) {
+export function loadLang(app) {
   const config = useLanguageStore();
   const locale = config.defaultLang;
 
   // 加载框架语言包
-  const lang = await import(`./globs-${locale}.js`);
-  const message = lang.default ?? {};
-
-  /*
-   * 0、加载页面语言包 import.meta.globEager 的路径不能使用变量
-   * 1、vue3 setup 内只能使用 useI18n({messages:{}}) 来动态载入当前页面单独的语言包，不方便使用
-   * 2、直接载入所有 /@/lang/pages/语言/*.ts 文件，若某页面有特别大量的语言配置，可在其他位置单独建立语言包文件，并在对应页面加载语言包
-   */
-  // const pages = `./pages/${locale}/lang.js`;
-  // assignLocale[locale].push(getLangFileMessage(import(pages), locale));
+  let message = {};
+  switch (locale) {
+    case 'zh-cn':
+      message = globsZH;
+      break;
+    case 'en':
+      message = globsEN;
+      break;
+  }
 
   const messages = {
     [locale]: {
@@ -41,7 +42,7 @@ export async function loadLang(app) {
 
   // 合并语言包(含element-puls、页面语言包)
   Object.assign(messages[locale], ...assignLocale[locale]);
-  console.log(messages);
+
   i18n = createI18n({
     locale: locale,
     legacy: false, // 组合式api
@@ -52,50 +53,6 @@ export async function loadLang(app) {
 
   app.use(i18n);
   return i18n;
-}
-
-function getLangFileMessage(mList, locale) {
-  let msg = {};
-  locale = '/' + locale;
-  for (const path in mList) {
-    if (mList[path].default) {
-      //  获取文件名
-      const pathName = path.slice(path.lastIndexOf(locale) + (locale.length + 1), path.lastIndexOf('.'));
-      if (pathName.indexOf('/') > 0) {
-        msg = handleMsglist(msg, mList[path].default, pathName);
-      } else {
-        msg[pathName] = mList[path].default;
-      }
-    }
-  }
-  return msg;
-}
-
-export function handleMsglist(msg, mList, pathName) {
-  const pathNameTmp = pathName.split('/');
-  let obj = {};
-  for (let i = pathNameTmp.length - 1; i >= 0; i--) {
-    if (i == pathNameTmp.length - 1) {
-      obj = {
-        [pathNameTmp[i]]: mList,
-      };
-    } else {
-      obj = {
-        [pathNameTmp[i]]: obj,
-      };
-    }
-  }
-  return mergeMsg(msg, obj);
-}
-export function mergeMsg(msg, obj) {
-  for (const key in obj) {
-    if (typeof msg[key] == 'undefined') {
-      msg[key] = obj[key];
-    } else if (typeof msg[key] == 'object') {
-      msg[key] = mergeMsg(msg[key], obj[key]);
-    }
-  }
-  return msg;
 }
 
 export function editDefaultLang(lang) {
