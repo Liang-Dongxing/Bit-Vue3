@@ -78,7 +78,7 @@
           </el-radio-group>
         </el-form-item>
         <el-form-item :label="$t('om.notice.content')">
-          <el-input :rows="6" type="textarea" :placeholder="$t('om.please_enter')" v-model="form.noticeContent" />
+          <editor v-model="form.noticeContent" :min-height="192"/>
         </el-form-item>
       </el-form>
       <template #footer>

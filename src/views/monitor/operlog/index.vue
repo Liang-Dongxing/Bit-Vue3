@@ -18,7 +18,7 @@
         </el-select>
       </el-form-item>
       <el-form-item :label="$t('om.operation_time')" style="width: 308px">
-        <el-date-picker v-model="dateRange" value-format="YYYY-MM-DD" type="daterange" range-separator="-" :start-placeholder="$t('om.start_date')" :end-placeholder="$t('om.end_date')"></el-date-picker>
+        <el-date-picker v-model="dateRange" value-format="YYYY-MM-DD" type="daterange" range-separator="-" :start-placeholder="$t('om.start_date')" :end-placeholder="$t('om.end_date')" :default-time="[new Date(2000, 1, 1, 0, 0, 0), new Date(2000, 1, 1, 23, 59, 59)]"></el-date-picker>
       </el-form-item>
       <el-form-item :label="$t('om.operation')">
         <el-button type="primary" icon="Search" @click="handleQuery">{{ $t('om.search') }}</el-button>
@@ -57,6 +57,11 @@
           <span>{{ parseTime(scope.row.operTime) }}</span>
         </template>
       </el-table-column>
+      <el-table-column label="消耗时间" align="center" prop="costTime" width="110" :show-overflow-tooltip="true" sortable="custom" :sort-orders="['descending', 'ascending']">
+        <template #default="scope">
+          <span>{{ scope.row.costTime }}毫秒</span>
+        </template>
+      </el-table-column>
       <el-table-column :label="$t('om.operation')" align="center" class-name="om-table-operation" width="150">
         <template #default="scope">
           <el-tooltip :content="$t('om.details')" placement="top">
@@ -82,6 +87,7 @@
           <div v-if="form.status === 0">{{ $t('om.normal') }}</div>
           <div v-else-if="form.status === 1">{{ $t('om.failure') }}</div>
         </el-descriptions-item>
+        <el-descriptions-item label="消耗时间">{{ form.costTime  }}毫秒</el-descriptions-item>
         <el-descriptions-item :label="$t('om.operation_time')">{{ parseTime(form.operTime) }}</el-descriptions-item>
         <el-descriptions-item :label="$t('om.exception_information')" v-if="form.status === 1">{{ form.errorMsg }}</el-descriptions-item>
       </el-descriptions>

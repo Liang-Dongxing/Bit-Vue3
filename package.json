@@ -16,6 +16,7 @@
   },
   "dependencies": {
     "@element-plus/icons-vue": "2.0.10",
+    "@vueup/vue-quill": "1.1.0",
     "@icon-park/vue-next": "1.4.2",
     "@vueuse/core": "9.6.0",
     "@zu1662/watermark-vue": "1.1.2",
@@ -23,7 +24,7 @@
     "axios": "1.2.0",
     "default-passive-events": "2.0.0",
     "echarts": "5.4.0",
-    "element-plus": "2.2.25",
+    "element-plus": "2.2.27",
     "file-saver": "2.0.5",
     "fuse.js": "6.6.2",
     "hover.css": "2.3.2",

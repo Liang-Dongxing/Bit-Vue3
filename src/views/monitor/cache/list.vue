@@ -4,6 +4,7 @@
       <el-col :span="8">
         <el-card>
           <template #header>
+            <Collection style="width: 1em; height: 1em; vertical-align: middle;" /> <span style="vertical-align: middle;">缓存列表</span>
             <div class="card-header">
               <span>{{ $t('om.cache.list.header1') }}</span>
               <el-button icon="Refresh" @click="refreshCacheNames()"></el-button>
@@ -25,6 +26,7 @@
       <el-col :span="8">
         <el-card>
           <template #header>
+            <Key style="width: 1em; height: 1em; vertical-align: middle;" /> <span style="vertical-align: middle;">键名列表</span>
             <div class="card-header">
               <span>{{ $t('om.cache.list.header2') }}</span>
               <el-button icon="Refresh" @click="refreshCacheKeys()"></el-button>
@@ -45,6 +47,7 @@
       <el-col :span="8">
         <el-card :bordered="false">
           <template #header>
+            <Document style="width: 1em; height: 1em; vertical-align: middle;" /> <span style="vertical-align: middle;">缓存内容</span>
             <div class="card-header">
               <span>{{ $t('om.cache.list.header3') }}</span>
               <el-button icon="Delete" type="danger" @click="handleClearCacheAll()">{{ $t('om.cache.list.button1') }}</el-button>

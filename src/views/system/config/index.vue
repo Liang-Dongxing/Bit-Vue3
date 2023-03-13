@@ -37,7 +37,7 @@
       <el-table-column :label="$t('om.id')" align="center" prop="configId" width="120" />
       <el-table-column :label="$t('om.config.name')" align="center" prop="configName" :show-overflow-tooltip="true" />
       <el-table-column :label="$t('om.config.key')" align="center" prop="configKey" :show-overflow-tooltip="true" />
-      <el-table-column :label="$t('om.config.value')" align="center" prop="configValue" />
+      <el-table-column :label="$t('om.config.value')" align="center" prop="configValue" :show-overflow-tooltip="true" />
       <el-table-column :label="$t('om.config.type')" align="center" prop="configType">
         <template #default="scope">
           <dict-tag :options="sys_yes_no" :value="scope.row.configType" />

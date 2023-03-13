@@ -296,7 +296,7 @@ function resetQuery() {
   dateRange.value = [];
   proxy.resetForm('queryRef');
   queryParams.value.deptId = undefined;
-  proxy.$refs.tree.setCurrentKey(null);
+  proxy.$refs.deptTreeRef.setCurrentKey(null);
   handleQuery();
 }
 
