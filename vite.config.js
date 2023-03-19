@@ -8,7 +8,7 @@ export default defineConfig(({ mode, command }) => {
   return {
     // 部署生产环境和开发环境下的URL。
     // 默认情况下，vite 会假设你的应用是被部署在一个域名的根路径上
-    base: env.VITE_APP_ENV === 'production' ? '/' : '/',
+    base: env.VITE_APP_BASE_ROUTER,
     hmr: true,
     plugins: [createVitePlugins(env, command === 'build', mode)],
     resolve: {
@@ -34,6 +34,10 @@ export default defineConfig(({ mode, command }) => {
           target: 'http://localhost:7080',
           changeOrigin: true,
           rewrite: (p) => p.replace(/^\/dev-api/, ''),
+        },
+        '/api-docs': {
+          target: 'http://localhost:7080',
+          changeOrigin: true,
         },
       },
     },
