@@ -55,7 +55,7 @@
     <el-dialog :title="title" v-model="open" width="600px" append-to-body>
       <el-form ref="deptRef" :model="form" :rules="rules" :label-position="settingsStore.labelPosition" label-width="80px">
         <el-form-item v-if="form.parentId !== 0" :label="$t('om.dept.parent')" prop="parentId">
-          <el-tree-select v-model="form.parentId" :data="deptOptions" :props="{ value: 'deptId', label: 'deptName', children: 'children' }" value-key="deptId" :placeholder="$t('om.select')" check-strictly :render-after-expand="false"/>
+          <el-tree-select v-model="form.parentId" :data="deptOptions" :props="{ value: 'deptId', label: 'deptName', children: 'children' }" value-key="deptId" :placeholder="$t('om.select')" check-strictly :render-after-expand="false" />
         </el-form-item>
         <el-form-item :label="$t('om.dept.name')" prop="deptName">
           <el-input v-model="form.deptName" :placeholder="$t('om.please_enter')" />

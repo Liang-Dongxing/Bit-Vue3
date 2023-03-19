@@ -3,7 +3,10 @@
     <el-row :gutter="30">
       <el-col :span="12" class="card-box">
         <el-card>
-          <template #header><Cpu style="width: 1em; height: 1em; vertical-align: middle;" /> <span style="vertical-align: middle;">CPU</span></template>
+          <template #header>
+            <Cpu style="width: 1em; height: 1em; vertical-align: middle" />
+            <span style="vertical-align: middle">CPU</span>
+          </template>
           <el-descriptions :column="2" border>
             <el-descriptions-item :label="$t('om.server.cpu.cpuNum')" v-if="server.cpu">{{ server.cpu.cpuNum }}</el-descriptions-item>
             <el-descriptions-item :label="$t('om.server.cpu.used')" v-if="server.cpu">{{ server.cpu.used }}%</el-descriptions-item>
@@ -15,7 +18,10 @@
 
       <el-col :span="12" class="card-box">
         <el-card>
-          <template #header><Tickets style="width: 1em; height: 1em; vertical-align: middle;" /> <span style="vertical-align: middle;">内存</span></template>
+          <template #header>
+            <Tickets style="width: 1em; height: 1em; vertical-align: middle" />
+            <span style="vertical-align: middle">内存</span>
+          </template>
           <el-descriptions :column="2" border>
             <el-descriptions-item :label="$t('om.server.mem.total')" v-if="server.mem">{{ server.mem.total }}G</el-descriptions-item>
             <el-descriptions-item :label="$t('om.server.mem.used')" v-if="server.mem">{{ server.mem.used }}G</el-descriptions-item>
@@ -29,7 +35,10 @@
     <el-row :gutter="20">
       <el-col :span="24" class="card-box">
         <el-card>
-          <template #header><Monitor style="width: 1em; height: 1em; vertical-align: middle;" /> <span style="vertical-align: middle;">服务器信息</span></template>
+          <template #header>
+            <Monitor style="width: 1em; height: 1em; vertical-align: middle" />
+            <span style="vertical-align: middle">服务器信息</span>
+          </template>
           <el-descriptions :column="4" border>
             <el-descriptions-item :label="$t('om.server.sys.computerName')" v-if="server.sys">{{ server.sys.computerName }}</el-descriptions-item>
             <el-descriptions-item :label="$t('om.server.sys.osName')" v-if="server.sys">{{ server.sys.osName }}</el-descriptions-item>
@@ -43,7 +52,10 @@
     <el-row :gutter="20">
       <el-col :span="24" class="card-box">
         <el-card>
-          <template #header><CoffeeCup style="width: 1em; height: 1em; vertical-align: middle;" /> <span style="vertical-align: middle;">Java虚拟机信息</span></template>
+          <template #header>
+            <CoffeeCup style="width: 1em; height: 1em; vertical-align: middle" />
+            <span style="vertical-align: middle">Java虚拟机信息</span>
+          </template>
           <el-descriptions :column="2" border>
             <el-descriptions-item :label="$t('om.server.mem.total')" v-if="server.jvm">{{ server.jvm.total }}G</el-descriptions-item>
             <el-descriptions-item :label="$t('om.server.mem.used')" v-if="server.jvm">{{ server.jvm.used }}G</el-descriptions-item>
@@ -64,7 +76,10 @@
     <el-row :gutter="20">
       <el-col :span="24" class="card-box">
         <el-card>
-          <template #header><MessageBox style="width: 1em; height: 1em; vertical-align: middle;" /> <span style="vertical-align: middle;">磁盘状态</span></template>
+          <template #header>
+            <MessageBox style="width: 1em; height: 1em; vertical-align: middle" />
+            <span style="vertical-align: middle">磁盘状态</span>
+          </template>
           <el-table :data="server.sysFiles">
             <el-table-column :label="$t('om.server.sysFiles.dirName')" prop="dirName" />
             <el-table-column :label="$t('om.server.sysFiles.sysTypeName')" prop="sysTypeName" />

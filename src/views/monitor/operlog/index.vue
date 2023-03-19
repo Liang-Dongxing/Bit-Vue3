@@ -87,7 +87,7 @@
           <div v-if="form.status === 0">{{ $t('om.normal') }}</div>
           <div v-else-if="form.status === 1">{{ $t('om.failure') }}</div>
         </el-descriptions-item>
-        <el-descriptions-item label="消耗时间">{{ form.costTime  }}毫秒</el-descriptions-item>
+        <el-descriptions-item label="消耗时间">{{ form.costTime }}毫秒</el-descriptions-item>
         <el-descriptions-item :label="$t('om.operation_time')">{{ parseTime(form.operTime) }}</el-descriptions-item>
         <el-descriptions-item :label="$t('om.exception_information')" v-if="form.status === 1">{{ form.errorMsg }}</el-descriptions-item>
       </el-descriptions>
